@@ -1,0 +1,4 @@
+# 基盤技術の3軸（原則3件のまま。id は graph / ai / hpc 固定）
+graph
+ai
+hpc

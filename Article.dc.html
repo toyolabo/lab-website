@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- 文章も枠いっぱい（幅 1180px・左右の余白 28px の内側）にする。ほかのページと同じ（#110） -->
+<main style="max-width:1180px;margin:0 auto;padding:34px 28px 90px">
+  <div style="font-family:'Noto Sans JP',sans-serif;font-size:12px;color:var(--accent);font-weight:700;margin-bottom:12px">{{ kindLabel }} · {{ date }}</div>
+  <h1 style="font-family:'Noto Sans JP',sans-serif;font-weight:700;letter-spacing:.02em;font-size:32px;line-height:1.4;color:var(--ink);margin:0 0 18px;text-wrap:balance">{{ title }}</h1>
+  <div style="font-size:12px;color:var(--muted);margin-bottom:22px">{{ authors }}<sc-if value="{{ hasVenue }}" hint-placeholder-val="{{ true }}"><span> · {{ venue }}</span></sc-if></div>
+
+  <sc-if value="{{ hasFigure }}" hint-placeholder-val="{{ false }}">
+    <figure style="margin:0 0 28px">
+      <img src="{{ figure }}" alt="研究概念図" style="display:block;width:100%;border-radius:14px;border:1px solid var(--line);background:#fff">
+      <sc-if value="{{ hasFigureCaption }}" hint-placeholder-val="{{ false }}"><figcaption style="font-size:12px;color:var(--muted);margin-top:8px;line-height:1.7">{{ figureCaption }}</figcaption></sc-if>
+    </figure>
+  </sc-if>
+
+  <!-- 短い紹介文（カードでサムネイルと一緒に出している summary）。本文と同じ文字 -->
+  <sc-if value="{{ hasSummary }}" hint-placeholder-val="{{ true }}">
+    <p style="font-size:16px;line-height:2.05;color:var(--text);margin:0 0 22px">{{ summary }}</p>
+  </sc-if>
+
+  <!-- 文献情報: 本文の章と同じ見出し。題・著者・掲載先は BibTeX から読む。リンクの見た目は論文一覧のページと同じ -->
+  <sc-if value="{{ hasPaper }}" hint-placeholder-val="{{ true }}">
+    <section style="font-size:16px;line-height:2.05;color:var(--text);margin:0 0 22px">
+      <h2 style="font-family:'Noto Sans JP',sans-serif;font-weight:700;letter-spacing:.02em;font-size:24px;color:var(--ink);margin:38px 0 26px;padding-bottom:10px;border-bottom:2px solid var(--soft);line-height:1.5">{{ L.paperHeading }}</h2>
+      <p style="margin:0">{{ paperCitation }}</p>
+      <span style="display:flex;gap:16px;margin-top:8px;flex-wrap:wrap;line-height:1.7">
+        <sc-if value="{{ hasUrl }}" hint-placeholder-val="{{ true }}">
+          <a href="{{ url }}" target="_blank" rel="noopener" style="font-size:12px;font-weight:700;color:var(--accent);text-decoration:none" style-hover="text-decoration:underline">{{ L.paperLink }}</a>
+        </sc-if>
+        <sc-if value="{{ hasBibtex }}" hint-placeholder-val="{{ true }}">
+          <button onClick="{{ copyBib }}" style="background:none;border:none;padding:0;cursor:pointer;font:inherit;font-size:12px;font-weight:700;color:var(--accent);text-decoration:none" style-hover="text-decoration:underline">{{ bibBtnLabel }}</button>
+        </sc-if>
+        <sc-if value="{{ hasCode }}" hint-placeholder-val="{{ false }}">
+          <a href="{{ code }}" target="_blank" rel="noopener" style="font-size:12px;font-weight:700;color:var(--accent);text-decoration:none" style-hover="text-decoration:underline">{{ L.codeLink }}</a>
+        </sc-if>
+        <sc-if value="{{ hasProject }}" hint-placeholder-val="{{ false }}">
+          <a href="{{ project }}" target="_blank" rel="noopener" style="font-size:12px;font-weight:700;color:var(--accent);text-decoration:none" style-hover="text-decoration:underline">{{ L.projectLink }}</a>
+        </sc-if>
+      </span>
+    </section>
+  </sc-if>
+
+  <article style="font-size:16px;line-height:2.05;color:var(--text)">
+    <sc-for list="{{ blocks }}" as="b" hint-placeholder-count="3">
+      <div style="margin:0 0 22px">
+        <sc-if value="{{ b.isHeading }}" hint-placeholder-val="{{ false }}">
+          <h2 style="font-family:'Noto Sans JP',sans-serif;font-weight:700;letter-spacing:.02em;font-size:24px;color:var(--ink);margin:38px 0 4px;padding-bottom:10px;border-bottom:2px solid var(--soft);line-height:1.5">{{ b.text }}</h2>
+        </sc-if>
+        <sc-if value="{{ b.isP }}" hint-placeholder-val="{{ true }}">
+          <p style="margin:0"><sc-for list="{{ b.segments }}" as="s" hint-placeholder-count="1"><sc-if value="{{ s.isText }}" hint-placeholder-val="{{ true }}"><span>{{ s.text }}</span></sc-if><sc-if value="{{ s.isLink }}" hint-placeholder-val="{{ false }}"><a href="{{ s.href }}" target="_blank" rel="noopener" style="color:var(--accent);font-weight:700;text-decoration:underline;text-underline-offset:3px">{{ s.text }}</a></sc-if></sc-for></p>
+        </sc-if>
+        <sc-if value="{{ b.isList }}" hint-placeholder-val="{{ false }}">
+          <ul style="margin:0;padding-left:24px;display:flex;flex-direction:column;gap:8px"><sc-for list="{{ b.items }}" as="li" hint-placeholder-count="3"><li style="line-height:1.9"><sc-for list="{{ li.segments }}" as="s" hint-placeholder-count="1"><sc-if value="{{ s.isText }}" hint-placeholder-val="{{ true }}"><span>{{ s.text }}</span></sc-if><sc-if value="{{ s.isLink }}" hint-placeholder-val="{{ false }}"><a href="{{ s.href }}" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600">{{ s.text }}</a></sc-if></sc-for></li></sc-for></ul>
+        </sc-if>
+        <sc-if value="{{ b.isImage }}" hint-placeholder-val="{{ false }}">
+          <figure style="margin:6px auto;width:{{ b.figW }};max-width:100%"><img src="{{ b.src }}" alt="{{ b.caption }}" style="width:100%;border-radius:12px;border:1px solid var(--line);display:block"><sc-if value="{{ b.hasCaption }}" hint-placeholder-val="{{ false }}"><figcaption style="font-size:12px;color:var(--muted);margin-top:8px;line-height:1.7;text-align:{{ b.capAlign }}">{{ b.caption }}</figcaption></sc-if></figure>
+        </sc-if>
+        <sc-if value="{{ b.isVideo }}" hint-placeholder-val="{{ false }}">
+          <a href="{{ b.url }}" target="_blank" rel="noopener" style="display:block;position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--line);text-decoration:none;margin:6px 0">
+            <img src="{{ b.thumb }}" alt="{{ b.caption }}" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
+            <span style="position:absolute;inset:0;display:grid;place-items:center"><span style="width:64px;height:64px;border-radius:50%;background:rgba(0,0,0,.62);display:grid;place-items:center;color:#fff;font-size:22px;padding-left:5px">▶</span></span>
+            <sc-if value="{{ b.hasCaption }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:0;right:0;bottom:0;background:linear-gradient(transparent,rgba(0,0,0,.65));color:#fff;font-size:12px;padding:26px 14px 10px;line-height:1.6">{{ b.caption }}</span></sc-if>
+          </a>
+        </sc-if>
+        <sc-if value="{{ b.isLinkCard }}" hint-placeholder-val="{{ false }}">
+          <a href="{{ b.url }}" target="_blank" rel="noopener" class="site-resource"><span style="flex:1;min-width:0"><span class="site-resource-title">{{ b.label }}</span><span class="site-resource-url">{{ b.url }}</span></span><span style="flex:none;color:var(--accent)">↗</span></a>
+        </sc-if>
+        <sc-if value="{{ b.isHtml }}" hint-placeholder-val="{{ false }}">{{ b.el }}</sc-if>
+      </div>
+    </sc-for>
+  </article>
+
+  <!-- 関連ページ（この研究が属するトピック・基盤技術） -->
+  <sc-if value="{{ hasRelatedPages }}" hint-placeholder-val="{{ false }}">
+    <div style="margin-top:56px">
+      <h2 style="font-family:'Noto Sans JP',sans-serif;font-weight:700;letter-spacing:.02em;font-size:24px;color:var(--ink);margin:0 0 22px">{{ L.related }}</h2>
+      <div style="display:flex;flex-direction:column">
+        <sc-for list="{{ relatedPages }}" as="rp" hint-placeholder-count="3">
+          <button data-related-row onClick="{{ rp.onOpen }}" style="display:flex;gap:18px;align-items:center;background:none;border:none;border-bottom:1px solid var(--line);cursor:pointer;font:inherit;padding:16px 6px;text-align:left" style-hover="background:var(--bg-alt)">
+            <span data-related-thumb style="flex:none;width:118px;height:72px;border-radius:9px;overflow:hidden;background:{{ rp.banner }};border:1px solid var(--line)"></span>
+            <span style="flex:1;min-width:0">
+              <span style="display:block;font-family:'Noto Sans JP',sans-serif;font-size:12px;letter-spacing:.08em;font-weight:700;color:var(--accent);margin-bottom:4px">{{ rp.kind }}</span>
+              <span style="display:block;font-weight:700;font-size:16px;color:var(--ink);line-height:1.5">{{ rp.title }}</span>
+              <span style="display:block;font-size:12px;color:var(--muted);line-height:1.7;margin-top:3px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">{{ rp.desc }}</span>
+            </span>
+            <span data-row-arrow style="flex:none;color:var(--muted);font-size:17px">→</span>
+          </button>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900},&quot;db&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;object&quot;},&quot;articleId&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;string&quot;},&quot;onOpenCategory&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(id:string)=&gt;void&quot;},&quot;onOpenArticle&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(id:string)=&gt;void&quot;},&quot;onOpenNews&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(id:string)=&gt;void&quot;},&quot;onGoHome&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;()=&gt;void&quot;}}">
+class Component extends DCLogic {
+  state = { rich:null, copied:false, copyFailed:false, bibText:'' };
+  loadBib(){
+    const db=this.props.db||{};
+    const a=(db.articles||[]).find(x=>x.id===this.props.articleId)||{};
+    const bib=a.bibtex;
+    if(!bib || this._bibFor===bib) return;
+    this._bibFor=bib;
+    // 別の記事に移ったときに前の記事の BibTeX をコピーしないよう、読み込みが終わるまで空にする
+    this.setState({bibText:''});
+    // サイトの置き場所（index.html のあるフォルダ）からの相対パスで読む。
+    // 以前の '../content/articles/' は、サイトが URL の途中にある公開先（/main/ のプレビューや
+    // GitHub Pages の /<リポジトリ名>/）で一段上に出てしまい、空のままコピーされていた（#42）
+    const href=bib.includes('/')?bib:'content/articles/'+bib;
+    fetch(new URL(href, location.href))
+      .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
+      .then(txt=>{ if(this._bibFor===bib) this.setState({bibText:txt}); })
+      .catch(e=>console.warn('BibTeX 読み込みに失敗:', e));
+  }
+  componentDidUpdate(){ this.loadBib(); }
+  // BibTeX から題・著者・掲載先を取り出す（文献情報の欄に出す）
+  parseBib(txt){
+    if(!txt) return {};
+    const field=k=>{
+      const m=txt.match(new RegExp('(?:^|[,\\s])'+k+'\\s*=\\s*', 'i'));
+      if(!m) return '';
+      let i=m.index+m[0].length, open=txt[i], out='';
+      if(open==='{'){ let d=0; for(;i<txt.length;i++){ const c=txt[i]; if(c==='{'){ if(d++) out+=c; } else if(c==='}'){ if(--d===0) break; out+=c; } else out+=c; } }
+      else if(open==='"'){ const e=txt.indexOf('"',i+1); out=txt.slice(i+1,e<0?undefined:e); }
+      else { const e=txt.slice(i).match(/^[^,\n}]*/); out=e?e[0]:''; }
+      return out.replace(/\\['"`^~]\{?([a-zA-Z])\}?/g,'$1').replace(/[{}]/g,'').replace(/\s+/g,' ').trim();
+    };
+    // 「姓, 名」は「名 姓」に直し、「and」で区切られた著者をカンマでつなぐ
+    const authors=field('author').split(/\s+and\s+/).map(n=>{ const p=n.split(','); return p.length===2?(p[1].trim()+' '+p[0].trim()):n.trim(); }).filter(Boolean).join(', ');
+    return { title:field('title'), authors, year:field('year'), venue:field('booktitle')||field('journal')||field('howpublished') };
+  }
+  componentDidMount(){
+    import(new URL('./blocks.js', location.href).href)
+      .then(m=>this.setState({rich:m}))
+      .catch(e=>console.error('blocks.js 読み込み失敗:', e));
+    this.loadBib();
+  }
+  toBlocks(body){
+    const rich=this.state.rich;
+    if(!rich) return (body||[]).filter(p=>typeof p==='string').map(p=>({isP:true,segments:[{isText:true,text:p}]}));
+    return rich.normalizeBlocks(body).map(b=>b.isHtml?{...b, el:React.createElement('div',{dangerouslySetInnerHTML:{__html:b.html}})}:b);
+  }
+  renderVals(){
+    const db=this.props.db||{};
+    const lang=this.props.lang==='en'?'en':'ja';
+    const L={ja:{home:'ホーム',paperHeading:'文献情報',paperLink:'論文リンク ↗',codeLink:'コード ↗',projectLink:'プロジェクトページ ↗',bibCopy:'BibTeX をコピー',bibCopied:'コピーしました ✓',bibFailed:'コピーできませんでした',related:'関連ページ',topic:'研究トピック',axis:'基盤技術',newsKind:'ニュース',paper:'論文',project:'プロジェクト',blog:'ブログ',research:'研究',lab:'鈴村研究室'},en:{home:'Home',paperHeading:'Publication',paperLink:'Paper ↗',codeLink:'Code ↗',projectLink:'Project Page ↗',bibCopy:'Copy BibTeX',bibCopied:'Copied ✓',bibFailed:'Copy failed',related:'Related Pages',topic:'Research Topic',axis:'Core Technology',newsKind:'News',paper:'Paper',project:'Project',blog:'Blog',research:'Research',lab:'Suzumura Laboratory'}}[lang];
+    const axes=db.axes||[], topics=db.topics||[], articles=db.articles||[];
+    const openCategory=this.props.onOpenCategory||(()=>{});
+    const goHome=this.props.onGoHome||(()=>{});
+    const goBrowse=this.props.onGoBrowse||(()=>{});
+
+    const axisName=id=>{ const a=axes.find(x=>x.id===id); return a?a.name:id; };
+    const topicName=id=>{ const t=topics.find(x=>x.id===id); return t?((lang==='en'&&t.en)?t.en:t.ja):id; };
+    const a=articles.find(x=>x.id===this.props.articleId)||articles[0]||{};
+
+    const tags=[
+      ...(a.axisTags||[]).map(id=>({label:axisName(id),color:'var(--accent)',border:'var(--accent)',onClick:()=>openCategory(id)})),
+      ...(a.topicTags||[]).map(id=>({label:'#'+topicName(id),color:'#6a4ca0',border:'#6a4ca0',onClick:()=>openCategory(id)})),
+    ];
+
+    // 関連ページ（トピック → 基盤技術の順）
+    const bannerOf=c=>{
+      const img=c.image||(c.page||{}).heroImage;
+      return img?"var(--ink) url('"+img+"') center/cover no-repeat":'var(--soft)';
+    };
+    const openArticle=this.props.onOpenArticle||(()=>{});
+    const openNews=this.props.onOpenNews||(()=>{});
+    const news=db.news||[];
+    const kindLabelOf=k=>({paper:L.paper,project:L.project,blog:L.blog}[k]||L.research);
+    // 研究紹介の図は切り取らずに収める。図が無い研究紹介は、研究室のロゴを出す（#106）
+    const artBanner=x=>{
+      if(x.figure) return "#fff url('"+x.figure+"') center/contain no-repeat";
+      return "#fff url('images/logo-mark.png') center/auto 46% no-repeat";
+    };
+    const cardOf=(type,o)=>({
+      topic:{ kind:L.topic, title:(lang==='en'&&o.en)?o.en:o.ja, desc:o.desc||'', banner:bannerOf(o), onOpen:()=>openCategory(o.id) },
+      axis:{ kind:L.axis, title:o.name, desc:o.desc||'', banner:bannerOf(o), onOpen:()=>openCategory(o.id) },
+      article:{ kind:kindLabelOf(o.kind), title:o.title, desc:o.summary||'', banner:artBanner(o), onOpen:()=>openArticle(o.id) },
+      news:{ kind:L.newsKind, title:o.title, desc:'', banner:'var(--soft)', onOpen:()=>openNews(o.id) },
+    }[type]);
+    // md の related: があればそれを優先（id または tag:<id>）。無ければタグから自動生成。
+    let relatedPages;
+    if(a.related!==undefined){
+      const seen=new Set(); relatedPages=[];
+      a.related.forEach(rid=>{
+        const add=(type,o,key)=>{ if(o&&!seen.has(key)){ seen.add(key); relatedPages.push(cardOf(type,o)); } };
+        if(/^tag:/.test(rid)){
+          const tid=rid.slice(4);
+          articles.filter(x=>x.id!==a.id&&((x.axisTags||[]).includes(tid)||(x.topicTags||[]).includes(tid))).forEach(x=>add('article',x,'a:'+x.id));
+          return;
+        }
+        const t=topics.find(x=>x.id===rid); if(t) return add('topic',t,'c:'+rid);
+        const ax=axes.find(x=>x.id===rid); if(ax) return add('axis',ax,'c:'+rid);
+        const ar=articles.find(x=>x.id===rid); if(ar) return add('article',ar,'a:'+rid);
+        const nw=news.find(x=>x.id===rid); if(nw) return add('news',nw,'n:'+rid);
+      });
+    } else {
+      relatedPages=[
+        ...(a.topicTags||[]).map(id=>topics.find(t=>t.id===id)).filter(Boolean).map(t=>cardOf('topic',t)),
+        ...(a.axisTags||[]).map(id=>axes.find(x=>x.id===id)).filter(Boolean).map(x=>cardOf('axis',x)),
+      ];
+    }
+
+    const bib=this.parseBib(a.bibtex?this.state.bibText:'');
+    return {
+      L, goHome, goBrowse,
+      title:a.title||'', date:a.date||'', venue:a.venue||'', hasVenue:!!a.venue,
+      kindLabel:({paper:L.paper,project:L.project,blog:L.blog}[a.kind]||L.research),
+      authors:L.lab, blocks:this.toBlocks(a.body), tags,
+      figure:a.figure||'', hasFigure:!!a.figure, noFigure:!a.figure,
+      figureCaption:a.figureCaption||'', hasFigureCaption:!!a.figureCaption,
+      hasRelatedPages:relatedPages.length>0, relatedPages,
+      summary:a.summary||'', hasSummary:!!a.summary,
+      // 文献情報: 題・著者・掲載先は BibTeX から読む（読み込み前と読めないときは記事の題と掲載先）
+      hasPaper:!!(a.bibtex||a.url),
+      // 「題. 著者. 掲載先, 年.」の1文にする（ニュース ma-dpo-nlp-seminar の文献情報と同じ書き方）
+      paperCitation:[bib.title||a.title, bib.authors, [bib.venue||a.venue, bib.year||a.year].filter(Boolean).join(', ')]
+        .filter(Boolean).map(x=>String(x).replace(/[.。]\s*$/,'')+'.').join(' '),
+      url:a.url||'', hasUrl:!!a.url,
+      code:a.code||'', hasCode:!!a.code, project:a.project||'', hasProject:!!a.project,
+      hasBibtex:!!a.bibtex,
+      bibBtnLabel:this.state.copyFailed?L.bibFailed:(this.state.copied?L.bibCopied:L.bibCopy),
+      copyBib:()=>{
+        const txt=this.state.bibText;
+        const done=ok=>{
+          this.setState(ok?{copied:true,copyFailed:false}:{copied:false,copyFailed:true});
+          clearTimeout(this._copyTimer);
+          this._copyTimer=setTimeout(()=>this.setState({copied:false,copyFailed:false}),2000);
+        };
+        const legacy=()=>{
+          try{
+            const ta=document.createElement('textarea');
+            ta.value=txt; ta.style.position='fixed'; ta.style.opacity='0';
+            document.body.appendChild(ta); ta.select();
+            const ok=document.execCommand('copy');
+            document.body.removeChild(ta);
+            done(ok);
+          }catch(e){ done(false); }
+        };
+        if(!txt){ done(false); return; }
+        // user activation を保ったまま同期的に呼ぶ（await を挟まない）
+        try{
+          const p=navigator.clipboard&&navigator.clipboard.writeText(txt);
+          if(p&&p.then) p.then(()=>done(true), legacy); else legacy();
+        }catch(e){ legacy(); }
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>

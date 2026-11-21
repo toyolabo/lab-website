@@ -1,0 +1,15 @@
+# 読み込むニュース（1行1スラッグ。content/news/<スラッグ>.md と <スラッグ>.en.md）
+gmo-humanoid-lab-2026
+obog-2026
+ma-dpo-nlp-seminar
+rsj-2026
+naganuma-visit-2026
+wat-bit-kickoff
+embc-2025
+iclr-2024
+aaai-ecosys-2024-matching
+aaai-ecosys-2024-seqrec
+aaai-2024-committee
+recsys-2023-award
+sigspatial-2023
+lab-opening-2021

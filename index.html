@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0}
+  @keyframes flup{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  @keyframes vfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  .site-action{display:inline-flex;align-items:center;justify-content:center;gap:16px;min-height:44px;max-width:100%;padding:9px 18px;border:1px solid var(--accent);border-radius:2px;background:transparent;color:var(--accent);font:inherit;font-size:12px;font-weight:500;line-height:1.6;text-decoration:none;cursor:pointer;transition:background .15s,color .15s}
+  .site-action:hover{background:var(--accent);color:#fff}
+  .site-action--light{border-color:rgba(255,255,255,.7);color:#fff}
+  .site-action--light:hover{background:#fff;color:var(--ink)}
+  .site-resource{display:flex;align-items:center;gap:20px;padding:14px 16px;border:1px solid #ccd5e2;border-radius:2px;background:var(--bg);text-decoration:none;margin:6px 0;transition:border-color .15s,background .15s}
+  .site-resource:hover{border-color:var(--accent);background:var(--bg-alt)}
+  .site-resource-title{display:block;font-size:12px;font-weight:500;color:var(--accent);line-height:1.7}
+  .site-resource:hover .site-resource-title{text-decoration:underline;text-underline-offset:4px}
+  .site-resource-url{display:block;font-size:12px;color:var(--muted);margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .site-filter{min-height:44px;padding:10px 14px;margin-bottom:-1px;border:0;border-bottom:2px solid transparent;border-radius:0;background:transparent;font:inherit;font-size:12px;font-weight:500;line-height:1.6;white-space:nowrap;cursor:pointer}
+  .site-filter:hover{background:var(--soft)}
+  .site-filter:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .site-action:focus-visible,.site-resource:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+  .site-action--light:focus-visible{outline-color:#fff}
+  .home-section-nav{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:45;color:var(--accent)}
+  .home-section-link{position:relative;display:flex;align-items:center;justify-content:center;width:44px;height:44px;padding:0;border:0;background:none;color:inherit;font:inherit;cursor:pointer}
+  .home-section-dot{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.45;transition:transform .15s,opacity .15s}
+  .home-section-link[aria-current="location"] .home-section-dot{opacity:1;transform:scale(1.65)}
+  .home-section-label{position:absolute;right:38px;white-space:nowrap;padding:3px 8px;color:inherit;font-size:12px;font-weight:500;opacity:0;visibility:hidden;transform:translateX(4px);transition:opacity .15s,transform .15s}
+  .home-section-nav:hover .home-section-label,.home-section-nav:focus-within .home-section-label{opacity:1;visibility:visible;transform:none}
+  .home-section-link:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .home-pillars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:36px}
+  .home-pillar-card{position:relative;overflow:hidden;display:flex;min-width:0;min-height:280px;padding:0;border:0;border-radius:14px;background:var(--ink);text-align:left;font:inherit;cursor:pointer}
+  .home-pillar-card:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+  @media (max-width:900px){.home-pillars{grid-template-columns:1fr}.home-pillar-card{min-height:210px}}
+  @media (max-width:760px){
+    .home-section-nav{display:none}
+    /* 上部のメニュー: スマホの幅では「≡」のボタンにまとめる（#111） */
+    [data-nav-desktop]{display:none!important}
+    [data-nav-toggle]{display:flex!important}
+    /* スマホの幅の並び（#111）: data-stack は 1 列に、data-two は 2 列にする */
+    [data-stack]{grid-template-columns:minmax(0,1fr)!important}
+    [data-two]{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+    [data-pi-photo]{max-width:220px}   /* メンバーのページの研究室主宰の写真は、縦に並べたときに大きくなりすぎないようにする */
+  }
+  @media (min-width:761px){ [data-nav-mobile]{display:none!important} }
+  /* トップの研究トピックのパネル: 題の位置をパネルの上端から揃える（説明文が長くても題の高さが同じになる） */
+  [data-topic-body]{padding-top:150px!important}
+  /* 狭い画面では 2 列に並べる（数が奇数なら最後の 1 枚は横幅いっぱい） */
+  @media (max-width:760px){
+    [data-topic-body]{padding-top:96px!important}
+    [data-topic-grid]{grid-template-columns:minmax(0,1fr)!important}   /* スマホでは研究トピックのパネルを縦 1 列に（#111） */
+    [data-topic-card]{grid-column:auto!important;min-height:260px!important}
+    /* ニュースの一覧: サムネイルを小さくし、行の余白を詰める */
+    /* ニュースの行・関連ページのカード: スマホでは画像の下に題と説明を出す（#111） */
+    [data-news-row],[data-related-row]{flex-direction:column!important;align-items:stretch!important;gap:12px!important}
+    [data-news-thumb]{width:100%!important}
+    [data-related-thumb]{width:100%!important;height:auto!important;aspect-ratio:16/9}
+    [data-row-arrow]{display:none!important}
+    /* ニュースの分類のタブ（一覧・トップページ）: スマホでは折り返さず 1 行にし、入りきらないときは横に動かせる（#111） */
+    [data-news-tabs]{flex-wrap:nowrap!important;gap:0!important;overflow-x:auto;scrollbar-width:none}
+    [data-news-tabs]::-webkit-scrollbar{display:none}
+    [data-news-tabs] button{flex:none;padding:11px 7px!important;font-size:12px!important;white-space:nowrap}
+    /* フッター: 研究トピックを押すと出る 7 つの行は、スマホでは出さない（#111） */
+    [data-footer-topics]{display:none!important}
+  }
+</style>
+</helmet>
+
+<div ref="{{ setRoot }}" style="--bg:#ffffff;--bg-alt:#f5f7fb;--ink:#15233c;--text:#3a4762;--muted:#727f97;--accent:#1a3a6b;--accent-2:#5b7fb0;--soft:#eef2f8;--line:#e4e9f1;font-family:'Noto Sans JP',sans-serif;color:var(--text);background:var(--bg);min-height:100vh;-webkit-font-smoothing:antialiased;line-height:1.7">
+
+  <!-- ===== MAIN HEADER ===== -->
+  <header style="position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:saturate(1.3) blur(12px);border-bottom:1px solid var(--line)">
+    <!-- 装飾用の紺バー -->
+    <div style="background:var(--ink);height:26px"></div>
+    <div style="max-width:1180px;margin:0 auto;padding:6px 28px;min-height:60px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+      <button onClick="{{ goHome }}" style="height:44px;display:flex;align-items:center;gap:10px;background:none;border:none;cursor:pointer;padding:0;text-align:left">
+        <img src="images/logo-mark.png" alt="Lab logo" style="width:40px;height:36px;object-fit:contain;flex:none">
+        <span style="display:flex;flex-direction:column;line-height:1.15">
+          <span style="font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:18px;color:var(--ink);letter-spacing:.06em">{{ brandJa }}</span>
+          <span style="font-family:'Noto Sans JP',sans-serif;font-size:9.5px;color:var(--muted);letter-spacing:.02em;white-space:nowrap">{{ brandEn }}</span>
+        </span>
+      </button>
+      <!-- パソコンの幅のメニュー（スマホの幅では隠し、「≡」のボタンを出す。#111） -->
+      <nav data-nav-desktop style="display:flex;align-items:center;gap:2px;margin-left:auto;flex-wrap:wrap;justify-content:flex-end">
+        <div style="position:relative" onMouseEnter="{{ openTopicsMenu }}" onMouseLeave="{{ closeTopicsMenu }}">
+          <button onClick="{{ goTopics }}" style="background:{{ navTopicsBg }};border:none;cursor:pointer;font:inherit;font-size:{{ navFs }};font-weight:500;color:{{ navTopicsCol }};height:44px;display:flex;align-items:center;padding:0 8px;border-radius:7px;white-space:nowrap;display:flex;align-items:center;gap:5px" style-hover="background:var(--soft);color:var(--accent)"><span>{{ t.topics }}</span><svg width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+          <sc-if value="{{ topicsMenuOpen }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;top:100%;left:0;min-width:220px;background:var(--bg);border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 30px rgba(21,35,60,.12);padding:6px;z-index:60">
+              <sc-for list="{{ topicMenuItems }}" as="t" hint-placeholder-count="4">
+                <button onClick="{{ t.onClick }}" style="display:block;width:100%;background:none;border:none;cursor:pointer;font:inherit;font-size:{{ navFs }};font-weight:500;color:var(--text);padding:9px 12px;border-radius:7px;text-align:left;white-space:nowrap" style-hover="background:var(--soft);color:var(--accent)">{{ t.label }}</button>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+        <button onClick="{{ goNews }}" style="background:none;border:none;cursor:pointer;font:inherit;font-size:{{ navFs }};font-weight:500;color:var(--text);height:44px;display:flex;align-items:center;padding:0 8px;border-radius:7px;white-space:nowrap" style-hover="background:var(--soft);color:var(--accent)"><span>{{ t.news }}</span></button>
+        <button onClick="{{ goMembers }}" style="background:{{ navMembersBg }};border:none;cursor:pointer;font:inherit;font-size:{{ navFs }};font-weight:500;color:{{ navMembersCol }};height:44px;display:flex;align-items:center;padding:0 8px;border-radius:7px;white-space:nowrap" style-hover="background:var(--soft);color:var(--accent)"><span>{{ t.members }}</span></button>
+        <button onClick="{{ goPi }}" style="background:{{ navPiBg }};border:none;cursor:pointer;font:inherit;font-size:{{ navFs }};font-weight:500;color:{{ navPiCol }};height:44px;display:flex;align-items:center;padding:0 8px;border-radius:7px;white-space:nowrap" style-hover="background:var(--soft);color:var(--accent)"><span>{{ t.pi }}</span></button>
+        <button onClick="{{ goPubs }}" style="background:{{ navPubsBg }};border:none;cursor:pointer;font:inherit;font-size:{{ navFs }};font-weight:500;color:{{ navPubsCol }};height:44px;display:flex;align-items:center;padding:0 8px;border-radius:7px;white-space:nowrap" style-hover="background:var(--soft);color:var(--accent)"><span>{{ t.pubs }}</span></button>
+        <sc-for list="{{ utilityLinks }}" as="l" hint-placeholder-count="2">
+          <button onClick="{{ l.onClick }}" style="background:{{ l.bg }};border:none;cursor:pointer;font:inherit;font-size:{{ navFs }};font-weight:500;color:{{ l.col }};height:44px;display:flex;align-items:center;padding:0 8px;border-radius:7px;white-space:nowrap" style-hover="background:var(--soft);color:var(--accent)"><span>{{ l.label }}</span></button>
+        </sc-for>
+        <a href="https://zenn.dev/p/suzumura_lab" target="_blank" rel="noopener" style="font-size:{{ navFs }};font-weight:500;color:var(--text);height:44px;display:flex;align-items:center;padding:0 8px;border-radius:7px;white-space:nowrap;text-decoration:none" style-hover="background:var(--soft);color:var(--accent)"><span>{{ t.blog }}</span></a>
+        <span style="display:flex;align-items:center;gap:7px;margin-left:8px;font-size:{{ navFs }};font-weight:700;letter-spacing:.08em">
+          <button onClick="{{ setJa }}" style="background:none;border:none;cursor:pointer;font:inherit;padding:0;color:{{ jaColor }}" style-hover="color:var(--accent)">JP</button>
+          <span style="color:var(--line);font-weight:400">/</span>
+          <button onClick="{{ setEn }}" style="background:none;border:none;cursor:pointer;font:inherit;padding:0;color:{{ enColor }}" style-hover="color:var(--accent)">EN</button>
+        </span>
+      </nav>
+      <!-- スマホの幅だけに出す「≡」のボタン。押すと下にメニューが開く（#111） -->
+      <button data-nav-toggle onClick="{{ toggleMobileMenu }}" aria-label="{{ mobileMenuLabel }}" aria-expanded="{{ mobileMenuOpen }}" style="display:none;margin-left:auto;width:44px;height:44px;align-items:center;justify-content:center;background:none;border:1px solid var(--line);border-radius:8px;cursor:pointer;font:inherit;font-size:22px;line-height:1;color:var(--ink)">{{ mobileMenuIcon }}</button>
+    </div>
+    <sc-if value="{{ mobileMenuOpen }}" hint-placeholder-val="{{ false }}">
+      <div data-nav-mobile style="border-top:1px solid var(--line);background:var(--bg);max-height:calc(100vh - 92px);overflow-y:auto">
+        <div style="padding:6px 28px 18px">
+          <sc-for list="{{ mobileNav }}" as="f" hint-placeholder-count="8">
+            <sc-if value="{{ f.isBtn }}" hint-placeholder-val="{{ true }}"><button onClick="{{ f.onClick }}" style="display:flex;align-items:center;width:100%;min-height:48px;background:none;border:none;border-bottom:1px solid var(--line);cursor:pointer;font:inherit;font-size:16px;font-weight:500;color:var(--text);padding:0 4px;text-align:left;text-decoration:none">{{ f.label }}</button></sc-if>
+            <sc-if value="{{ f.isTopics }}" hint-placeholder-val="{{ false }}">
+              <!-- 研究トピックは、はじめは閉じておき、押すと 7 つが開く（#111） -->
+              <button onClick="{{ toggleMobileTopics }}" aria-expanded="{{ mobileTopicsOpen }}" style="display:flex;align-items:center;width:100%;min-height:48px;background:none;border:none;border-bottom:1px solid var(--line);cursor:pointer;font:inherit;font-size:16px;font-weight:500;color:var(--text);padding:0 4px;text-align:left;text-decoration:none;justify-content:space-between">{{ f.label }}<span style="font-size:12px;color:var(--muted)">{{ mobileTopicsIcon }}</span></button>
+              <sc-if value="{{ mobileTopicsOpen }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:2px 0 6px 16px;border-bottom:1px solid var(--line)">
+                  <sc-for list="{{ topicMenuItems }}" as="t" hint-placeholder-count="4">
+                    <button onClick="{{ t.onClick }}" style="display:flex;align-items:center;width:100%;min-height:40px;background:none;border:none;cursor:pointer;font:inherit;font-size:12px;color:var(--muted);padding:0 4px;text-align:left">{{ t.label }}</button>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </sc-if>
+            <sc-if value="{{ f.isExt }}" hint-placeholder-val="{{ false }}"><a href="{{ f.href }}" target="_blank" rel="noopener" style="display:flex;align-items:center;width:100%;min-height:48px;background:none;border:none;border-bottom:1px solid var(--line);cursor:pointer;font:inherit;font-size:16px;font-weight:500;color:var(--text);padding:0 4px;text-align:left;text-decoration:none">{{ f.label }} ↗</a></sc-if>
+          </sc-for>
+          <div style="display:flex;align-items:center;gap:14px;padding-top:16px;font-size:12px;font-weight:700;letter-spacing:.08em">
+            <button onClick="{{ setJa }}" style="background:none;border:1px solid var(--line);border-radius:7px;cursor:pointer;font:inherit;padding:8px 16px;color:{{ jaColor }}">JP</button>
+            <button onClick="{{ setEn }}" style="background:none;border:1px solid var(--line);border-radius:7px;cursor:pointer;font:inherit;padding:8px 16px;color:{{ enColor }}">EN</button>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+  </header>
+
+  <!-- ===== 現在地バー（下層ページのみ）: 戻るボタン + パンくず ===== -->
+  <sc-if value="{{ showCrumbs }}" hint-placeholder-val="{{ false }}">
+    <div style="background:#fff;border-bottom:1px solid var(--line)">
+      <div style="max-width:1180px;margin:0 auto;padding:11px 28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+        <nav aria-label="breadcrumb" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:{{ navFs }};min-width:0">
+          <sc-for list="{{ crumbs }}" as="c" hint-placeholder-count="2">
+            <sc-if value="{{ c.isLink }}" hint-placeholder-val="{{ true }}">
+              <button onClick="{{ c.onClick }}" style="background:none;border:none;cursor:pointer;font:inherit;font-size:{{ navFs }};color:var(--muted);padding:0;white-space:nowrap" style-hover="color:var(--accent);text-decoration:underline">{{ c.label }}</button>
+              <span style="color:var(--accent-2)" aria-hidden="true">›</span>
+            </sc-if>
+            <sc-if value="{{ c.isCur }}" hint-placeholder-val="{{ false }}">
+              <span style="color:var(--ink);font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:46ch">{{ c.label }}</span>
+            </sc-if>
+          </sc-for>
+        </nav>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===== PAGES ===== -->
+  <sc-if value="{{ ready }}" hint-placeholder-val="{{ false }}">
+    <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+      <dc-import name="Home" db="{{ db }}" db-alt="{{ dbAlt }}" lang="{{ lang }}" on-open-category="{{ openCategory }}" on-open-news="{{ openNews }}" on-open-news-list="{{ goNews }}" hint-size="100%,2400px"></dc-import>
+    </sc-if>
+    <sc-if value="{{ isCategory }}" hint-placeholder-val="{{ false }}">
+      <dc-import name="Category" db="{{ db }}" lang="{{ lang }}" category-id="{{ categoryId }}" on-open-article="{{ openArticle }}" on-open-category="{{ openCategory }}" on-go-home="{{ goHome }}" hint-size="100%,1200px"></dc-import>
+    </sc-if>
+    <sc-if value="{{ isArticle }}" hint-placeholder-val="{{ false }}">
+      <dc-import name="Article" db="{{ db }}" lang="{{ lang }}" article-id="{{ articleId }}" on-open-category="{{ openCategory }}" on-open-article="{{ openArticle }}" on-open-news="{{ openNews }}" on-go-home="{{ goHome }}" hint-size="100%,1200px"></dc-import>
+    </sc-if>
+    <sc-if value="{{ isNewsList }}" hint-placeholder-val="{{ false }}">
+      <dc-import name="NewsList" db="{{ db }}" lang="{{ lang }}" on-open-news="{{ openNews }}" hint-size="100%,900px"></dc-import>
+    </sc-if>
+    <sc-if value="{{ isNewsArticle }}" hint-placeholder-val="{{ false }}">
+      <dc-import name="News" db="{{ db }}" lang="{{ lang }}" news-id="{{ newsId }}" on-open-news="{{ openNews }}" on-open-article="{{ openArticle }}" on-open-category="{{ openCategory }}" on-go-news="{{ goNews }}" on-go-home="{{ goHome }}" hint-size="100%,900px"></dc-import>
+    </sc-if>
+    <sc-if value="{{ isMembers }}" hint-placeholder-val="{{ false }}">
+      <dc-import name="Members" db="{{ db }}" lang="{{ lang }}" on-go-home="{{ goHome }}" hint-size="100%,1100px"></dc-import>
+    </sc-if>
+    <sc-if value="{{ isPi }}" hint-placeholder-val="{{ false }}">
+      <dc-import name="Pi" db="{{ db }}" lang="{{ lang }}" on-go-home="{{ goHome }}" hint-size="100%,1400px"></dc-import>
+    </sc-if>
+    <sc-if value="{{ isPubs }}" hint-placeholder-val="{{ false }}">
+      <dc-import name="Publications" db="{{ db }}" lang="{{ lang }}" on-open-article="{{ openArticle }}" on-go-home="{{ goHome }}" hint-size="100%,1000px"></dc-import>
+    </sc-if>
+    <sc-if value="{{ isCollab }}" hint-placeholder-val="{{ false }}">
+      <dc-import name="Collaboration" db="{{ db }}" lang="{{ lang }}" on-go-home="{{ goHome }}" on-open-article="{{ openArticle }}" hint-size="100%,1200px"></dc-import>
+    </sc-if>
+    <sc-if value="{{ isJoin }}" hint-placeholder-val="{{ false }}">
+      <dc-import name="Join" db="{{ db }}" lang="{{ lang }}" on-go-home="{{ goHome }}" hint-size="100%,1000px"></dc-import>
+    </sc-if>
+    <sc-if value="{{ isAccess }}" hint-placeholder-val="{{ false }}">
+      <dc-import name="Access" db="{{ db }}" lang="{{ lang }}" on-go-home="{{ goHome }}" hint-size="100%,800px"></dc-import>
+    </sc-if>
+  </sc-if>
+  <sc-if value="{{ loading }}" hint-placeholder-val="{{ true }}">
+    <div style="min-height:50vh;display:grid;place-items:center;color:var(--muted);font-family:'Noto Sans JP',sans-serif;letter-spacing:.12em;font-size:12px;letter-spacing:.14em">{{ loadingLabel }}</div>
+  </sc-if>
+
+  <!-- ===== 次に見る（記事・トピック・ニュース末尾の回遊導線） ===== -->
+  <sc-if value="{{ showNextNav }}" hint-placeholder-val="{{ false }}">
+    <div style="background:#fff;border-top:1px solid var(--line)">
+      <div style="max-width:1180px;margin:0 auto;padding:9px 28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+        <nav aria-label="breadcrumb" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:{{ navFs }};min-width:0">
+          <sc-for list="{{ crumbs }}" as="c" hint-placeholder-count="2">
+            <sc-if value="{{ c.isLink }}" hint-placeholder-val="{{ true }}">
+              <button onClick="{{ c.onClick }}" style="background:none;border:none;cursor:pointer;font:inherit;font-size:{{ navFs }};color:var(--muted);padding:0;white-space:nowrap" style-hover="color:var(--accent);text-decoration:underline">{{ c.label }}</button>
+              <span style="color:var(--accent-2)" aria-hidden="true">›</span>
+            </sc-if>
+            <sc-if value="{{ c.isCur }}" hint-placeholder-val="{{ false }}">
+              <span style="color:var(--ink);font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:46ch">{{ c.label }}</span>
+            </sc-if>
+          </sc-for>
+        </nav>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===== FOOTER ===== -->
+  <!-- 左上: 研究室名と所属／右上: ロゴ／下: メニュー（横並び。研究トピックの一覧はメニューの下に開く） -->
+  <footer style="background:var(--ink);color:#fff;padding:52px 28px 44px;margin-top:0">
+    <div style="max-width:1180px;margin:0 auto">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:24px;padding-bottom:26px;border-bottom:1px solid rgba(255,255,255,.13)">
+        <div style="min-width:0">
+          <div style="font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:20px;letter-spacing:.06em;margin-bottom:10px">{{ footer.labName }} <span style="font-family:'Noto Sans JP',sans-serif;letter-spacing:.12em;font-size:12px;color:rgba(255,255,255,.6);font-weight:400">{{ footer.labNameEn }}</span></div>
+          <div style="font-size:12px;line-height:1.7;color:rgba(255,255,255,.72)">{{ footerAffiliation }}</div>
+        </div>
+        <sc-if value="{{ hasFooterLogo }}" hint-placeholder-val="{{ true }}">
+          <img src="{{ footer.logo }}" alt="Suzumura Lab logo" style="flex:none;height:64px;width:auto;display:block">
+        </sc-if>
+      </div>
+      <!-- メニューと研究トピックの一覧をまとめた枠。マウスがこの枠から出たら一覧を閉じる -->
+      <div onMouseLeave="{{ closeTopicsMenuF }}">
+      <nav aria-label="footer menu" style="display:flex;flex-wrap:wrap;align-items:center;gap:2px 4px;margin-top:18px;margin-left:-10px;font-size:12px;color:rgba(255,255,255,.82)">
+        <sc-for list="{{ footerNav }}" as="fn" hint-placeholder-count="5">
+          <sc-if value="{{ fn.isTopics }}" hint-placeholder-val="{{ false }}">
+            <div onMouseEnter="{{ openTopicsMenuF }}">
+              <button onClick="{{ fn.onClick }}" style="background:none;border:none;cursor:pointer;font:inherit;color:inherit;padding:6px 10px;border-radius:7px;white-space:nowrap;display:inline-flex;align-items:center;gap:5px" style-hover="color:#fff;background:rgba(255,255,255,.08)">{{ fn.label }}<svg width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+            </div>
+          </sc-if>
+          <sc-if value="{{ fn.isBtn }}" hint-placeholder-val="{{ true }}">
+            <button onClick="{{ fn.onClick }}" style="background:none;border:none;cursor:pointer;font:inherit;color:inherit;padding:6px 10px;border-radius:7px;white-space:nowrap" style-hover="color:#fff;background:rgba(255,255,255,.08)">{{ fn.label }}</button>
+          </sc-if>
+          <sc-if value="{{ fn.isExt }}" hint-placeholder-val="{{ false }}">
+            <a href="{{ fn.href }}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;padding:6px 10px;border-radius:7px;white-space:nowrap" style-hover="color:#fff;background:rgba(255,255,255,.08)">{{ fn.label }}</a>
+          </sc-if>
+        </sc-for>
+      </nav>
+        <!-- 研究トピックの一覧: 「研究トピック」にカーソルを合わせると、メニューの次の行に文字だけで横に並ぶ -->
+        <!-- 一覧の場所は常に確保しておき、表示・非表示は visibility で切り替える（紺色の欄の大きさが変わらない） -->
+          <div data-footer-topics style="display:flex;flex-wrap:wrap;align-items:center;gap:4px 18px;margin-top:8px;padding:6px 0 2px;font-size:12px;visibility:{{ topicsRowVis }}">
+            <sc-for list="{{ topicMenuItems }}" as="t" hint-placeholder-count="4">
+              <button onClick="{{ t.onClick }}" style="background:none;border:none;cursor:pointer;font:inherit;color:rgba(255,255,255,.72);padding:4px 0;white-space:nowrap" style-hover="color:#fff;text-decoration:underline">{{ t.label }}</button>
+            </sc-for>
+          </div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;palette&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;藍&quot;,&quot;青緑&quot;,&quot;臙脂&quot;,&quot;モノクロ&quot;],&quot;default&quot;:&quot;藍&quot;,&quot;tsType&quot;:&quot;'藍'|'青緑'|'臙脂'|'モノクロ'&quot;}}">
+class Component extends DCLogic {
+  // =========================================================
+  // シェル：データの読み込み・ページ切り替え（ルーティング）担当。
+  // コンテンツの編集は data/ フォルダで行ってください（README.md 参照）。
+  // =========================================================
+  state = { db:null, page:'home', categoryId:null, articleId:null, newsId:null, filterTags:[], topicsMenuOpen:false, topicsMenuFOpen:false, mobileMenuOpen:false, lang:'ja' };
+
+  async componentDidMount(){
+    this.applyTheme();
+    // ---- data/ の各ファイルを読み込む ----
+    const load = p => import(new URL(p, location.href).href);
+    try {
+      const [siteM, axesM, topicsM, articlesM, newsM, membersM, collabM, mdM] = await Promise.all([
+        load('data/site.js'), load('data/axes.js'), load('data/topics.js'),
+        load('data/articles.js'), load('data/news.js'), load('data/members.js'),
+        load('data/collaboration.js'), load('md.js'),
+      ]);
+      // ---- content/ の Markdown を読み込む（同じ id は MD が優先）----
+      const [mdArticles, mdNews, mdTopics, mdAxes, mdCollab, mdMembers, mdJoin, mdPi] = await Promise.all([
+        mdM.loadCollection('content/articles/', 'articles'),
+        mdM.loadCollection('content/news/', 'news'),
+        mdM.loadCollection('content/topics/', 'topics'),
+        mdM.loadCollection('content/axes/', 'axes'),
+        mdM.loadCollaboration('content/collaboration/'),
+        mdM.loadMembers('content/members/'),
+        mdM.loadPage('content/join/', 'join'),
+        mdM.loadPage('content/pi/', 'pi'),
+      ]);
+      // ---- Zenn の記事（data/zenn.json。GitHub Actions が毎日更新する。#68）。ニュースの「ブログ」に並べ、押すと Zenn を開く ----
+      const zenn = await fetch(new URL('data/zenn.json', location.href))
+        .then(r => r.ok ? r.json() : { items: [] })
+        .catch(() => ({ items: [] }));
+      // 説明は出さない（Zenn の説明はどの回も同じ前置きで始まるため）。英語では日本語の記事だと分かる一文だけ出す
+      const zennNews = (zenn.items || []).map(z => ({ id: z.id, date: z.date, kind: 'blog', title: z.title, summary: { ja: '', en: 'Article in Japanese on Zenn' }, image: z.image, external: z.url }));
+      const mergeById = (md, js) => { const ids = new Set(md.map(x=>x.id)); return [...md, ...js.filter(x=>!ids.has(x.id))]; };
+      // 日付（2026.9・2026.10・2026.06 などの書き方が混ざる）を年・月の数で比べる。文字で比べると 2026.9 が 2026.10 より新しくなってしまう
+      const dateKey = d => { const m = String(d||'').match(/(\d{4})\D*(\d{1,2})?/); return m ? (+m[1])*100 + (+(m[2]||0)) : 0; };
+      const byDateDesc = (a,b) => dateKey(b.date) - dateKey(a.date);
+      const db = {
+        site: siteM.site,
+        axes: mdAxes.length ? mdAxes : axesM.axes,
+        topics: mergeById(mdTopics, topicsM.topics),
+        articles: mergeById(mdArticles, articlesM.articles),
+        news: [...mergeById(mdNews, newsM.news), ...zennNews].sort(byDateDesc),
+        newsCategories: newsM.newsCategories,
+        members: (mdMembers && mdMembers.members.length) ? mdMembers.members : membersM.members,
+        collaborators: mdMembers ? mdMembers.collaborators : (membersM.collaborators||[]),
+        alumni: mdMembers ? mdMembers.alumni : (membersM.alumni||[]),
+        pastMembers: mdMembers ? mdMembers.pastMembers : (membersM.pastMembers||[]),
+        memberGalleries: mdMembers ? mdMembers.memberGalleries : (membersM.memberGalleries||[]),
+        collaboration: mdCollab || collabM.collaboration,
+        join: mdJoin,
+        pi: mdPi,
+      };
+      this.setState({ db, ...this.parseHash() });
+    } catch(e) { console.error('データ読み込みに失敗:', e); }
+    // ---- 戻る/進むボタン対応 ----
+    this._onHash = () => { if(!this._silent) this.setState(this.parseHash()); };
+    window.addEventListener('hashchange', this._onHash);
+  }
+  componentWillUnmount(){ window.removeEventListener('hashchange', this._onHash); }
+  componentDidUpdate(){ this.applyTheme(); }
+
+  // ---- URLハッシュ ⇄ 状態 ----
+  parseHash(){
+    const h = (location.hash||'').replace(/^#\/?/,'');
+    let segs = h.split('/');
+    let lang = 'ja';
+    if(segs[0]==='en'){ lang='en'; segs = segs.slice(1); }
+    else if(!h){ try{ if(localStorage.getItem('suzlab-lang')==='en') lang='en'; }catch(e){} }
+    const [seg, param] = segs;
+    let r;
+    if(seg==='category' && param) r = { page:'category', categoryId:decodeURIComponent(param) };
+    else if(seg==='article' && param) r = { page:'article', articleId:decodeURIComponent(param) };
+    else if(seg==='news' && param) r = { page:'newsArticle', newsId:decodeURIComponent(param) };
+    else if(seg==='news') r = { page:'newsList' };
+    else if(seg==='members') r = { page:'members' };
+    else if(seg==='pi') r = { page:'pi' };
+    else if(seg==='collaboration') r = { page:'collaboration' };
+    else if(seg==='join') r = { page:'join' };
+    else if(seg==='access') r = { page:'access' };
+    else if(seg==='publications') r = { page:'publications' };
+    else r = { page:'home' };
+    return { lang, ...r };
+  }
+  setHash(h){ this._silent=true; location.hash=(this.state.lang==='en'?'/en':'')+h; setTimeout(()=>{ this._silent=false; },0); }
+  go(patch, hash){ window.scrollTo({top:0,behavior:'instant'}); this.setState({ ...patch, mobileMenuOpen:false }); this.setHash(hash); }   // ページを移ったらスマホのメニューを閉じる
+
+  applyTheme(){
+    const el=this.rootRef; if(!el) return;
+    const pals={
+      '藍':{accent:'#1a3a6b',a2:'#5b7fb0',soft:'#eef2f8',ink:'#15233c'},
+      '青緑':{accent:'#0f6f63',a2:'#5aa99d',soft:'#e9f3f1',ink:'#10302b'},
+      '臙脂':{accent:'#9a2a2a',a2:'#c98080',soft:'#f6ecec',ink:'#3a1515'},
+      'モノクロ':{accent:'#1b1b1b',a2:'#8a8a8a',soft:'#f0f0f0',ink:'#111111'},
+    };
+    const p = pals[this.props.palette] || pals['藍'];
+    el.style.setProperty('--accent',p.accent); el.style.setProperty('--accent-2',p.a2);
+    el.style.setProperty('--soft',p.soft); el.style.setProperty('--ink',p.ink);
+  }
+
+  scrollTo(id){ const el=document.getElementById(id); if(!el) return; const y=el.getBoundingClientRect().top+window.scrollY-84; window.scrollTo({top:y,behavior:'smooth'}); }
+  // ページ名 → URL のパス（renderVals と navList の両方で使う。navList から renderVals の中の定数は見えないので、ここに置く。#111）
+  pageOf={ members:'/members', pi:'/pi', publications:'/publications', collaboration:'/collaboration', join:'/join', access:'/access' };
+  // フッターのメニューとスマホのメニューの項目（上部のナビと同じ並び）
+  navList(st, UI){
+        const t=UI[st.lang]||UI.ja;
+        const util=((((this.state.db||{}).site||{}).utilityLinks)||[]).map(l=>{ const lab=(l.label&&typeof l.label==='object')?l.label:{ja:l.label,en:l.label}; return { isBtn:true, isTopics:false, isExt:false, label:(st.lang==='en'&&lab.en)?lab.en:lab.ja, onClick:()=>this.go({page:l.page}, this.pageOf[l.page]||'/') }; });
+        return [
+          { isBtn:false, isTopics:true, isExt:false, label:t.topics, onClick:()=>this.goSection('topics') },
+          { isBtn:true, isTopics:false, isExt:false, label:t.news, onClick:()=>this.go({page:'newsList'},'/news') },
+          { isBtn:true, isTopics:false, isExt:false, label:t.members, onClick:()=>this.go({page:'members'},'/members') },
+          { isBtn:true, isTopics:false, isExt:false, label:t.pi, onClick:()=>this.go({page:'pi'},'/pi') },
+          { isBtn:true, isTopics:false, isExt:false, label:t.pubs, onClick:()=>this.go({page:'publications'},'/publications') },
+          ...util,
+          { isBtn:false, isTopics:false, isExt:true, label:t.blog, href:'https://zenn.dev/p/suzumura_lab' },
+        ];
+  }
+  goSection(id){
+    this.setState({mobileMenuOpen:false});
+    if(this.state.page!=='home'){ this.go({page:'home'},'/'); setTimeout(()=>this.scrollTo(id),300); }
+    else this.scrollTo(id);
+  }
+
+  // ---- i18n ----
+  toggleLang(){ this.setLang(this.state.lang==='en' ? 'ja' : 'en'); }
+  setLang(lang){
+    if(lang===this.state.lang) return;
+    try{ localStorage.setItem('suzlab-lang', lang); }catch(e){}
+    this.setState({lang, mobileMenuOpen:false});   // 言語を切り替えたらスマホのメニューを閉じる
+    const cur = (location.hash||'').replace(/^#\/?(?:en(?:\/|$))?/,'');
+    this._silent=true; location.hash=(lang==='en'?'/en/':'/')+cur; setTimeout(()=>{ this._silent=false; },0);
+  }
+  localize(v, lang){
+    if(Array.isArray(v)) return v.map(x=>this.localize(x,lang));
+    if(v && typeof v==='object'){
+      const ks = Object.keys(v);
+      if(ks.includes('ja') && ks.every(k=>k==='ja'||k==='en')) return v[lang]!=null ? v[lang] : v.ja;
+      const o={}; for(const k of ks) o[k]=this.localize(v[k],lang); return o;
+    }
+    return v;
+  }
+  localizedDb(){
+    const { db, lang } = this.state; if(!db) return null;
+    if(!this._loc || this._loc.src!==db || this._loc.lang!==lang) this._loc = { src:db, lang, out:this.localize(db,lang) };
+    return this._loc.out;
+  }
+  // もう一方の言語のDB（言語切替時に領域サイズを固定するため両言語を重ね描画する用）
+  altDb(){
+    const { db, lang } = this.state; if(!db) return null;
+    const other = lang==='ja' ? 'en' : 'ja';
+    if(!this._locA || this._locA.src!==db || this._locA.lang!==other) this._locA = { src:db, lang:other, out:this.localize(db,other) };
+    return this._locA.out;
+  }
+
+  renderVals(){
+    const st=this.state, db=this.localizedDb(), dbAlt=this.altDb();
+    const site=(db&&db.site)||{};
+    const footer=site.footer||{};
+    const pageOf=this.pageOf;
+
+    const UI={
+      ja:{ concept:'コンセプト', topics:'研究トピック', browse:'研究一覧', members:'メンバー', pi:'研究室主宰', pubs:'論文', news:'ニュース', blog:'ブログ', menu:'メニュー', links:'リンク', back:'戻る', home:'ホーム', nextLabel:'次に見る' },
+      en:{ concept:'Concept', topics:'Research Topics', browse:'All Research', members:'Members', pi:'Principal Investigator', pubs:'Publications', news:'News', blog:'Blog', menu:'Menu', links:'Links', back:'Back', home:'Home', nextLabel:'EXPLORE NEXT' },
+    };
+
+    return {
+      setRoot:(el)=>{this.rootRef=el;},
+      lang:st.lang, t:UI[st.lang]||UI.ja, tJa:UI.ja, tEn:UI.en,
+      visJa: st.lang==='ja'?'visible':'hidden', visEn: st.lang==='en'?'visible':'hidden',
+      dbAlt,
+      jaColor: st.lang==='ja' ? 'var(--ink)' : 'var(--muted)',
+      enColor: st.lang==='en' ? 'var(--ink)' : 'var(--muted)',
+      setJa:()=>this.setLang('ja'), setEn:()=>this.setLang('en'),
+      toggleLang:()=>this.toggleLang(),
+      // 上部のメニューとパンくずの文字の大きさ: パソコンの幅（1280px）でメニューが 1 行に収まる最大の大きさ（16px まで）。英語は項目が長いので 14.5px
+      navFs: st.lang==='en' ? '14.5px' : '16px',
+      toggleMobileMenu:()=>this.setState(s=>({mobileMenuOpen:!s.mobileMenuOpen, mobileTopicsOpen:false})),
+      toggleMobileTopics:()=>this.setState(s=>({mobileTopicsOpen:!s.mobileTopicsOpen})),
+      mobileTopicsOpen:!!st.mobileTopicsOpen, mobileTopicsIcon:st.mobileTopicsOpen?'▲':'▼',
+      mobileMenuOpen:!!st.mobileMenuOpen, mobileMenuIcon:st.mobileMenuOpen?'×':'≡',
+      mobileMenuLabel:st.mobileMenuOpen?(st.lang==='en'?'Close menu':'メニューを閉じる'):(st.lang==='en'?'Open menu':'メニューを開く'),
+      db, ready:!!db, loading:!db,
+      loadingLabel:this.parseHash().lang==='en' ? 'Loading…' : '読み込み中…',
+      org:site.org||'', brandJa:site.brandJa||'', brandEn:site.brandEn||'',
+      utilityLinks:((((this.state.db||{}).site||{}).utilityLinks)||[]).map(l=>{ const lab=(l.label&&typeof l.label==='object')?l.label:{ja:l.label,en:l.label}; const on=st.page===l.page; return { labelJa:lab.ja, labelEn:(lab.en!=null?lab.en:lab.ja), label:(st.lang==='en'&&lab.en!=null)?lab.en:lab.ja, bg:on?'var(--soft)':'transparent', col:on?'var(--accent)':'var(--text)', onClick:()=>this.go({page:l.page}, pageOf[l.page]||'/') }; }),
+      footer, hasFooterLogo:!!footer.logo,
+      footerAffiliation:footer.affiliation||'',
+      // page flags
+      isHome:st.page==='home', isCategory:st.page==='category',
+      isArticle:st.page==='article', isMembers:st.page==='members', isPi:st.page==='pi', isPubs:st.page==='publications',
+      isNewsArticle:st.page==='newsArticle', isNewsList:st.page==='newsList', isCollab:st.page==='collaboration', isJoin:st.page==='join', isAccess:st.page==='access',
+      categoryId:st.categoryId, articleId:st.articleId, newsId:st.newsId, filterTags:st.filterTags,
+      // nav
+      goHome:()=>this.go({page:'home'},'/'),
+      goTopics:()=>this.goSection('topics'), goNews:()=>this.go({page:'newsList'},'/news'),
+      topicsMenuOpen:st.topicsMenuOpen,
+      openTopicsMenu:()=>this.setState({topicsMenuOpen:true}),
+      closeTopicsMenu:()=>this.setState({topicsMenuOpen:false}),
+      topicsMenuFOpen:st.topicsMenuFOpen,
+      topicsRowVis:st.topicsMenuFOpen?'visible':'hidden',
+      openTopicsMenuF:()=>this.setState({topicsMenuFOpen:true}),
+      closeTopicsMenuF:()=>this.setState({topicsMenuFOpen:false}),
+      // フッターメニュー: 上部ナビと同じ定義から生成（常に連動）
+      footerNav:this.navList(st, UI),
+
+      // スマホのメニュー: フッターと同じ項目（「コンセプト」はどちらにも出さない）
+      mobileNav:this.navList(st, UI),
+      topicMenuItems:((db&&db.topics)||[]).map(t=>({ label:(st.lang==='en'&&t.en)?t.en:t.ja, onClick:()=>{ this.setState({topicsMenuOpen:false}); this.go({page:'category',categoryId:t.id},'/category/'+encodeURIComponent(t.id)); } })),
+      goMembers:()=>this.go({page:'members'},'/members'),
+      goPi:()=>this.go({page:'pi'},'/pi'),
+      goPubs:()=>this.go({page:'publications'},'/publications'),
+      openCategory:(id)=>this.go({page:'category',categoryId:id},'/category/'+encodeURIComponent(id)),
+      openArticle:(id)=>this.go({page:'article',articleId:id},'/article/'+encodeURIComponent(id)),
+      openNews:(id)=>{
+        // Zenn の記事は、サイトの中のページではなく Zenn を新しいタブで開く
+        const ext=(((this.state.db||{}).news)||[]).find(n=>n.id===id&&n.external);
+        if(ext){ window.open(ext.external,'_blank','noopener'); return; }
+        this.go({page:'newsArticle',newsId:id},'/news/'+encodeURIComponent(id));
+      },
+      // ---- 現在地表示・パンくず・回遊導線 ----
+      goBack:()=>{ if(history.length>1) history.back(); else this.go({page:'home'},'/'); },
+      showCrumbs: st.page!=='home' && !!db,
+      // 下部のパンくずは、ニュース記事のページだけに出す（研究紹介・研究トピック・3軸のページでは出さない）
+      showNextNav: st.page==='newsArticle' && !!db,
+      crumbs: db ? this.buildCrumbs(st, db, UI) : [],
+      navTopicsBg:(st.page==='category'||st.page==='article')?'var(--soft)':'transparent',
+      navTopicsCol:(st.page==='category'||st.page==='article')?'var(--accent)':'var(--text)',
+      navMembersBg:st.page==='members'?'var(--soft)':'transparent',
+      navMembersCol:st.page==='members'?'var(--accent)':'var(--text)',
+      navPiBg:st.page==='pi'?'var(--soft)':'transparent',
+      navPiCol:st.page==='pi'?'var(--accent)':'var(--text)',
+      navPubsBg:st.page==='publications'?'var(--soft)':'transparent',
+      navPubsCol:st.page==='publications'?'var(--accent)':'var(--text)',
+    };
+  }
+
+  // パンくずリスト（ホーム > 親 > 現在地）。現在地はリンクにしない。
+  buildCrumbs(st, db, UI){
+    const t=UI[st.lang]||UI.ja;
+    const link=(label,onClick)=>({isLink:true,isCur:false,label,onClick});
+    const cur=label=>({isLink:false,isCur:true,label});
+    const home=link(t.home,()=>this.go({page:'home'},'/'));
+    const tName=id=>{ const tp=((db&&db.topics)||[]).find(x=>x.id===id); if(tp) return (st.lang==='en'&&tp.en)?tp.en:tp.ja;
+      // 3軸（グラフ・AI・HPC）のページは軸の名前を出す
+      const ax=((db&&db.axes)||[]).find(x=>x.id===id); if(ax){ const nm=ax.name; return (nm&&typeof nm==='object')?((st.lang==='en'&&nm.en)?nm.en:nm.ja):(nm||id); }
+      return id||''; };
+    if(st.page==='category'){
+      // 3軸（グラフ・AI・HPC）のページは「コンセプト」の下、研究トピックのページは「研究トピック」の下に置く
+      const isAxis=((db&&db.axes)||[]).some(x=>x.id===st.categoryId);
+      const parent=isAxis?link(t.concept,()=>this.goSection('concept')):link(t.topics,()=>this.goSection('topics'));
+      return [home, parent, cur(tName(st.categoryId))];
+    }
+    if(st.page==='article'){
+      const a=((db&&db.articles)||[]).find(x=>x.id===st.articleId)||{};
+      const tid=(a.topicTags||[])[0];
+      const c=[home, link(t.topics,()=>this.goSection('topics'))];
+      if(tid) c.push(link(tName(tid),()=>this.go({page:'category',categoryId:tid},'/category/'+encodeURIComponent(tid))));
+      c.push(cur(a.title||''));
+      return c;
+    }
+    if(st.page==='newsArticle'){
+      const n=((db&&db.news)||[]).find(x=>x.id===st.newsId)||{};
+      return [home, link(t.news,()=>this.go({page:'newsList'},'/news')), cur(n.title||'')];
+    }
+    if(st.page==='newsList') return [home, cur(t.news)];
+    if(st.page==='members') return [home, cur(t.members)];
+    if(st.page==='pi') return [home, cur(t.pi)];
+    if(st.page==='publications') return [home, cur(t.pubs)];
+    if(st.page==='collaboration'||st.page==='join'||st.page==='access'){
+      const ul=((((this.state.db||{}).site||{}).utilityLinks)||[]).find(l=>l.page===st.page);
+      const lab=ul&&ul.label; const nm=lab?((st.lang==='en'&&lab.en)?lab.en:(lab.ja||lab)):st.page;
+      return [home, cur(nm)];
+    }
+    return [];
+  }
+}
+</script>
+</body>
+</html>

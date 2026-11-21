@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);line-height:1.7">
+  <section style="padding:64px 28px 90px">
+    <!-- 本文の幅 1124px（＝1180px から左右の余白 28px を引いた幅）。上部のメニュー・パンくず・ほかのページの題と左端がそろう（#108） -->
+    <div style="max-width:1124px;margin:0 auto">
+      <h1 style="font-family:'Noto Sans JP',sans-serif;font-weight:700;letter-spacing:.02em;font-size:32px;line-height:1.4;color:var(--ink);margin:0 0 30px">{{ t.title }}</h1>
+
+      <div data-stack style="display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:36px;align-items:start">
+        <iframe src="https://maps.google.com/maps?q=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%96%87%E4%BA%AC%E5%8C%BA%E5%BC%A5%E7%94%9F2-11-16%20%E6%9D%B1%E4%BA%AC%E5%A4%A7%E5%AD%A6%E6%83%85%E5%A0%B1%E5%9F%BA%E7%9B%A4%E3%82%BB%E3%83%B3%E3%82%BF%E3%83%BC&z=16&output=embed" title="Access map" loading="lazy" style="width:100%;height:440px;border:0;border-radius:12px;display:block;background:var(--soft)"></iframe>
+
+        <div style="display:flex;flex-direction:column;gap:28px">
+          <div>
+            <div style="font-family:'Noto Sans JP',sans-serif;letter-spacing:.14em;font-size:12px;color:var(--muted);font-weight:700;margin-bottom:10px">{{ t.addressLabel }}</div>
+            <div style="font-size:16px;color:var(--ink);font-weight:500">
+              <sc-for list="{{ t.addressLines }}" as="l" hint-placeholder-count="3"><span style="display:block">{{ l }}</span></sc-for>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-family:'Noto Sans JP',sans-serif;letter-spacing:.14em;font-size:12px;color:var(--muted);font-weight:700;margin-bottom:12px">{{ t.stationsLabel }}</div>
+            <div style="display:flex;flex-direction:column;border-top:1px solid var(--line)">
+              <sc-for list="{{ stations }}" as="s" hint-placeholder-count="5">
+                <div style="display:flex;align-items:center;gap:12px;padding:12px 2px;border-bottom:1px solid var(--line)">
+                  <span style="flex:none;display:flex;gap:5px;width:57px">
+                    <sc-for list="{{ s.marks }}" as="m" hint-placeholder-count="1">
+                      <span style="width:26px;height:26px;border-radius:999px;border:3px solid {{ m.color }};display:grid;place-items:center;font-size:12px;font-weight:900;color:var(--ink);background:#fff">{{ m.mark }}</span>
+                    </sc-for>
+                  </span>
+                  <span style="display:flex;flex-direction:column;min-width:0">
+                    <span style="font-size:12px;color:var(--muted)">{{ s.line }}</span>
+                    <span style="font-size:16px;font-weight:700;color:var(--ink)">{{ s.station }}</span>
+                  </span>
+                  <span style="margin-left:auto;flex:none;font-size:12px;font-weight:700;color:var(--accent);white-space:nowrap">{{ s.walk }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals(){
+    const lang = this.props.lang || 'ja';
+    const T = {
+      ja: {
+        title: 'アクセス',
+        lead: '研究室は東京大学 浅野キャンパス（弥生）の情報基盤センターにあります。本郷キャンパスに隣接しており、最寄りは東大前駅・根津駅です。',
+        addressLabel: '所在地',
+        addressLines: ['〒113-0032 東京都文京区弥生2丁目11-16', '東京大学 情報基盤センター'],
+        mapLink: 'Google マップで開く',
+        stationsLabel: '最寄り駅からの所要時間',
+      },
+      en: {
+        title: 'Access',
+        lead: 'The lab is located in the Information Technology Center on the Asano (Yayoi) campus of The University of Tokyo, adjacent to the Hongo campus. The nearest stations are Todaimae and Nezu.',
+        addressLabel: 'ADDRESS',
+        addressLines: ['Information Technology Center, The University of Tokyo', '2-11-16 Yayoi, Bunkyo-ku, Tokyo 113-0032, Japan'],
+        mapLink: 'Open in Google Maps',
+        stationsLabel: 'FROM NEAREST STATIONS',
+      },
+    };
+    const C={mark:'C',color:'#009944'}, M={mark:'M',color:'#f62e36'}, E={mark:'E',color:'#b6007a'}, N={mark:'N',color:'#00ac9b'}, I={mark:'I',color:'#0079c2'};
+    const S = {
+      ja: [
+        { marks:[C], line:'東京メトロ千代田線', station:'根津駅', walk:'徒歩約7分' },
+        { marks:[N], line:'東京メトロ南北線', station:'東大前駅', walk:'徒歩約10分' },
+        { marks:[M,E], line:'東京メトロ丸ノ内線・都営大江戸線', station:'本郷三丁目駅', walk:'徒歩約19分' },
+        { marks:[I], line:'都営三田線', station:'春日駅', walk:'徒歩約19分' },
+      ],
+      en: [
+        { marks:[C], line:'Tokyo Metro Chiyoda Line', station:'Nezu Sta.', walk:'approx. 7 min walk' },
+        { marks:[N], line:'Tokyo Metro Namboku Line', station:'Todaimae Sta.', walk:'approx. 10 min walk' },
+        { marks:[M,E], line:'Tokyo Metro Marunouchi Line / Toei Oedo Line', station:'Hongo-sanchome Sta.', walk:'approx. 19 min walk' },
+        { marks:[I], line:'Toei Mita Line', station:'Kasuga Sta.', walk:'approx. 19 min walk' },
+      ],
+    };
+    return { t: T[lang] || T.ja, stations: S[lang] || S.ja };
+  }
+}
+</script>
+</body>
+</html>

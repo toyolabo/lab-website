@@ -1,0 +1,245 @@
+{
+ "source": "https://zenn.dev/p/suzumura_lab",
+ "items": [
+  {
+   "id": "zenn-ba46703313956d",
+   "date": "2026.10",
+   "published": "2026-10-20",
+   "title": "mdx-MaaSのAPIでLLM-jp-4を使う 第5回：LLM‑jp-4.1の利用",
+   "image": "https://res.cloudinary.com/zenn/image/upload/s--EhHVn5Pd--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:mdx-MaaS%25E3%2581%25AEAPI%25E3%2581%25A7LLM-jp-4%25E3%2582%2592%25E4%25BD%25BF%25E3%2581%2586%2520%25E7%25AC%25AC5%25E5%259B%259E%25EF%25BC%259ALLM%25E2%2580%2591jp-4.1%25E3%2581%25AE%25E5%2588%25A9%25E7%2594%25A8%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:Yuta%2520Kanzawa%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLmRldi9pbWFnZXMvZGVmYXVsdC1wdWJsaWNhdGlvbi1hdmF0YXIucG5n%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:%25E6%259D%25B1%25E4%25BA%25AC%25E5%25A4%25A7%25E5%25AD%25A6%2520%25E9%2588%25B4%25E6%259D%2591%25E8%25B1%258A%25E5%25A4%25AA%25E9%2583%258E%25E7%25A0%2594%25E7%25A9%25B6%25E5%25AE%25A4%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jSmdSZmxiZk1xelpMSTNSVjY0cTU1NVFHczMtRi0zbExLNjRtQXJpc2tYdmNTdEFMZz1zOTYtYw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE",
+   "url": "https://zenn.dev/suzumura_lab/articles/ba46703313956d"
+  },
+  {
+   "id": "zenn-b0dd7363d3e4a1",
+   "date": "2026.06",
+   "published": "2026-06-30",
+   "title": "mdx-MaaSのAPIでLLM-jp-4を使う 第4回：AIエージェントの利用",
+   "image": "https://res.cloudinary.com/zenn/image/upload/s--dIVGWx6x--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:mdx-MaaS%25E3%2581%25AEAPI%25E3%2581%25A7LLM-jp-4%25E3%2582%2592%25E4%25BD%25BF%25E3%2581%2586%2520%25E7%25AC%25AC4%25E5%259B%259E%25EF%25BC%259AAI%25E3%2582%25A8%25E3%2583%25BC%25E3%2582%25B8%25E3%2582%25A7%25E3%2583%25B3%25E3%2583%2588%25E3%2581%25AE%25E5%2588%25A9%25E7%2594%25A8%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:Yuta%2520Kanzawa%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLmRldi9pbWFnZXMvZGVmYXVsdC1wdWJsaWNhdGlvbi1hdmF0YXIucG5n%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:%25E6%259D%25B1%25E4%25BA%25AC%25E5%25A4%25A7%25E5%25AD%25A6%2520%25E9%2588%25B4%25E6%259D%2591%25E8%25B1%258A%25E5%25A4%25AA%25E9%2583%258E%25E7%25A0%2594%25E7%25A9%25B6%25E5%25AE%25A4%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jSmdSZmxiZk1xelpMSTNSVjY0cTU1NVFHczMtRi0zbExLNjRtQXJpc2tYdmNTdEFMZz1zOTYtYw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE",
+   "url": "https://zenn.dev/suzumura_lab/articles/b0dd7363d3e4a1"
+  },
+  {
+   "id": "zenn-51f5052b47df22",
+   "date": "2026.06",
+   "published": "2026-06-21",
+   "title": "mdx-MaaSのAPIでLLM-jp-4を使う 第3回：AIエージェントの設定",
+   "image": "https://res.cloudinary.com/zenn/image/upload/s--D4vTV-_6--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:mdx-MaaS%25E3%2581%25AEAPI%25E3%2581%25A7LLM-jp-4%25E3%2582%2592%25E4%25BD%25BF%25E3%2581%2586%2520%25E7%25AC%25AC3%25E5%259B%259E%25EF%25BC%259AAI%25E3%2582%25A8%25E3%2583%25BC%25E3%2582%25B8%25E3%2582%25A7%25E3%2583%25B3%25E3%2583%2588%25E3%2581%25AE%25E8%25A8%25AD%25E5%25AE%259A%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:Yuta%2520Kanzawa%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLmRldi9pbWFnZXMvZGVmYXVsdC1wdWJsaWNhdGlvbi1hdmF0YXIucG5n%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:%25E6%259D%25B1%25E4%25BA%25AC%25E5%25A4%25A7%25E5%25AD%25A6%2520%25E9%2588%25B4%25E6%259D%2591%25E8%25B1%258A%25E5%25A4%25AA%25E9%2583%258E%25E7%25A0%2594%25E7%25A9%25B6%25E5%25AE%25A4%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jSmdSZmxiZk1xelpMSTNSVjY0cTU1NVFHczMtRi0zbExLNjRtQXJpc2tYdmNTdEFMZz1zOTYtYw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE",
+   "url": "https://zenn.dev/suzumura_lab/articles/51f5052b47df22"
+  },
+  {
+   "id": "zenn-535473662dd6d4",
+   "date": "2026.05",
+   "published": "2026-05-26",
+   "title": "mdx-MaaSのAPIでLLM-jp-4を使う 第2回：文章の要約と情報の抽出",
+   "image": "https://res.cloudinary.com/zenn/image/upload/s--JhHfHIa0--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:mdx-MaaS%25E3%2581%25AEAPI%25E3%2581%25A7LLM-jp-4%25E3%2582%2592%25E4%25BD%25BF%25E3%2581%2586%2520%25E7%25AC%25AC2%25E5%259B%259E%25EF%25BC%259A%25E6%2596%2587%25E7%25AB%25A0%25E3%2581%25AE%25E8%25A6%2581%25E7%25B4%2584%25E3%2581%25A8%25E6%2583%2585%25E5%25A0%25B1%25E3%2581%25AE%25E6%258A%25BD%25E5%2587%25BA%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:Yuta%2520Kanzawa%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLmRldi9pbWFnZXMvZGVmYXVsdC1wdWJsaWNhdGlvbi1hdmF0YXIucG5n%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:%25E6%259D%25B1%25E4%25BA%25AC%25E5%25A4%25A7%25E5%25AD%25A6%2520%25E9%2588%25B4%25E6%259D%2591%25E8%25B1%258A%25E5%25A4%25AA%25E9%2583%258E%25E7%25A0%2594%25E7%25A9%25B6%25E5%25AE%25A4%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jSmdSZmxiZk1xelpMSTNSVjY0cTU1NVFHczMtRi0zbExLNjRtQXJpc2tYdmNTdEFMZz1zOTYtYw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE",
+   "url": "https://zenn.dev/suzumura_lab/articles/535473662dd6d4"
+  },
+  {
+   "id": "zenn-50b62687aa9205",
+   "date": "2026.05",
+   "published": "2026-05-18",
+   "title": "mdx-MaaSのAPIでLLM-jp-4を使う 第1回：APIの呼び出しと回答の取り出し",
+   "image": "https://res.cloudinary.com/zenn/image/upload/s--eTu7jEb7--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:mdx-MaaS%25E3%2581%25AEAPI%25E3%2581%25A7LLM-jp-4%25E3%2582%2592%25E4%25BD%25BF%25E3%2581%2586%2520%25E7%25AC%25AC1%25E5%259B%259E%25EF%25BC%259AAPI%25E3%2581%25AE%25E5%2591%25BC%25E3%2581%25B3%25E5%2587%25BA%25E3%2581%2597%25E3%2581%25A8%25E5%259B%259E%25E7%25AD%2594%25E3%2581%25AE%25E5%258F%2596%25E3%2582%258A%25E5%2587%25BA%25E3%2581%2597%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:Yuta%2520Kanzawa%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLmRldi9pbWFnZXMvZGVmYXVsdC1wdWJsaWNhdGlvbi1hdmF0YXIucG5n%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:%25E6%259D%25B1%25E4%25BA%25AC%25E5%25A4%25A7%25E5%25AD%25A6%2520%25E9%2588%25B4%25E6%259D%2591%25E8%25B1%258A%25E5%25A4%25AA%25E9%2583%258E%25E7%25A0%2594%25E7%25A9%25B6%25E5%25AE%25A4%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jSmdSZmxiZk1xelpMSTNSVjY0cTU1NVFHczMtRi0zbExLNjRtQXJpc2tYdmNTdEFMZz1zOTYtYw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE",
+   "url": "https://zenn.dev/suzumura_lab/articles/50b62687aa9205"
+  },
+  {
+   "id": "zenn-d56a1805bd7efd",
+   "date": "2026.05",
+   "published": "2026-05-05",
+   "title": "mdx-MaaSのAPIでLLM-jp-4を使う 第0回：準備",
+   "image": "https://res.cloudinary.com/zenn/image/upload/s--6EKZHM8R--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:mdx-MaaS%25E3%2581%25AEAPI%25E3%2581%25A7LLM-jp-4%25E3%2582%2592%25E4%25BD%25BF%25E3%2581%2586%2520%25E7%25AC%25AC0%25E5%259B%259E%25EF%25BC%259A%25E6%25BA%2596%25E5%2582%2599%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:Yuta%2520Kanzawa%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLmRldi9pbWFnZXMvZGVmYXVsdC1wdWJsaWNhdGlvbi1hdmF0YXIucG5n%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:%25E6%259D%25B1%25E4%25BA%25AC%25E5%25A4%25A7%25E5%25AD%25A6%2520%25E9%2588%25B4%25E6%259D%2591%25E8%25B1%258A%25E5%25A4%25AA%25E9%2583%258E%25E7%25A0%2594%25E7%25A9%25B6%25E5%25AE%25A4%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jSmdSZmxiZk1xelpMSTNSVjY0cTU1NVFHczMtRi0zbExLNjRtQXJpc2tYdmNTdEFMZz1zOTYtYw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE",
+   "url": "https://zenn.dev/suzumura_lab/articles/d56a1805bd7efd"
+  },
+  {
+   "id": "zenn-0a1bdb04ec87ca",
+   "date": "2026.05",
+   "published": "2026-05-03",
+   "title": "LLM-jp-4 32B Thinking を本家学習コーパスでキャリブレーションして量子化したGGUFを公開しました",
+   "image": "https://res.cloudinary.com/zenn/image/upload/s--JydPM-kM--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:LLM-jp-4%252032B%2520Thinking%2520%25E3%2582%2592%25E6%259C%25AC%25E5%25AE%25B6%25E5%25AD%25A6%25E7%25BF%2592%25E3%2582%25B3%25E3%2583%25BC%25E3%2583%2591%25E3%2582%25B9%25E3%2581%25A7%25E3%2582%25AD%25E3%2583%25A3%25E3%2583%25AA%25E3%2583%2596%25E3%2583%25AC%25E3%2583%25BC%25E3%2582%25B7%25E3%2583%25A7%25E3%2583%25B3%25E3%2581%2597%25E3%2581%25A6%25E9%2587%258F%25E5%25AD%2590%25E5%258C%2596%25E3%2581%2597%25E3%2581%259FGGUF%25E3%2582%2592%25E5%2585%25AC%25E9%2596%258B%25E3%2581%2597%25E3%2581%25BE%25E3%2581%2597%25E3%2581%259F%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:Atsushi%2520Fukuda%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLmRldi9pbWFnZXMvZGVmYXVsdC1wdWJsaWNhdGlvbi1hdmF0YXIucG5n%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:%25E6%259D%25B1%25E4%25BA%25AC%25E5%25A4%25A7%25E5%25AD%25A6%2520%25E9%2588%25B4%25E6%259D%2591%25E8%25B1%258A%25E5%25A4%25AA%25E9%2583%258E%25E7%25A0%2594%25E7%25A9%25B6%25E5%25AE%25A4%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jTGVWOG5RV2tTMDBKMmlxVktSWkdfMnl0US1xNllMQ2daZHEtUks0UnZNdXMxXz1zOTYtYw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE",
+   "url": "https://zenn.dev/suzumura_lab/articles/0a1bdb04ec87ca"
+  },
+  {
+   "id": "zenn-8187e5163180c2",
+   "date": "2026.01",
+   "published": "2026-01-15",
+   "title": "リバースプロキシによる学認SAML認証の構築",
+   "image": "https://res.cloudinary.com/zenn/image/upload/s--37Sj9PNa--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:%25E3%2583%25AA%25E3%2583%2590%25E3%2583%25BC%25E3%2582%25B9%25E3%2583%2597%25E3%2583%25AD%25E3%2582%25AD%25E3%2582%25B7%25E3%2581%25AB%25E3%2582%2588%25E3%2582%258B%25E5%25AD%25A6%25E8%25AA%258DSAML%25E8%25AA%258D%25E8%25A8%25BC%25E3%2581%25AE%25E6%25A7%258B%25E7%25AF%2589%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:Yuta%2520Kanzawa%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLmRldi9pbWFnZXMvZGVmYXVsdC1wdWJsaWNhdGlvbi1hdmF0YXIucG5n%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:%25E6%259D%25B1%25E4%25BA%25AC%25E5%25A4%25A7%25E5%25AD%25A6%2520%25E9%2588%25B4%25E6%259D%2591%25E8%25B1%258A%25E5%25A4%25AA%25E9%2583%258E%25E7%25A0%2594%25E7%25A9%25B6%25E5%25AE%25A4%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jSmdSZmxiZk1xelpMSTNSVjY0cTU1NVFHczMtRi0zbExLNjRtQXJpc2tYdmNTdEFMZz1zOTYtYw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE",
+   "url": "https://zenn.dev/suzumura_lab/articles/8187e5163180c2"
+  },
+  {
+   "id": "zenn-500818b5741e06",
+   "date": "2025.09",
+   "published": "2025-09-23",
+   "title": "Kubernetesクラスタに新しくnodeを参加させる方法",
+   "image": "https://res.cloudinary.com/zenn/image/upload/s--aOnTDVG1--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:Kubernetes%25E3%2582%25AF%25E3%2583%25A9%25E3%2582%25B9%25E3%2582%25BF%25E3%2581%25AB%25E6%2596%25B0%25E3%2581%2597%25E3%2581%258Fnode%25E3%2582%2592%25E5%258F%2582%25E5%258A%25A0%25E3%2581%2595%25E3%2581%259B%25E3%2582%258B%25E6%2596%25B9%25E6%25B3%2595%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:Atsushi%2520Fukuda%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLmRldi9pbWFnZXMvZGVmYXVsdC1wdWJsaWNhdGlvbi1hdmF0YXIucG5n%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:%25E6%259D%25B1%25E4%25BA%25AC%25E5%25A4%25A7%25E5%25AD%25A6%2520%25E9%2588%25B4%25E6%259D%2591%25E8%25B1%258A%25E5%25A4%25AA%25E9%2583%258E%25E7%25A0%2594%25E7%25A9%25B6%25E5%25AE%25A4%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jTGVWOG5RV2tTMDBKMmlxVktSWkdfMnl0US1xNllMQ2daZHEtUks0UnZNdXMxXz1zOTYtYw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE",
+   "url": "https://zenn.dev/suzumura_lab/articles/500818b5741e06"
+  },
+  {
+   "id": "zenn-f4175b656927af",
+   "date": "2025.09",
+   "published": "2025-09-20",
+   "title": "vllm-openai dockerを使って、GPU nodeにLLM Webサービスを構築する",
+   "image": "https://res.cloudinary.com/zenn/image/upload/s--4-2huO8c--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:vllm-openai%2520docker%25E3%2582%2592%25E4%25BD%25BF%25E3%2581%25A3%25E3%2581%25A6%25E3%2580%2581GPU%2520node%25E3%2581%25ABLLM%2520Web%25E3%2582%25B5%25E3%2583%25BC%25E3%2583%2593%25E3%2582%25B9%25E3%2582%2592%25E6%25A7%258B%25E7%25AF%2589%25E3%2581%2599%25E3%2582%258B%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:Atsushi%2520Fukuda%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLmRldi9pbWFnZXMvZGVmYXVsdC1wdWJsaWNhdGlvbi1hdmF0YXIucG5n%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:%25E6%259D%25B1%25E4%25BA%25AC%25E5%25A4%25A7%25E5%25AD%25A6%2520%25E9%2588%25B4%25E6%259D%2591%25E8%25B1%258A%25E5%25A4%25AA%25E9%2583%258E%25E7%25A0%2594%25E7%25A9%25B6%25E5%25AE%25A4%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jTGVWOG5RV2tTMDBKMmlxVktSWkdfMnl0US1xNllMQ2daZHEtUks0UnZNdXMxXz1zOTYtYw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE",
+   "url": "https://zenn.dev/suzumura_lab/articles/f4175b656927af"
+  },
+  {
+   "id": "zenn-5cdb324a4be52a",
+   "date": "2025.09",
+   "published": "2025-09-14",
+   "title": "Kubernetes nodeの電源を落とすとどうなるのか？の実験",
+   "image": "https://res.cloudinary.com/zenn/image/upload/s--RYowzj1p--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:Kubernetes%2520node%25E3%2581%25AE%25E9%259B%25BB%25E6%25BA%2590%25E3%2582%2592%25E8%2590%25BD%25E3%2581%25A8%25E3%2581%2599%25E3%2581%25A8%25E3%2581%25A9%25E3%2581%2586%25E3%2581%25AA%25E3%2582%258B%25E3%2581%25AE%25E3%2581%258B%25EF%25BC%259F%25E3%2581%25AE%25E5%25AE%259F%25E9%25A8%2593%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:Atsushi%2520Fukuda%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLmRldi9pbWFnZXMvZGVmYXVsdC1wdWJsaWNhdGlvbi1hdmF0YXIucG5n%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:%25E6%259D%25B1%25E4%25BA%25AC%25E5%25A4%25A7%25E5%25AD%25A6%2520%25E9%2588%25B4%25E6%259D%2591%25E8%25B1%258A%25E5%25A4%25AA%25E9%2583%258E%25E7%25A0%2594%25E7%25A9%25B6%25E5%25AE%25A4%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jTGVWOG5RV2tTMDBKMmlxVktSWkdfMnl0US1xNllMQ2daZHEtUks0UnZNdXMxXz1zOTYtYw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE",
+   "url": "https://zenn.dev/suzumura_lab/articles/5cdb324a4be52a"
+  },
+  {
+   "id": "zenn-a75f2ffb13938a",
+   "date": "2025.09",
+   "published": "2025-09-07",
+   "title": "クラウド基盤mdxのREST APIの使い方",
+   "image": "https://res.cloudinary.com/zenn/image/upload/s--V_s4h78W--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:%25E3%2582%25AF%25E3%2583%25A9%25E3%2582%25A6%25E3%2583%2589%25E5%259F%25BA%25E7%259B%25A4mdx%25E3%2581%25AEREST%2520API%25E3%2581%25AE%25E4%25BD%25BF%25E3%2581%2584%25E6%2596%25B9%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:Atsushi%2520Fukuda%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLmRldi9pbWFnZXMvZGVmYXVsdC1wdWJsaWNhdGlvbi1hdmF0YXIucG5n%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:%25E6%259D%25B1%25E4%25BA%25AC%25E5%25A4%25A7%25E5%25AD%25A6%2520%25E9%2588%25B4%25E6%259D%2591%25E8%25B1%258A%25E5%25A4%25AA%25E9%2583%258E%25E7%25A0%2594%25E7%25A9%25B6%25E5%25AE%25A4%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jTGVWOG5RV2tTMDBKMmlxVktSWkdfMnl0US1xNllMQ2daZHEtUks0UnZNdXMxXz1zOTYtYw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE",
+   "url": "https://zenn.dev/suzumura_lab/articles/a75f2ffb13938a"
+  },
+  {
+   "id": "zenn-1121e4b309e355",
+   "date": "2025.08",
+   "published": "2025-08-31",
+   "title": "Grafanaを使ったKubernetesのパフォーマンス可視化",
+   "image": "https://res.cloudinary.com/zenn/image/upload/s--ZktGtGxk--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:Grafana%25E3%2582%2592%25E4%25BD%25BF%25E3%2581%25A3%25E3%2581%259FKubernetes%25E3%2581%25AE%25E3%2583%2591%25E3%2583%2595%25E3%2582%25A9%25E3%2583%25BC%25E3%2583%259E%25E3%2583%25B3%25E3%2582%25B9%25E5%258F%25AF%25E8%25A6%2596%25E5%258C%2596%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:Atsushi%2520Fukuda%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLmRldi9pbWFnZXMvZGVmYXVsdC1wdWJsaWNhdGlvbi1hdmF0YXIucG5n%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:%25E6%259D%25B1%25E4%25BA%25AC%25E5%25A4%25A7%25E5%25AD%25A6%2520%25E9%2588%25B4%25E6%259D%2591%25E8%25B1%258A%25E5%25A4%25AA%25E9%2583%258E%25E7%25A0%2594%25E7%25A9%25B6%25E5%25AE%25A4%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jTGVWOG5RV2tTMDBKMmlxVktSWkdfMnl0US1xNllMQ2daZHEtUks0UnZNdXMxXz1zOTYtYw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE",
+   "url": "https://zenn.dev/suzumura_lab/articles/1121e4b309e355"
+  },
+  {
+   "id": "zenn-d2a7a5f051c826",
+   "date": "2025.05",
+   "published": "2025-05-28",
+   "title": "CPU環境でスケーラブルなLLM Webサービスをデプロイする方法",
+   "image": "https://res.cloudinary.com/zenn/image/upload/s--A4DPWFhn--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:CPU%25E7%2592%25B0%25E5%25A2%2583%25E3%2581%25A7%25E3%2582%25B9%25E3%2582%25B1%25E3%2583%25BC%25E3%2583%25A9%25E3%2583%2596%25E3%2583%25AB%25E3%2581%25AALLM%2520Web%25E3%2582%25B5%25E3%2583%25BC%25E3%2583%2593%25E3%2582%25B9%25E3%2582%2592%25E3%2583%2587%25E3%2583%2597%25E3%2583%25AD%25E3%2582%25A4%25E3%2581%2599%25E3%2582%258B%25E6%2596%25B9%25E6%25B3%2595%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:Atsushi%2520Fukuda%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLmRldi9pbWFnZXMvZGVmYXVsdC1wdWJsaWNhdGlvbi1hdmF0YXIucG5n%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:%25E6%259D%25B1%25E4%25BA%25AC%25E5%25A4%25A7%25E5%25AD%25A6%2520%25E9%2588%25B4%25E6%259D%2591%25E8%25B1%258A%25E5%25A4%25AA%25E9%2583%258E%25E7%25A0%2594%25E7%25A9%25B6%25E5%25AE%25A4%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jTGVWOG5RV2tTMDBKMmlxVktSWkdfMnl0US1xNllMQ2daZHEtUks0UnZNdXMxXz1zOTYtYw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE",
+   "url": "https://zenn.dev/suzumura_lab/articles/d2a7a5f051c826"
+  },
+  {
+   "id": "zenn-759d04a52add32",
+   "date": "2025.05",
+   "published": "2025-05-24",
+   "title": "Multi-Instance GPU(MIG)を使ったKubernetesでの推論",
+   "image": "https://res.cloudinary.com/zenn/image/upload/s--fBL2Er1R--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:Multi-Instance%2520GPU%2528MIG%2529%25E3%2582%2592%25E4%25BD%25BF%25E3%2581%25A3%25E3%2581%259FKubernetes%25E3%2581%25A7%25E3%2581%25AE%25E6%258E%25A8%25E8%25AB%2596%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:Atsushi%2520Fukuda%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLmRldi9pbWFnZXMvZGVmYXVsdC1wdWJsaWNhdGlvbi1hdmF0YXIucG5n%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:%25E6%259D%25B1%25E4%25BA%25AC%25E5%25A4%25A7%25E5%25AD%25A6%2520%25E9%2588%25B4%25E6%259D%2591%25E8%25B1%258A%25E5%25A4%25AA%25E9%2583%258E%25E7%25A0%2594%25E7%25A9%25B6%25E5%25AE%25A4%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jTGVWOG5RV2tTMDBKMmlxVktSWkdfMnl0US1xNllMQ2daZHEtUks0UnZNdXMxXz1zOTYtYw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE",
+   "url": "https://zenn.dev/suzumura_lab/articles/759d04a52add32"
+  },
+  {
+   "id": "zenn-01ed80c35c5d61",
+   "date": "2025.05",
+   "published": "2025-05-12",
+   "title": "脳波EEG基盤モデルのグラフ拡張に関する研究",
+   "image": "https://res.cloudinary.com/zenn/image/upload/s--Aga8PTKM--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:%25E8%2584%25B3%25E6%25B3%25A2EEG%25E5%259F%25BA%25E7%259B%25A4%25E3%2583%25A2%25E3%2583%2587%25E3%2583%25AB%25E3%2581%25AE%25E3%2582%25B0%25E3%2583%25A9%25E3%2583%2595%25E6%258B%25A1%25E5%25BC%25B5%25E3%2581%25AB%25E9%2596%25A2%25E3%2581%2599%25E3%2582%258B%25E7%25A0%2594%25E7%25A9%25B6%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:Limin%2520Wang%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLmRldi9pbWFnZXMvZGVmYXVsdC1wdWJsaWNhdGlvbi1hdmF0YXIucG5n%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:%25E6%259D%25B1%25E4%25BA%25AC%25E5%25A4%25A7%25E5%25AD%25A6%2520%25E9%2588%25B4%25E6%259D%2591%25E8%25B1%258A%25E5%25A4%25AA%25E9%2583%258E%25E7%25A0%2594%25E7%25A9%25B6%25E5%25AE%25A4%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly96ZW5uLWRldi5naXRodWIuaW8vZGVmYXVsdC1hdmF0YXJzL2RhcmsvbC5wbmc=%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE",
+   "url": "https://zenn.dev/suzumura_lab/articles/01ed80c35c5d61"
+  },
+  {
+   "id": "zenn-c0330aba3e1888",
+   "date": "2025.04",
+   "published": "2025-04-01",
+   "title": "AI（人工知能）を用いた気象・気候変動予測に関する記事一覧",
+   "image": "https://res.cloudinary.com/zenn/image/upload/s--LBeNeyH9--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:AI%25EF%25BC%2588%25E4%25BA%25BA%25E5%25B7%25A5%25E7%259F%25A5%25E8%2583%25BD%25EF%25BC%2589%25E3%2582%2592%25E7%2594%25A8%25E3%2581%2584%25E3%2581%259F%25E6%25B0%2597%25E8%25B1%25A1%25E3%2583%25BB%25E6%25B0%2597%25E5%2580%2599%25E5%25A4%2589%25E5%258B%2595%25E4%25BA%2588%25E6%25B8%25AC%25E3%2581%25AB%25E9%2596%25A2%25E3%2581%2599%25E3%2582%258B%25E8%25A8%2598%25E4%25BA%258B%25E4%25B8%2580%25E8%25A6%25A7%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:Masaya%2520Yamamoto%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLmRldi9pbWFnZXMvZGVmYXVsdC1wdWJsaWNhdGlvbi1hdmF0YXIucG5n%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:%25E6%259D%25B1%25E4%25BA%25AC%25E5%25A4%25A7%25E5%25AD%25A6%2520%25E9%2588%25B4%25E6%259D%2591%25E8%25B1%258A%25E5%25A4%25AA%25E9%2583%258E%25E7%25A0%2594%25E7%25A9%25B6%25E5%25AE%25A4%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9zdGF0aWMuemVubi5zdHVkaW8vdXNlci11cGxvYWQvYXZhdGFyLzgxOTg2ZDc2ZmUuanBlZw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE",
+   "url": "https://zenn.dev/suzumura_lab/articles/c0330aba3e1888"
+  },
+  {
+   "id": "zenn-5e678fd8a75e0f",
+   "date": "2025.04",
+   "published": "2025-04-01",
+   "title": "第４回 日本の気象予測 X ClimaX",
+   "image": "https://res.cloudinary.com/zenn/image/upload/s--N0Y5GGZv--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:%25E7%25AC%25AC%25EF%25BC%2594%25E5%259B%259E%25E3%2580%2580%25E6%2597%25A5%25E6%259C%25AC%25E3%2581%25AE%25E6%25B0%2597%25E8%25B1%25A1%25E4%25BA%2588%25E6%25B8%25AC%2520X%2520ClimaX%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:Masaya%2520Yamamoto%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLmRldi9pbWFnZXMvZGVmYXVsdC1wdWJsaWNhdGlvbi1hdmF0YXIucG5n%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:%25E6%259D%25B1%25E4%25BA%25AC%25E5%25A4%25A7%25E5%25AD%25A6%2520%25E9%2588%25B4%25E6%259D%2591%25E8%25B1%258A%25E5%25A4%25AA%25E9%2583%258E%25E7%25A0%2594%25E7%25A9%25B6%25E5%25AE%25A4%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9zdGF0aWMuemVubi5zdHVkaW8vdXNlci11cGxvYWQvYXZhdGFyLzgxOTg2ZDc2ZmUuanBlZw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE",
+   "url": "https://zenn.dev/suzumura_lab/articles/5e678fd8a75e0f"
+  },
+  {
+   "id": "zenn-c9ba2c1b2d718b",
+   "date": "2025.04",
+   "published": "2025-04-01",
+   "title": "第３回 AI気象基盤モデルClimaXモデルの使用方法",
+   "image": "https://res.cloudinary.com/zenn/image/upload/s--61baEB2l--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:%25E7%25AC%25AC%25EF%25BC%2593%25E5%259B%259E%25E3%2580%2580AI%25E6%25B0%2597%25E8%25B1%25A1%25E5%259F%25BA%25E7%259B%25A4%25E3%2583%25A2%25E3%2583%2587%25E3%2583%25ABClimaX%25E3%2583%25A2%25E3%2583%2587%25E3%2583%25AB%25E3%2581%25AE%25E4%25BD%25BF%25E7%2594%25A8%25E6%2596%25B9%25E6%25B3%2595%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:Masaya%2520Yamamoto%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLmRldi9pbWFnZXMvZGVmYXVsdC1wdWJsaWNhdGlvbi1hdmF0YXIucG5n%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:%25E6%259D%25B1%25E4%25BA%25AC%25E5%25A4%25A7%25E5%25AD%25A6%2520%25E9%2588%25B4%25E6%259D%2591%25E8%25B1%258A%25E5%25A4%25AA%25E9%2583%258E%25E7%25A0%2594%25E7%25A9%25B6%25E5%25AE%25A4%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9zdGF0aWMuemVubi5zdHVkaW8vdXNlci11cGxvYWQvYXZhdGFyLzgxOTg2ZDc2ZmUuanBlZw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE",
+   "url": "https://zenn.dev/suzumura_lab/articles/c9ba2c1b2d718b"
+  },
+  {
+   "id": "zenn-e65a64c9eee59e",
+   "date": "2025.04",
+   "published": "2025-04-01",
+   "title": "第２回 AI気象基盤モデルClimaXモデルについて",
+   "image": "https://res.cloudinary.com/zenn/image/upload/s--Oj1Ayv16--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:%25E7%25AC%25AC%25EF%25BC%2592%25E5%259B%259E%25E3%2580%2580AI%25E6%25B0%2597%25E8%25B1%25A1%25E5%259F%25BA%25E7%259B%25A4%25E3%2583%25A2%25E3%2583%2587%25E3%2583%25ABClimaX%25E3%2583%25A2%25E3%2583%2587%25E3%2583%25AB%25E3%2581%25AB%25E3%2581%25A4%25E3%2581%2584%25E3%2581%25A6%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:Masaya%2520Yamamoto%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLmRldi9pbWFnZXMvZGVmYXVsdC1wdWJsaWNhdGlvbi1hdmF0YXIucG5n%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:%25E6%259D%25B1%25E4%25BA%25AC%25E5%25A4%25A7%25E5%25AD%25A6%2520%25E9%2588%25B4%25E6%259D%2591%25E8%25B1%258A%25E5%25A4%25AA%25E9%2583%258E%25E7%25A0%2594%25E7%25A9%25B6%25E5%25AE%25A4%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9zdGF0aWMuemVubi5zdHVkaW8vdXNlci11cGxvYWQvYXZhdGFyLzgxOTg2ZDc2ZmUuanBlZw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE",
+   "url": "https://zenn.dev/suzumura_lab/articles/e65a64c9eee59e"
+  },
+  {
+   "id": "zenn-96b641b590e09d",
+   "date": "2025.04",
+   "published": "2025-04-01",
+   "title": "第１回 気象・気候変動予測について",
+   "image": "https://res.cloudinary.com/zenn/image/upload/s--ZXcoQNvZ--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:%25E7%25AC%25AC%25EF%25BC%2591%25E5%259B%259E%25E3%2580%2580%25E6%25B0%2597%25E8%25B1%25A1%25E3%2583%25BB%25E6%25B0%2597%25E5%2580%2599%25E5%25A4%2589%25E5%258B%2595%25E4%25BA%2588%25E6%25B8%25AC%25E3%2581%25AB%25E3%2581%25A4%25E3%2581%2584%25E3%2581%25A6%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:Masaya%2520Yamamoto%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLmRldi9pbWFnZXMvZGVmYXVsdC1wdWJsaWNhdGlvbi1hdmF0YXIucG5n%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:%25E6%259D%25B1%25E4%25BA%25AC%25E5%25A4%25A7%25E5%25AD%25A6%2520%25E9%2588%25B4%25E6%259D%2591%25E8%25B1%258A%25E5%25A4%25AA%25E9%2583%258E%25E7%25A0%2594%25E7%25A9%25B6%25E5%25AE%25A4%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9zdGF0aWMuemVubi5zdHVkaW8vdXNlci11cGxvYWQvYXZhdGFyLzgxOTg2ZDc2ZmUuanBlZw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE",
+   "url": "https://zenn.dev/suzumura_lab/articles/96b641b590e09d"
+  },
+  {
+   "id": "zenn-f5e3f66729fed1",
+   "date": "2025.03",
+   "published": "2025-03-25",
+   "title": "kindでローカル環境にKubernetesを立ち上げ、MetalLBとKnativeの開発環境を構築する",
+   "image": "https://res.cloudinary.com/zenn/image/upload/s--IG6yCBvI--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:kind%25E3%2581%25A7%25E3%2583%25AD%25E3%2583%25BC%25E3%2582%25AB%25E3%2583%25AB%25E7%2592%25B0%25E5%25A2%2583%25E3%2581%25ABKubernetes%25E3%2582%2592%25E7%25AB%258B%25E3%2581%25A1%25E4%25B8%258A%25E3%2581%2592%25E3%2580%2581MetalLB%25E3%2581%25A8Knative%25E3%2581%25AE%25E9%2596%258B%25E7%2599%25BA%25E7%2592%25B0%25E5%25A2%2583%25E3%2582%2592%25E6%25A7%258B%25E7%25AF%2589%25E3%2581%2599%25E3%2582%258B%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:Atsushi%2520Fukuda%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLmRldi9pbWFnZXMvZGVmYXVsdC1wdWJsaWNhdGlvbi1hdmF0YXIucG5n%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:%25E6%259D%25B1%25E4%25BA%25AC%25E5%25A4%25A7%25E5%25AD%25A6%2520%25E9%2588%25B4%25E6%259D%2591%25E8%25B1%258A%25E5%25A4%25AA%25E9%2583%258E%25E7%25A0%2594%25E7%25A9%25B6%25E5%25AE%25A4%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jTGVWOG5RV2tTMDBKMmlxVktSWkdfMnl0US1xNllMQ2daZHEtUks0UnZNdXMxXz1zOTYtYw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE",
+   "url": "https://zenn.dev/suzumura_lab/articles/f5e3f66729fed1"
+  },
+  {
+   "id": "zenn-b00b706f71ab48",
+   "date": "2025.03",
+   "published": "2025-03-25",
+   "title": "第6回 クラウド基盤mdx + Kubernetesでホスト側のディレクトリをマウントする方法",
+   "image": "https://res.cloudinary.com/zenn/image/upload/s--eqVMx30Q--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:%25E7%25AC%25AC6%25E5%259B%259E%2520%25E3%2582%25AF%25E3%2583%25A9%25E3%2582%25A6%25E3%2583%2589%25E5%259F%25BA%25E7%259B%25A4mdx%2520%252B%2520Kubernetes%25E3%2581%25A7%25E3%2583%259B%25E3%2582%25B9%25E3%2583%2588%25E5%2581%25B4%25E3%2581%25AE%25E3%2583%2587%25E3%2582%25A3%25E3%2583%25AC%25E3%2582%25AF%25E3%2583%2588%25E3%2583%25AA%25E3%2582%2592%25E3%2583%259E%25E3%2582%25A6%25E3%2583%25B3%25E3%2583%2588%25E3%2581%2599%25E3%2582%258B%25E6%2596%25B9%25E6%25B3%2595%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:Atsushi%2520Fukuda%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLmRldi9pbWFnZXMvZGVmYXVsdC1wdWJsaWNhdGlvbi1hdmF0YXIucG5n%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:%25E6%259D%25B1%25E4%25BA%25AC%25E5%25A4%25A7%25E5%25AD%25A6%2520%25E9%2588%25B4%25E6%259D%2591%25E8%25B1%258A%25E5%25A4%25AA%25E9%2583%258E%25E7%25A0%2594%25E7%25A9%25B6%25E5%25AE%25A4%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jTGVWOG5RV2tTMDBKMmlxVktSWkdfMnl0US1xNllMQ2daZHEtUks0UnZNdXMxXz1zOTYtYw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE",
+   "url": "https://zenn.dev/suzumura_lab/articles/b00b706f71ab48"
+  },
+  {
+   "id": "zenn-89bf0a6c48f389",
+   "date": "2025.03",
+   "published": "2025-03-24",
+   "title": "クラウド基盤mdxに構築したKubernetesクラスタ上で簡単に分散学習を行う",
+   "image": "https://res.cloudinary.com/zenn/image/upload/s--A_gqR3W6--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:%25E3%2582%25AF%25E3%2583%25A9%25E3%2582%25A6%25E3%2583%2589%25E5%259F%25BA%25E7%259B%25A4mdx%25E3%2581%25AB%25E6%25A7%258B%25E7%25AF%2589%25E3%2581%2597%25E3%2581%259FKubernetes%25E3%2582%25AF%25E3%2583%25A9%25E3%2582%25B9%25E3%2582%25BF%25E4%25B8%258A%25E3%2581%25A7%25E7%25B0%25A1%25E5%258D%2598%25E3%2581%25AB%25E5%2588%2586%25E6%2595%25A3%25E5%25AD%25A6%25E7%25BF%2592%25E3%2582%2592%25E8%25A1%258C%25E3%2581%2586%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:Atsushi%2520Fukuda%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLmRldi9pbWFnZXMvZGVmYXVsdC1wdWJsaWNhdGlvbi1hdmF0YXIucG5n%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:%25E6%259D%25B1%25E4%25BA%25AC%25E5%25A4%25A7%25E5%25AD%25A6%2520%25E9%2588%25B4%25E6%259D%2591%25E8%25B1%258A%25E5%25A4%25AA%25E9%2583%258E%25E7%25A0%2594%25E7%25A9%25B6%25E5%25AE%25A4%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jTGVWOG5RV2tTMDBKMmlxVktSWkdfMnl0US1xNllMQ2daZHEtUks0UnZNdXMxXz1zOTYtYw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE",
+   "url": "https://zenn.dev/suzumura_lab/articles/89bf0a6c48f389"
+  },
+  {
+   "id": "zenn-05b7d1c548d76b",
+   "date": "2025.03",
+   "published": "2025-03-09",
+   "title": "第5回 クラウド基盤mdx+ Kubernetesの上でLLM Webサービスを立ち上げる",
+   "image": "https://res.cloudinary.com/zenn/image/upload/s--P7tQLdoq--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:%25E7%25AC%25AC5%25E5%259B%259E%2520%25E3%2582%25AF%25E3%2583%25A9%25E3%2582%25A6%25E3%2583%2589%25E5%259F%25BA%25E7%259B%25A4mdx%252B%2520Kubernetes%25E3%2581%25AE%25E4%25B8%258A%25E3%2581%25A7LLM%2520Web%25E3%2582%25B5%25E3%2583%25BC%25E3%2583%2593%25E3%2582%25B9%25E3%2582%2592%25E7%25AB%258B%25E3%2581%25A1%25E4%25B8%258A%25E3%2581%2592%25E3%2582%258B%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:Atsushi%2520Fukuda%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLmRldi9pbWFnZXMvZGVmYXVsdC1wdWJsaWNhdGlvbi1hdmF0YXIucG5n%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:%25E6%259D%25B1%25E4%25BA%25AC%25E5%25A4%25A7%25E5%25AD%25A6%2520%25E9%2588%25B4%25E6%259D%2591%25E8%25B1%258A%25E5%25A4%25AA%25E9%2583%258E%25E7%25A0%2594%25E7%25A9%25B6%25E5%25AE%25A4%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jTGVWOG5RV2tTMDBKMmlxVktSWkdfMnl0US1xNllMQ2daZHEtUks0UnZNdXMxXz1zOTYtYw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE",
+   "url": "https://zenn.dev/suzumura_lab/articles/05b7d1c548d76b"
+  },
+  {
+   "id": "zenn-4bd9eb672fff61",
+   "date": "2025.03",
+   "published": "2025-03-09",
+   "title": "第4回 クラウド基盤mdxで構築したKubernetesで、サーバレスWebアプリケーションを構築する",
+   "image": "https://res.cloudinary.com/zenn/image/upload/s--zQshcX2U--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:%25E7%25AC%25AC4%25E5%259B%259E%2520%25E3%2582%25AF%25E3%2583%25A9%25E3%2582%25A6%25E3%2583%2589%25E5%259F%25BA%25E7%259B%25A4mdx%25E3%2581%25A7%25E6%25A7%258B%25E7%25AF%2589%25E3%2581%2597%25E3%2581%259FKubernetes%25E3%2581%25A7%25E3%2580%2581%25E3%2582%25B5%25E3%2583%25BC%25E3%2583%2590%25E3%2583%25AC%25E3%2582%25B9Web%25E3%2582%25A2%25E3%2583%2597%25E3%2583%25AA%25E3%2582%25B1%25E3%2583%25BC%25E3%2582%25B7%25E3%2583%25A7%25E3%2583%25B3%25E3%2582%2592%25E6%25A7%258B%25E7%25AF%2589%25E3%2581%2599%25E3%2582%258B%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:Atsushi%2520Fukuda%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLmRldi9pbWFnZXMvZGVmYXVsdC1wdWJsaWNhdGlvbi1hdmF0YXIucG5n%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:%25E6%259D%25B1%25E4%25BA%25AC%25E5%25A4%25A7%25E5%25AD%25A6%2520%25E9%2588%25B4%25E6%259D%2591%25E8%25B1%258A%25E5%25A4%25AA%25E9%2583%258E%25E7%25A0%2594%25E7%25A9%25B6%25E5%25AE%25A4%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jTGVWOG5RV2tTMDBKMmlxVktSWkdfMnl0US1xNllMQ2daZHEtUks0UnZNdXMxXz1zOTYtYw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE",
+   "url": "https://zenn.dev/suzumura_lab/articles/4bd9eb672fff61"
+  },
+  {
+   "id": "zenn-610a9e48eb697d",
+   "date": "2025.03",
+   "published": "2025-03-09",
+   "title": "第3回 クラウド基盤mdxで構築したKubernetesクラスタを管理するツールLensの紹介",
+   "image": "https://res.cloudinary.com/zenn/image/upload/s--9C-nZQlA--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:%25E7%25AC%25AC3%25E5%259B%259E%2520%25E3%2582%25AF%25E3%2583%25A9%25E3%2582%25A6%25E3%2583%2589%25E5%259F%25BA%25E7%259B%25A4mdx%25E3%2581%25A7%25E6%25A7%258B%25E7%25AF%2589%25E3%2581%2597%25E3%2581%259FKubernetes%25E3%2582%25AF%25E3%2583%25A9%25E3%2582%25B9%25E3%2582%25BF%25E3%2582%2592%25E7%25AE%25A1%25E7%2590%2586%25E3%2581%2599%25E3%2582%258B%25E3%2583%2584%25E3%2583%25BC%25E3%2583%25ABLens%25E3%2581%25AE%25E7%25B4%25B9%25E4%25BB%258B%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:Atsushi%2520Fukuda%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLmRldi9pbWFnZXMvZGVmYXVsdC1wdWJsaWNhdGlvbi1hdmF0YXIucG5n%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:%25E6%259D%25B1%25E4%25BA%25AC%25E5%25A4%25A7%25E5%25AD%25A6%2520%25E9%2588%25B4%25E6%259D%2591%25E8%25B1%258A%25E5%25A4%25AA%25E9%2583%258E%25E7%25A0%2594%25E7%25A9%25B6%25E5%25AE%25A4%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jTGVWOG5RV2tTMDBKMmlxVktSWkdfMnl0US1xNllMQ2daZHEtUks0UnZNdXMxXz1zOTYtYw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE",
+   "url": "https://zenn.dev/suzumura_lab/articles/610a9e48eb697d"
+  },
+  {
+   "id": "zenn-c1de704e627003",
+   "date": "2025.03",
+   "published": "2025-03-09",
+   "title": "第2回 クラウド基盤mdxでKubenetes環境を構築する",
+   "image": "https://res.cloudinary.com/zenn/image/upload/s--UI7rkfgy--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:%25E7%25AC%25AC2%25E5%259B%259E%2520%25E3%2582%25AF%25E3%2583%25A9%25E3%2582%25A6%25E3%2583%2589%25E5%259F%25BA%25E7%259B%25A4mdx%25E3%2581%25A7Kubenetes%25E7%2592%25B0%25E5%25A2%2583%25E3%2582%2592%25E6%25A7%258B%25E7%25AF%2589%25E3%2581%2599%25E3%2582%258B%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:Atsushi%2520Fukuda%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLmRldi9pbWFnZXMvZGVmYXVsdC1wdWJsaWNhdGlvbi1hdmF0YXIucG5n%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:%25E6%259D%25B1%25E4%25BA%25AC%25E5%25A4%25A7%25E5%25AD%25A6%2520%25E9%2588%25B4%25E6%259D%2591%25E8%25B1%258A%25E5%25A4%25AA%25E9%2583%258E%25E7%25A0%2594%25E7%25A9%25B6%25E5%25AE%25A4%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jTGVWOG5RV2tTMDBKMmlxVktSWkdfMnl0US1xNllMQ2daZHEtUks0UnZNdXMxXz1zOTYtYw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE",
+   "url": "https://zenn.dev/suzumura_lab/articles/c1de704e627003"
+  },
+  {
+   "id": "zenn-627b5063d6884d",
+   "date": "2025.03",
+   "published": "2025-03-09",
+   "title": "クラウド基盤mdxでのKubernetes構築に関する記事一覧",
+   "image": "https://res.cloudinary.com/zenn/image/upload/s--RLrLEV_r--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:%25E3%2582%25AF%25E3%2583%25A9%25E3%2582%25A6%25E3%2583%2589%25E5%259F%25BA%25E7%259B%25A4mdx%25E3%2581%25A7%25E3%2581%25AEKubernetes%25E6%25A7%258B%25E7%25AF%2589%25E3%2581%25AB%25E9%2596%25A2%25E3%2581%2599%25E3%2582%258B%25E8%25A8%2598%25E4%25BA%258B%25E4%25B8%2580%25E8%25A6%25A7%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:Atsushi%2520Fukuda%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLmRldi9pbWFnZXMvZGVmYXVsdC1wdWJsaWNhdGlvbi1hdmF0YXIucG5n%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:%25E6%259D%25B1%25E4%25BA%25AC%25E5%25A4%25A7%25E5%25AD%25A6%2520%25E9%2588%25B4%25E6%259D%2591%25E8%25B1%258A%25E5%25A4%25AA%25E9%2583%258E%25E7%25A0%2594%25E7%25A9%25B6%25E5%25AE%25A4%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jTGVWOG5RV2tTMDBKMmlxVktSWkdfMnl0US1xNllMQ2daZHEtUks0UnZNdXMxXz1zOTYtYw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE",
+   "url": "https://zenn.dev/suzumura_lab/articles/627b5063d6884d"
+  },
+  {
+   "id": "zenn-2a115c6b1ad354",
+   "date": "2025.03",
+   "published": "2025-03-09",
+   "title": "第1回 クラウド基盤mdxの使い方の基本",
+   "image": "https://res.cloudinary.com/zenn/image/upload/s--hpf0Ga6P--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:%25E7%25AC%25AC1%25E5%259B%259E%2520%25E3%2582%25AF%25E3%2583%25A9%25E3%2582%25A6%25E3%2583%2589%25E5%259F%25BA%25E7%259B%25A4mdx%25E3%2581%25AE%25E4%25BD%25BF%25E3%2581%2584%25E6%2596%25B9%25E3%2581%25AE%25E5%259F%25BA%25E6%259C%25AC%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:Atsushi%2520Fukuda%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLmRldi9pbWFnZXMvZGVmYXVsdC1wdWJsaWNhdGlvbi1hdmF0YXIucG5n%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:%25E6%259D%25B1%25E4%25BA%25AC%25E5%25A4%25A7%25E5%25AD%25A6%2520%25E9%2588%25B4%25E6%259D%2591%25E8%25B1%258A%25E5%25A4%25AA%25E9%2583%258E%25E7%25A0%2594%25E7%25A9%25B6%25E5%25AE%25A4%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jTGVWOG5RV2tTMDBKMmlxVktSWkdfMnl0US1xNllMQ2daZHEtUks0UnZNdXMxXz1zOTYtYw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE",
+   "url": "https://zenn.dev/suzumura_lab/articles/2a115c6b1ad354"
+  }
+ ]
+}

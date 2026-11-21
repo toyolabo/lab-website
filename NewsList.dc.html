@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);line-height:1.7">
+  <section style="padding:64px 28px 90px">
+    <!-- 本文の幅 1124px（＝1180px から左右の余白 28px を引いた幅）。上部のメニュー・パンくず・ほかのページの題と左端がそろう（#108） -->
+    <div style="max-width:1124px;margin:0 auto">
+      <h1 style="font-family:'Noto Sans JP',sans-serif;font-weight:700;letter-spacing:.02em;font-size:32px;line-height:1.4;color:var(--ink);margin:0 0 30px">{{ t.title }}</h1>
+
+      <!-- 分類のタブ（トップページの「最新ニュース」と同じ見た目。スマホでは 1 行にまとめる: index.html の [data-news-tabs]。#111） -->
+      <div data-news-tabs style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;border-bottom:1px solid var(--line)">
+        <sc-for list="{{ tabs }}" as="c" hint-placeholder-count="5">
+          <button onClick="{{ c.onClick }}" aria-pressed="{{ c.selected }}" style="background:none;border:none;border-bottom:2px solid {{ c.under }};cursor:pointer;font:inherit;font-size:12px;font-weight:700;color:{{ c.color }};padding:11px 14px;margin-bottom:-1px">{{ c.label }}</button>
+        </sc-for>
+      </div>
+
+      <!-- タブの下線と重ならないよう、一覧の上の線は引かない（トップページの「最新ニュース」と同じ。#111） -->
+      <div>
+        <sc-for list="{{ items }}" as="n" hint-placeholder-count="8">
+          <!-- 左にサムネイル、右に日付・分類・題と 2〜3 行の説明 -->
+          <button data-news-row onClick="{{ n.onOpen }}" style="display:flex;align-items:flex-start;gap:20px;width:100%;text-align:left;background:none;border:none;border-bottom:1px solid var(--line);cursor:pointer;font:inherit;padding:20px 4px" style-hover="background:var(--soft)">
+            <span data-news-thumb style="flex:none;width:200px;aspect-ratio:16/9;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:{{ n.thumbBg }}"></span>
+            <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:7px">
+              <span style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+                <span style="font-family:'Noto Sans JP',sans-serif;letter-spacing:.12em;font-size:12px;color:var(--muted)">{{ n.date }}</span>
+                <span style="font-size:12px;font-weight:700;letter-spacing:.04em;color:{{ n.color }};border:1px solid {{ n.color }};padding:2px 8px;border-radius:5px;white-space:nowrap">{{ n.cat }}</span>
+              </span>
+              <span style="font-size:16px;font-weight:700;color:var(--ink);line-height:1.6">{{ n.title }}</span>
+              <sc-if value="{{ n.hasSummary }}" hint-placeholder-val="{{ true }}">
+                <span style="font-size:12px;color:var(--text);line-height:1.8;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical">{{ n.summary }}</span>
+              </sc-if>
+            </span>
+            <span data-row-arrow style="align-self:center;flex:none;color:var(--accent-2)" aria-hidden="true">›</span>
+          </button>
+        </sc-for>
+      </div>
+      <sc-if value="{{ empty }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:48px 0;text-align:center;color:var(--muted);font-size:12px">{{ t.empty }}</div>
+      </sc-if>
+
+      <sc-if value="{{ hasPager }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:34px;flex-wrap:wrap">
+          <sc-for list="{{ pages }}" as="p" hint-placeholder-count="3">
+            <button onClick="{{ p.onClick }}" style="width:38px;height:38px;border-radius:999px;border:1px solid {{ p.border }};background:{{ p.bg }};color:{{ p.color }};cursor:pointer;font:inherit;font-size:12px;font-weight:700" style-hover="border-color:var(--accent)">{{ p.label }}</button>
+          </sc-for>
+          <sc-if value="{{ hasNext }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ goNext }}" style="height:38px;border-radius:999px;border:1px solid var(--line);background:none;color:var(--ink);cursor:pointer;font:inherit;font-size:12px;font-weight:700;padding:0 18px" style-hover="border-color:var(--accent);color:var(--accent)">{{ t.next }} ›</button>
+          </sc-if>
+        </div>
+      </sc-if>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { cat: 'all', page: 0 };
+  PER_PAGE = 10;
+  // サムネイル: md の image: → 本文の最初の画像 → 紹介している研究紹介（relatedArticles）のサムネイル → 研究室のロゴ（#106）
+  // トップページの「最新ニュース」（Home.dc.html の newsThumbOf）も同じ決まり。片方を変えたらもう片方も直す
+  thumbOf(n, articles, color){
+    const firstImg = (n.body || []).map(b => (b && b.type === 'image') ? b.src : '').find(Boolean);
+    const rel = (n.relatedArticles || []).map(id => articles.find(a => a.id === id)).find(a => a && a.figure);
+    if(n.image || firstImg) return "#fff url('" + (n.image || firstImg) + "') center/cover no-repeat";
+    if(rel) return "#fff url('" + rel.figure + "') center/contain no-repeat";   // 研究紹介の図は切り取らずに収める
+    return "#fff url('images/logo-mark.png') center/auto 46% no-repeat";   // 適当な画像が無いときは研究室のロゴ
+  }
+  renderVals(){
+    const lang = this.props.lang === 'en' ? 'en' : 'ja';
+    const t = {
+      ja: { title: 'ニュース', empty: '該当するニュースはありません', next: '次のページ' },
+      en: { title: 'News', empty: 'No news in this category', next: 'Next' },
+    }[lang];
+    const db = this.props.db || {};
+    const newsList = db.news || [];
+    const cats = db.newsCategories || [];
+    const openNews = this.props.onOpenNews || (()=>{});
+    const st = this.state;
+    const catColor = {}, catLabel = {};
+    cats.forEach(c => { catColor[c.id] = c.color; catLabel[c.id] = c.label; });
+    const tabs = [{ id:'all', label: lang==='en' ? 'All' : 'すべて' }, ...cats].map(c => ({
+      label: c.label,
+      onClick: () => this.setState({ cat: c.id, page: 0 }),
+      selected: st.cat===c.id,
+      under: st.cat===c.id ? 'var(--accent)' : 'transparent',
+      color: st.cat===c.id ? 'var(--accent)' : 'var(--muted)',
+    }));
+    // Zenn の記事（external）は「ブログ」の分類だけに出し、「すべて」には出さない（研究室のニュースが押し下げられないように）
+    const filtered = newsList.filter(n => st.cat==='all' ? !n.external : n.kind===st.cat);
+    const nPages = Math.max(1, Math.ceil(filtered.length / this.PER_PAGE));
+    const page = Math.min(st.page, nPages - 1);
+    const items = filtered.slice(page*this.PER_PAGE, (page+1)*this.PER_PAGE).map(n => ({
+      date: n.date, cat: catLabel[n.kind] || n.kind || '', color: catColor[n.kind] || 'var(--accent)',
+      title: n.title, onOpen: () => openNews(n.id),
+      summary: n.summary || '', hasSummary: !!n.summary,
+      thumbBg: this.thumbOf(n, db.articles || [], catColor[n.kind]),
+    }));
+    const setPage = p => { this.setState({ page: p }); window.scrollTo({ top: 0, behavior: 'instant' }); };
+    const pages = Array.from({ length: nPages }, (_, i) => ({
+      label: String(i+1), onClick: () => setPage(i),
+      bg: i===page ? 'var(--accent)' : 'transparent',
+      border: i===page ? 'var(--accent)' : 'var(--line)',
+      color: i===page ? '#fff' : 'var(--ink)',
+    }));
+    return { t, tabs, items, empty: !filtered.length, hasPager: nPages > 1, pages, hasNext: page < nPages-1, goNext: () => setPage(page+1) };
+  }
+}
+</script>
+</body>
+</html>

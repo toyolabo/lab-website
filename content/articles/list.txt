@@ -1,0 +1,40 @@
+# 読み込む記事（1行1スラッグ。content/articles/<スラッグ>.md と <スラッグ>.en.md）
+# ---- 研究室オリジナル記事 ----
+a-rec1
+a2
+# ---- グラフ基盤モデル ----
+gfm-evolvegcn
+gfm-eft
+gfm-wavelets
+gfm-spectral-transformer
+gfm-ethereum
+graph-traffic
+graph-ph-kgc
+graph-dyngnn-scaling
+# ---- 推薦システム ----
+rec-news-global
+rec-audience
+rec-lookalike
+rec-awrs
+rec-otcdr
+# ---- マテリアルズインフォマティクス ----
+mi-continuousp
+mi-lims
+mi-ssl
+mi-cgcnn
+mi-botan
+mi-oedb
+mi-phonix
+# ---- 神経科学 ----
+a-brain1
+brain-adapter
+# ---- ロボティクス ----
+a-robo1
+robo-poi
+# ---- 研究基盤・サービス ----
+sys-graph500
+sys-edge-partition
+sys-bfs
+sys-scalegraph
+sys-mdx
+sys-city-sim

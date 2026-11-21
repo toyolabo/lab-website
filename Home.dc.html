@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<main ref="{{ setHomeRoot }}">
+  <nav class="home-section-nav" aria-label="{{ sectionNavLabel }}" style="color:{{ sectionNavColor }}">
+      <sc-for list="{{ sectionLinks }}" as="s" hint-placeholder-count="5">
+        <button class="home-section-link" onClick="{{ s.onOpen }}" aria-label="{{ s.label }}" aria-current="{{ s.current }}">
+          <span class="home-section-label">{{ s.label }}</span>
+          <span class="home-section-dot" aria-hidden="true"></span>
+        </button>
+      </sc-for>
+  </nav>
+  <!-- HERO : 背景写真スライドショー（写真は data/site.js の hero.images で管理） -->
+  <section id="home-hero" onTouchStart="{{ heroTouchStart }}" onTouchEnd="{{ heroTouchEnd }}" style="position:relative;overflow:hidden;background:var(--ink);border-bottom:1px solid var(--line)">
+    <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none">
+      <sc-for list="{{ heroSlides }}" as="s" hint-placeholder-count="3">
+        <span style="position:absolute;inset:0;background:var(--ink) url('{{ s.src }}') center/cover no-repeat;opacity:{{ s.op }};transition:opacity 1.8s ease"></span>
+      </sc-for>
+      <span style="position:absolute;inset:0;background:linear-gradient(to bottom, rgba(16,25,44,.62) 0%, rgba(16,25,44,.4) 45%, rgba(16,25,44,.72) 100%)"></span>
+    </div>
+    <div style="position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:104px 28px 108px">
+      <!-- 両言語を重ねて描画し、非表示側も高さに寄与させることで言語切替時のサイズ変化を防ぐ -->
+      <!-- 大見出しが最大の文字サイズでも2行に収まる幅（紹介文は p 側の max-width:600px のまま） -->
+      <div style="max-width:760px;display:grid">
+        <sc-for list="{{ heroVersions }}" as="h" hint-placeholder-count="1">
+        <div style="grid-area:1/1;visibility:{{ h.vis }}">
+          <div style="font-family:'Noto Sans JP',sans-serif;font-size:12px;letter-spacing:.3em;color:rgba(255,255,255,.85);font-weight:500;margin-bottom:26px">{{ h.kicker }}</div>
+          <h1 style="font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:clamp(32px,4.6vw,54px);line-height:1.5;letter-spacing:.03em;color:#fff;margin:0 0 24px;text-wrap:balance;text-shadow:0 2px 30px rgba(10,16,30,.45)">{{ h.title1 }}<br>{{ h.title2 }}</h1>
+          <p style="font-size:16px;line-height:2;color:rgba(255,255,255,.88);max-width:600px;margin:0;text-shadow:0 1px 16px rgba(10,16,30,.4)">
+            <sc-for list="{{ h.lead }}" as="p" hint-placeholder-count="3"><span style="font-weight:{{ p.weight }};color:{{ p.color }}">{{ p.text }}</span></sc-for>
+          </p>
+        </div>
+        </sc-for>
+      </div>
+    </div>
+    <!-- 右上: 東京大学のロゴ（東大のページへのリンク） -->
+    <a href="{{ utokyoHref }}" target="_blank" rel="noopener" aria-label="{{ utokyoLabel }}" title="{{ utokyoLabel }}" style="position:absolute;top:22px;right:max(28px, calc((100% - 1180px) / 2 + 28px));z-index:2;display:block;background:#fff;border:1px solid #ccd5e2;border-radius:2px;padding:2px 3px;line-height:0" style-hover="border-color:var(--accent)">
+      <img src="images/logo-utokyo.jpg" alt="{{ utokyoLabel }}" width="600" height="202" style="height:34px;width:auto;display:block">
+    </a>
+  </section>
+
+  <!-- IMPORTANT NOTICE -->
+  <sc-if value="{{ noticeOn }}" hint-placeholder-val="{{ true }}">
+  <section style="background:#fff;border-bottom:1px solid var(--line)">
+    <div style="max-width:1180px;margin:0 auto;padding:16px 28px;display:flex;align-items:center;gap:18px">
+      <div onClick="{{ noticeOpen }}" style="flex:1;min-width:0;display:grid;cursor:pointer">
+        <sc-for list="{{ noticeVersions }}" as="v" hint-placeholder-count="1">
+        <div style="grid-area:1/1;visibility:{{ v.vis }};display:flex;align-items:center;gap:18px;flex-wrap:wrap">
+          <span style="flex:none;font-size:12px;font-weight:700;letter-spacing:.1em;color:#fff;background:var(--accent);padding:5px 12px;border-radius:5px">{{ v.label }}</span>
+          <span style="font-family:'Noto Sans JP',sans-serif;letter-spacing:.12em;font-size:12px;color:var(--muted)">{{ v.date }}</span>
+          <span style="font-size:12px;color:var(--text)">{{ v.text }}</span>
+        </div>
+        </sc-for>
+      </div>
+      <div style="flex:none;display:flex;gap:6px">
+        <sc-for list="{{ noticeDots }}" as="d" hint-placeholder-count="0">
+          <button onClick="{{ d.onClick }}" style="width:8px;height:8px;border-radius:50%;border:none;padding:0;cursor:pointer;background:{{ d.bg }}"></button>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+  </sc-if>
+
+  <!-- INTRO: 研究室の紹介（data/site.js の sections.intro）。次の「3軸」につなげる -->
+  <sc-if value="{{ hasIntro }}" hint-placeholder-val="{{ true }}">
+  <section id="intro" style="padding:88px 0 0;background:var(--bg)">
+    <!-- 見出し・説明文は左揃えで枠いっぱい。左端はほかの欄・ほかのページの題と同じ（幅 1180px・左右の余白 28px の内側。#111） -->
+    <div data-rev style="max-width:1180px;margin:0 auto;padding:0 28px;display:grid">
+      <sc-for list="{{ introVersions }}" as="v" hint-placeholder-count="1">
+      <div style="grid-area:1/1;visibility:{{ v.vis }}">
+        <h2 style="font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:32px;letter-spacing:.02em;color:var(--ink);margin:0 0 20px;line-height:1.35">{{ v.title }}</h2>
+        <sc-for list="{{ v.paras }}" as="p" hint-placeholder-count="2"><p style="font-size:16px;line-height:1.95;color:var(--text);margin:0 0 14px;text-align:left">{{ p }}</p></sc-for>
+      </div>
+      </sc-for>
+    </div>
+  </section>
+  </sc-if>
+
+  <!-- 基盤技術の3軸 -->
+  <section id="concept" style="padding:96px 0 90px;background:var(--bg);scroll-margin-top:80px">
+    <!-- 見出し・説明文は左揃えで枠いっぱい。左端はほかの欄・ほかのページの題と同じ（幅 1180px・左右の余白 28px の内側。#111） -->
+    <div style="max-width:1180px;margin:0 auto;padding:0 28px">
+      <div data-rev style="margin:0 0 8px;display:grid">
+        <sc-for list="{{ conceptVersions }}" as="v" hint-placeholder-count="1">
+        <div style="grid-area:1/1;visibility:{{ v.vis }}">
+          <sc-if value="{{ v.hasKicker }}" hint-placeholder-val="{{ true }}"><div style="font-family:'Noto Sans JP',sans-serif;font-size:12px;letter-spacing:.22em;color:var(--accent);font-weight:700;margin-bottom:16px">{{ v.kicker }}</div></sc-if>
+          <h2 style="font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:32px;letter-spacing:.02em;color:var(--ink);margin:0 0 {{ v.titleMb }};line-height:1.3">{{ v.title }}</h2>
+          <sc-if value="{{ v.hasLead }}" hint-placeholder-val="{{ true }}"><p style="font-size:16px;line-height:1.95;color:var(--text);margin:0;text-align:left">{{ v.lead }}</p></sc-if>
+        </div>
+        </sc-for>
+      </div>
+
+      <!-- 各紹介ページの「研究の軸をみる」と同じ背景画像付きカード -->
+      <div class="home-pillars">
+        <sc-for list="{{ pillars }}" as="p" hint-placeholder-count="3">
+          <button data-rev onClick="{{ p.onOpen }}" class="home-pillar-card" style-hover="box-shadow:0 14px 36px rgba(20,40,80,.22)">
+            <span style="position:absolute;inset:0;background:{{ p.banner }}"></span>
+            <span style="position:absolute;inset:0;background:linear-gradient(to top, rgba(16,25,44,.88) 0%, rgba(16,25,44,.58) 60%, rgba(16,25,44,.22) 100%)"></span>
+            <span style="position:relative;flex:1;display:flex;flex-direction:column;justify-content:flex-start;padding:22px">
+              <span style="display:grid">
+                <sc-for list="{{ p.versions }}" as="v" hint-placeholder-count="1">
+                  <span style="grid-area:1/1;visibility:{{ v.vis }};display:flex;flex-direction:column;gap:8px">
+                    <span style="font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:20px;line-height:1.5;color:#fff;text-shadow:0 1px 12px rgba(10,16,30,.5)">{{ v.name }}</span>
+                    <span style="font-size:12px;line-height:1.8;color:rgba(255,255,255,.92);text-shadow:0 1px 10px rgba(10,16,30,.5)">{{ v.desc }}</span>
+                  </span>
+                </sc-for>
+              </span>
+              <span style="font-size:12px;font-weight:700;color:#fff;margin-top:auto;padding-top:12px">{{ pillarLink }}</span>
+            </span>
+          </button>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESEARCH TOPICS -->
+  <!-- 背景はほかの欄と同じ白にし、上の境界線も引かない（#111） -->
+  <section id="topics" style="padding:90px 0 0;background:var(--bg);scroll-margin-top:80px">
+    <div style="max-width:1180px;margin:0 auto;padding:0 28px">
+      <div data-rev style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:38px">
+        <div style="display:grid">
+          <sc-for list="{{ topicsHeadVersions }}" as="v" hint-placeholder-count="1">
+          <div style="grid-area:1/1;visibility:{{ v.vis }}">
+            <sc-if value="{{ v.hasKicker }}" hint-placeholder-val="{{ true }}"><div style="font-family:'Noto Sans JP',sans-serif;font-size:12px;letter-spacing:.22em;color:var(--accent);font-weight:700;margin-bottom:14px">{{ v.kicker }}</div></sc-if>
+            <h2 style="font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:32px;letter-spacing:.02em;color:var(--ink);margin:0;line-height:1.3">{{ v.title }}</h2>
+            <sc-if value="{{ v.hasLead }}" hint-placeholder-val="{{ true }}"><p style="font-size:16px;line-height:1.95;color:var(--text);margin:18px 0 0">{{ v.lead }}</p></sc-if>
+          </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+      <!-- 12 列のグリッド: 上段の 3 枚は 4 列ずつ、4 枚目以降は 3 列ずつ（下段に 4 枚） -->
+      <div data-topic-grid style="display:grid;grid-template-columns:repeat(12,1fr);gap:0">
+        <sc-for list="{{ topicCards }}" as="t" hint-placeholder-count="7">
+          <button data-rev data-topic-card onClick="{{ t.onOpen }}" style="grid-column:span {{ t.span }};text-align:left;position:relative;background:{{ t.banner }};border:none;border-radius:0;cursor:pointer;font:inherit;overflow:hidden;display:flex;flex-direction:column;min-height:340px" style-hover="filter:brightness(1.12)">
+            <span style="position:absolute;inset:0;background:linear-gradient(to top, rgba(16,25,44,.82) 0%, rgba(16,25,44,.42) 42%, rgba(16,25,44,.08) 75%);pointer-events:none"></span>
+            <!-- 題の位置はパネルの上端からの固定値（index.html の [data-topic-body]）。説明文の長さが違っても題の高さが揃う -->
+            <div data-topic-body style="position:relative;z-index:1;flex:1;padding:0 18px 18px;display:flex;flex-direction:column;align-items:flex-start;gap:10px">
+              <div style="display:grid;align-self:stretch">
+                <sc-for list="{{ t.versions }}" as="v" hint-placeholder-count="1">
+                <div style="grid-area:1/1;visibility:{{ v.vis }};display:flex;flex-direction:column;gap:10px;align-items:flex-start">
+                  <span style="font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:20px;color:#fff;text-shadow:0 1px 12px rgba(10,16,30,.55)"><sc-for list="{{ v.titleParts }}" as="tp" hint-placeholder-count="1"><span style="display:inline-block">{{ tp }}</span></sc-for></span>
+                  <p style="margin:0;font-size:12px;font-weight:700;line-height:1.8;color:rgba(255,255,255,.92);text-shadow:0 1px 10px rgba(10,16,30,.55)">{{ v.desc }}</p>
+                </div>
+                </sc-for>
+              </div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;align-self:stretch;margin-top:auto">
+                <sc-for list="{{ t.axisBadges }}" as="b" hint-placeholder-count="2">
+                  <span style="font-family:'Noto Sans JP',sans-serif;letter-spacing:.12em;font-size:12px;font-weight:700;color:#fff;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.4);padding:3px 8px;border-radius:4px">{{ b }}</span>
+                </sc-for>
+                <span style="font-size:12px;color:rgba(255,255,255,.8);margin-left:auto">{{ t.countLabel }}</span>
+              </div>
+            </div>
+          </button>
+        </sc-for>
+      </div>
+  </section>
+
+  <!-- NEWS -->
+  <section id="news" style="padding:90px 0;background:var(--bg);scroll-margin-top:80px">
+    <!-- 見出し・説明文は左揃えで枠いっぱい。左端はほかの欄・ほかのページの題と同じ（幅 1180px・左右の余白 28px の内側。#111） -->
+    <div style="max-width:1180px;margin:0 auto;padding:0 28px">
+      <div data-rev style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:14px">
+        <div style="display:grid">
+          <sc-for list="{{ newsHeadVersions }}" as="v" hint-placeholder-count="1">
+          <div style="grid-area:1/1;visibility:{{ v.vis }}">
+            <sc-if value="{{ v.hasKicker }}" hint-placeholder-val="{{ true }}"><div style="font-family:'Noto Sans JP',sans-serif;font-size:12px;letter-spacing:.22em;color:var(--accent);font-weight:700;margin-bottom:14px">{{ v.kicker }}</div></sc-if>
+            <h2 style="font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:32px;letter-spacing:.02em;color:var(--ink);margin:0;line-height:1.3">{{ v.title }}</h2>
+          </div>
+          </sc-for>
+        </div>
+      </div>
+      <!-- 分類のタブ（ニュースの一覧のページと同じ見た目。スマホでは 1 行にまとめる: index.html の [data-news-tabs]。#111） -->
+      <div data-rev data-news-tabs style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;border-bottom:1px solid var(--line)">
+        <sc-for list="{{ newsTabs }}" as="c" hint-placeholder-count="5">
+          <button onClick="{{ c.onClick }}" style="background:none;border:none;border-bottom:2px solid {{ c.under }};cursor:pointer;font:inherit;font-size:12px;font-weight:700;color:{{ c.color }};padding:11px 14px;margin-bottom:-1px">{{ c.label }}</button>
+        </sc-for>
+      </div>
+      <div data-rev>
+        <sc-for list="{{ newsItems }}" as="n" hint-placeholder-count="5">
+          <!-- ニュースの一覧のページ（NewsList.dc.html）と同じ見た目: 左にサムネイル、右に日付・分類・題と 3 行までの説明（#94） -->
+          <button data-news-row onClick="{{ n.onOpen }}" style="display:flex;align-items:flex-start;gap:20px;width:100%;text-align:left;background:none;border:none;border-bottom:1px solid var(--line);cursor:pointer;font:inherit;padding:20px 6px" style-hover="background:var(--bg-alt)">
+            <span data-news-thumb style="flex:none;width:200px;aspect-ratio:16/9;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:{{ n.thumbBg }}"></span>
+            <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:7px">
+              <span style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+                <span style="font-family:'Noto Sans JP',sans-serif;letter-spacing:.12em;font-size:12px;color:var(--muted)">{{ n.date }}</span>
+                <span style="font-size:12px;font-weight:700;letter-spacing:.04em;color:{{ n.color }};border:1px solid {{ n.color }};padding:2px 8px;border-radius:5px;white-space:nowrap">{{ n.cat }}</span>
+              </span>
+              <!-- 日英の両方を重ねて描き、言語を切り替えたときに行の高さが変わらないようにする -->
+              <span style="display:grid"><sc-for list="{{ n.versions }}" as="v" hint-placeholder-count="1"><span style="grid-area:1/1;visibility:{{ v.vis }};display:flex;flex-direction:column;gap:7px">
+                <span style="font-size:16px;font-weight:700;color:var(--ink);line-height:1.6">{{ v.title }}</span>
+                <sc-if value="{{ v.hasSummary }}" hint-placeholder-val="{{ true }}"><span style="font-size:12px;color:var(--text);line-height:1.8;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical">{{ v.summary }}</span></sc-if>
+              </span></sc-for></span>
+            </span>
+            <span data-row-arrow style="align-self:center;flex:none;color:var(--muted);font-size:16px">→</span>
+          </button>
+        </sc-for>
+      </div>
+      <div data-rev style="display:flex;justify-content:center;margin-top:30px">
+        <button onClick="{{ goNewsList }}" class="site-action">{{ newsMoreLabel }} →</button>
+      </div>
+    </div>
+  </section>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900},&quot;db&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;object&quot;},&quot;onOpenCategory&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(id:string)=&gt;void&quot;},&quot;onOpenBrowse&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(tags:string[])=&gt;void&quot;},&quot;onOpenNews&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(id:string)=&gt;void&quot;}}">
+class Component extends DCLogic {
+  state = { newsCat: 'all', heroSlide: 0, noticeIdx: 0, activeSection:'home-hero', navOnImage:true };
+  sectionIds = ['home-hero','intro','concept','topics','news'];
+  NOTICE_INTERVAL = 5000;
+  // ニュースのサムネイル（NewsList.dc.html の thumbOf と同じ決まり。片方を変えたらもう片方も直す）
+  // md の image: → 本文の最初の画像 → 紹介している研究紹介（relatedArticles）の図 → 研究室のロゴ（#106）
+  newsThumbOf(n, articles, color){
+    const firstImg = (n.body || []).map(b => (b && b.type === 'image') ? b.src : '').find(Boolean);
+    const rel = (n.relatedArticles || []).map(id => articles.find(a => a.id === id)).find(a => a && a.figure);
+    if(n.image || firstImg) return "#fff url('" + (n.image || firstImg) + "') center/cover no-repeat";
+    if(rel) return "#fff url('" + rel.figure + "') center/contain no-repeat";   // 研究紹介の図は切り取らずに収める
+    return "#fff url('images/logo-mark.png') center/auto 46% no-repeat";   // 適当な画像が無いときは研究室のロゴ
+  }
+  noticeCount(){ return Math.min(((this.props.db||{}).news||[]).filter(n=>!n.external).length, 5); }
+  startNoticeTimer(){
+    clearInterval(this._noticeTimer);
+    if(this.noticeCount() < 2) return;
+    this._noticeTimer = setInterval(()=>{
+      this.setState(s=>({ noticeIdx:(s.noticeIdx+1) % Math.max(this.noticeCount(),1) }));
+    }, this.NOTICE_INTERVAL);
+  }
+  HERO_INTERVAL = 6000; // 背景写真の切替間隔（ミリ秒）
+  NEWS_LIMIT = 10;      // 最新ニュースの欄に出す件数（それより多いときは「もっと見る」でニュースの一覧へ）
+
+  heroImages(){ return ((this.props.db||{}).site||{}).hero?.images || []; }
+  startHeroTimer(){
+    clearInterval(this._heroTimer);
+    if(this.heroImages().length < 2) return;
+    this._heroTimer = setInterval(()=>{
+      this.setState(s=>({ heroSlide:(s.heroSlide+1) % Math.max(this.heroImages().length,1) }));
+    }, this.HERO_INTERVAL);
+  }
+  moveHero(dir){
+    const n = this.heroImages().length; if(n<2) return;
+    this.setState(s=>({ heroSlide:(s.heroSlide+dir+n)%n }));
+    this.startHeroTimer();
+  }
+  componentDidMount(){
+    this.setupReveal(); this.startHeroTimer(); this.startNoticeTimer();
+    this._onSectionScroll = () => this.scheduleSectionUpdate();
+    window.addEventListener('scroll', this._onSectionScroll, {passive:true});
+    window.addEventListener('resize', this._onSectionScroll);
+    this._sectionResize = new ResizeObserver(this._onSectionScroll);
+    this._sectionResize.observe(this.homeRoot || document.body);
+    this.scheduleSectionUpdate();
+  }
+  componentWillUnmount(){
+    clearInterval(this._heroTimer); clearInterval(this._noticeTimer);
+    window.removeEventListener('scroll', this._onSectionScroll);
+    window.removeEventListener('resize', this._onSectionScroll);
+    this._sectionResize?.disconnect();
+    if(this._sectionFrame != null) cancelAnimationFrame(this._sectionFrame);
+  }
+  scheduleSectionUpdate(){
+    if(this._sectionFrame != null) return;
+    this._sectionFrame = requestAnimationFrame(() => {
+      this._sectionFrame = null;
+      const headerBottom = document.querySelector('header')?.getBoundingClientRect().bottom || 0;
+      const marker = headerBottom + Math.max(24,(window.innerHeight-headerBottom)*.25);
+      let active = 'home-hero';
+      for(const id of this.sectionIds){
+        const el = document.getElementById(id);
+        if(el && el.getBoundingClientRect().top <= marker) active = id;
+      }
+      if(window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2) active = 'news';
+      const navCenter = window.innerHeight / 2;
+      const navOnImage = [document.getElementById('home-hero'), document.querySelector('[data-topic-grid]')].some(el=>{
+        if(!el) return false;
+        const rect = el.getBoundingClientRect();
+        return rect.top <= navCenter && rect.bottom >= navCenter;
+      });
+      if(active !== this.state.activeSection || navOnImage !== this.state.navOnImage) this.setState({activeSection:active,navOnImage});
+    });
+  }
+  openSection(id){
+    const el = document.getElementById(id); if(!el) return;
+    const headerHeight = document.querySelector('header')?.getBoundingClientRect().height || 84;
+    const top = id==='home-hero' ? 0 : el.getBoundingClientRect().top + window.scrollY - headerHeight - 16;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({top:Math.max(0,top),behavior:reduced?'instant':'smooth'});
+  }
+
+  setupReveal(){
+    setTimeout(()=>{
+      if(!('IntersectionObserver' in window)) return;
+      const els=document.querySelectorAll('[data-rev]');
+      els.forEach(el=>{ if(el.dataset.revDone) return; el.style.opacity='0'; el.style.transform='translateY(18px)'; el.style.transition='opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)'; });
+      const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.style.opacity='1'; e.target.style.transform='none'; e.target.dataset.revDone='1'; io.unobserve(e.target);} }),{threshold:.1,rootMargin:'0px 0px -6% 0px'});
+      els.forEach(el=>{ if(!el.dataset.revDone) io.observe(el); });
+      setTimeout(()=>els.forEach(el=>{ if(!el.dataset.revDone){ el.style.opacity='1'; el.style.transform='none'; } }),2000);
+    },40);
+  }
+
+  // カード背景：t.image（data/topics.js で箱ごとに設定）があれば写真、なければグラデーション
+  topicBanner(t){
+    if(t.image) return "var(--ink) url('"+t.image+"') center/cover no-repeat";
+    const axes=t.axes||[], has=k=>axes.includes(k);
+    if(has('graph')&&has('ai')&&has('hpc')) return 'linear-gradient(135deg,#3f5fa0,#5a7ab0)';
+    if(has('graph')&&has('ai')) return 'linear-gradient(135deg,#4a63a8,#7a6db2)';
+    if(has('ai')) return 'linear-gradient(135deg,#6f5fb0,#8f7fc0)';
+    if(has('graph')) return 'linear-gradient(135deg,#3f6fb0,#5f9fc0)';
+    return 'linear-gradient(135deg,#3a86a0,#5fb0bf)';
+  }
+
+  renderVals(){
+    const db = this.props.db || {};
+    const site = db.site || {};
+    const axes = db.axes || [];
+    const topics = db.topics || [];
+    const articles = db.articles || [];
+    const newsList = db.news || [];
+    const newsCategories = db.newsCategories || [];
+    const openCategory = this.props.onOpenCategory || (()=>{});
+    const openBrowse = this.props.onOpenBrowse || (()=>{});
+    const openNews = this.props.onOpenNews || (()=>{});
+    const st = this.state;
+
+    const lang = this.props.lang || 'ja';
+    const dbA = this.props.dbAlt || db;   // もう一方の言語のデータ（サイズ固定用）
+    const siteA = dbA.site || {};
+    const hero = site.hero || { kicker:'', titleLines:['',''], lead:[], ctaSecondary:'' };
+    const heroA = siteA.hero || hero;
+    const leadOf = h => (h.lead||[]).map(p=>({ text:p.text, weight:p.bold?'700':'400', color:p.bold?'#fff':'inherit' }));
+    const heroLead = leadOf(hero);
+    const heroVer = (h,on)=>({ kicker:h.kicker||'', title1:(h.titleLines||[])[0]||'', title2:(h.titleLines||[])[1]||'', lead:leadOf(h), ctaSecondary:h.ctaSecondary||'', vis:on?'visible':'hidden' });
+    const heroVersions = [heroVer(hero,true), heroVer(heroA,false)];
+
+    // ---- ヒーロー背景スライドショー（写真は data/site.js の hero.images）----
+    const heroImgs = hero.images || [];
+    const hs = Math.min(st.heroSlide, Math.max(heroImgs.length-1,0));
+    const heroSlides = heroImgs.map((src,i)=>({ src, op: i===hs?'1':'0' }));
+    const heroTouchStart = e=>{ this._tx = e.touches && e.touches[0] ? e.touches[0].clientX : null; };
+    const heroTouchEnd = e=>{
+      if(this._tx==null) return;
+      const x = e.changedTouches && e.changedTouches[0] ? e.changedTouches[0].clientX : this._tx;
+      const dx = x - this._tx; this._tx = null;
+      if(Math.abs(dx) > 45) this.moveHero(dx < 0 ? 1 : -1);
+    };
+    const sections = site.sections || {};
+    const sectionsA = siteA.sections || sections;
+    const notice = site.notice || {};
+    const noticeA = siteA.notice || notice;
+    const noticeAltById = {}; ((dbA||{}).news||[]).forEach(n=>{ noticeAltById[n.id]=n; });
+    const noticeNews = (db.news||[]).filter(n=>!n.external).slice(0,5);   // Zenn の記事は上部の最新ニュースに出さない
+    const cur = noticeNews.length ? noticeNews[this.state.noticeIdx % noticeNews.length] : null;
+    const curA = cur ? (noticeAltById[cur.id]||cur) : null;
+    const noticeVersions = cur
+      ? [ {label:notice.label,date:cur.date,text:cur.title,vis:'visible'}, {label:noticeA.label,date:cur.date,text:curA.title,vis:'hidden'} ]
+      : [ {label:notice.label,date:notice.date,text:notice.text,vis:'visible'}, {label:noticeA.label,date:noticeA.date,text:noticeA.text,vis:'hidden'} ];
+    const noticeOpen = cur ? ()=>{ (this.props.onOpenNews||(()=>{}))(cur.id); } : ()=>{};
+    const noticeDots = noticeNews.length>1 ? noticeNews.map((_,i)=>({
+      onClick:(e)=>{ e.stopPropagation(); this.setState({noticeIdx:i}); this.startNoticeTimer(); },
+      bg: i===(this.state.noticeIdx%noticeNews.length)?'var(--accent)':'var(--line)',
+    })) : [];
+    const conc = sections.concept||{}, concA = sectionsA.concept||conc;
+    // kicker・lead が無いときは、その要素と余白ごと出さない
+    const concVer = (c,vis)=>({ kicker:c.kicker||'', hasKicker:!!c.kicker, title:c.title||'', lead:c.lead||'', hasLead:!!c.lead, titleMb:c.lead?'18px':'0', vis });
+    const conceptVersions = [ concVer(conc,'visible'), concVer(concA,'hidden') ];
+    const tsec = sections.topics||{}, tsecA = sectionsA.topics||tsec;
+    // kicker が無いときは、その要素と余白ごと出さない
+    const topicsHeadVersions = [ {kicker:tsec.kicker||'',hasKicker:!!tsec.kicker,title:tsec.title,lead:tsec.lead||'',hasLead:!!tsec.lead,vis:'visible'}, {kicker:tsecA.kicker||'',hasKicker:!!tsecA.kicker,title:tsecA.title,lead:tsecA.lead||'',hasLead:!!tsecA.lead,vis:'hidden'} ];
+    // 導入（sections.intro）。lead は段落の配列
+    const isec = sections.intro||{}, isecA = sectionsA.intro||isec;
+    const introVer = (c,vis)=>({ title:c.title||'', paras:Array.isArray(c.lead)?c.lead:(c.lead?[c.lead]:[]), vis });
+    const introVersions = [ introVer(isec,'visible'), introVer(isecA,'hidden') ];
+    const nsec = sections.news||{}, nsecA = sectionsA.news||nsec;
+    // kicker が無いときは、その要素と余白ごと出さない
+    const newsHeadVersions = [ {kicker:nsec.kicker||'',hasKicker:!!nsec.kicker,title:nsec.title,vis:'visible'}, {kicker:nsecA.kicker||'',hasKicker:!!nsecA.kicker,title:nsecA.title,vis:'hidden'} ];
+
+    const countForTag = id => articles.filter(a=>(a.axisTags||[]).includes(id)||(a.topicTags||[]).includes(id)).length;
+    const axisName = id => { const a=axes.find(x=>x.id===id); return a?a.name:id; };
+
+    const axesA = dbA.axes || axes;
+    const pillars = axes.map(a=>{ const b=axesA.find(x=>x.id===a.id)||a; return { onOpen:()=>openCategory(a.id),
+      banner:this.topicBanner({image:a.cardImage||a.image||(a.page||{}).heroImage,axes:[a.id]}),   // cardImage: トップのカードだけの画像（#104）
+      versions:[ {name:a.name,en:a.en,desc:a.desc,vis:'visible'}, {name:b.name,en:b.en,desc:b.desc,vis:'hidden'} ] }; });
+
+    const topicsA = dbA.topics || topics;
+    const tTitle = (t,l)=> (l==='en'&&t.en) ? t.en : t.ja;
+    // 題が折り返すときの区切り（研究トピックの md の nameLines）。区切りの途中では改行しない
+    const tParts = (t,l)=> (l!=='en'&&Array.isArray(t.nameLines)&&t.nameLines.length) ? t.nameLines : [tTitle(t,l)];
+    const topicCards = topics.map((t,i)=>{ const b=topicsA[i]||t; const c=countForTag(t.id); return {
+      span: i<3 ? 4 : 3,
+      banner:this.topicBanner(t), axisBadges:(t.axes||[]).map(axisName),
+      countLabel: lang==='en' ? (c+(c===1?' article':' articles')) : (c+'件'),
+      onOpen:()=>openCategory(t.id),
+      versions:[ {titleParts:tParts(t,lang),desc:t.desc,vis:'visible'}, {titleParts:tParts(b,lang==='en'?'ja':'en'),desc:b.desc,vis:'hidden'} ],
+    };});
+
+    const catColor = {}; newsCategories.forEach(c=>{ catColor[c.id]=c.color; });
+    const catLabel = {}; newsCategories.forEach(c=>{ catLabel[c.id]=c.label; });
+    const tabs = [{id:'all',label: lang==='en'?'All':'すべて'}, ...newsCategories];
+    const newsTabs = tabs.map(c=>({ label:c.label, onClick:()=>this.setState({newsCat:c.id}),
+      color: st.newsCat===c.id?'var(--accent)':'var(--muted)', under: st.newsCat===c.id?'var(--accent)':'transparent' }));
+    const newsAltById = {}; (dbA.news||[]).forEach(n=>{ newsAltById[n.id]=n; });
+    const newsItems = newsList.filter(n=>st.newsCat==='all'?!n.external:n.kind===st.newsCat).slice(0,this.NEWS_LIMIT)
+      .map(n=>{ const b=newsAltById[n.id]||n; return { date:n.date, cat:catLabel[n.kind]||n.kind, color:catColor[n.kind]||'var(--accent)', onOpen:()=>openNews(n.id),
+        thumbBg:this.newsThumbOf(n, db.articles||[], catColor[n.kind]),
+        versions:[ {title:n.title,summary:n.summary||'',hasSummary:!!n.summary,vis:'visible'}, {title:b.title,summary:b.summary||'',hasSummary:!!b.summary,vis:'hidden'} ] }; });
+
+    return {
+      setHomeRoot:el=>{this.homeRoot=el;},
+      sectionNavLabel:lang==='en'?'On this page':'このページの項目',
+      sectionNavColor:st.navOnImage?'#fff':'var(--accent)',
+      sectionLinks:this.sectionIds.filter(id=>id!=='intro'||!!(isec.title||isec.lead)).map(id=>({
+        label:(lang==='en'?['Top','About the lab','Three pillars','Research topics','Latest news']:['トップ','研究室紹介','3つの軸','研究トピック','最新ニュース'])[this.sectionIds.indexOf(id)],
+        current:st.activeSection===id?'location':'false', onOpen:()=>this.openSection(id),
+      })),
+      hero, heroLead, heroSlides, heroTouchStart, heroTouchEnd, heroVersions,
+      noticeOn: notice.visible!==false, noticeVersions, noticeOpen, noticeDots,
+      utokyoHref: lang==='en' ? 'https://www.u-tokyo.ac.jp/en/index.html' : 'https://www.u-tokyo.ac.jp/ja/index.html',
+      utokyoLabel: lang==='en' ? 'The University of Tokyo' : '東京大学',
+      conceptVersions, topicsHeadVersions, newsHeadVersions, introVersions, hasIntro:!!(isec.title||isec.lead),
+      topicsSec: tsec, newsSec: nsec,
+      pillarLink: lang==='en' ? 'Explore this pillar →' : 'この軸の紹介ページへ →',
+      goBrowseAll:()=>openBrowse([]),
+      pillars, topicCards, newsTabs, newsItems,
+      newsMoreLabel: lang==='en' ? 'View all news' : 'もっと見る',
+      goNewsList: ()=>(this.props.onOpenNewsList||(()=>{}))(),
+
+    };
+  }
+}
+</script>
+</body>
+</html>

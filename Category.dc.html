@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@keyframes axisPopIn { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+</style>
+</helmet>
+<main style="padding-bottom:90px">
+  <!-- 右側の、ページの中を移るボタン（トップページと同じ見た目。項目は章の見出しから自動で作る。スマホの幅では出ない。#119） -->
+  <sc-if value="{{ hasSectionNav }}" hint-placeholder-val="{{ false }}">
+    <nav class="home-section-nav" aria-label="{{ L.sectionNav }}" style="color:{{ sectionNavColor }}">
+      <sc-for list="{{ sectionLinks }}" as="sl" hint-placeholder-count="4">
+        <button class="home-section-link" onClick="{{ sl.onOpen }}" aria-label="{{ sl.label }}" aria-current="{{ sl.current }}">
+          <span class="home-section-label" style="background:{{ sectionLabelBg }};border-radius:4px">{{ sl.label }}</span>
+          <span class="home-section-dot" aria-hidden="true"></span>
+        </button>
+      </sc-for>
+    </nav>
+  </sc-if>
+  <!-- hero band -->
+  <section id="cat-top" style="background:{{ band }};border-bottom:1px solid var(--line);position:relative;overflow:hidden">
+    <sc-if value="{{ hasHeroImage }}" hint-placeholder-val="{{ false }}">
+      <span style="position:absolute;inset:0;background:var(--ink) url('{{ heroImage }}') center/cover no-repeat;pointer-events:none"></span>
+      <span style="position:absolute;inset:0;background:linear-gradient(to bottom, rgba(16,25,44,.66) 0%, rgba(16,25,44,.44) 50%, rgba(16,25,44,.74) 100%);pointer-events:none"></span>
+    </sc-if>
+    <sc-if value="{{ noHeroImage }}" hint-placeholder-val="{{ true }}">
+      <span style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent 0 14px,rgba(255,255,255,.16) 14px 15px);pointer-events:none"></span>
+    </sc-if>
+    <div style="position:relative;max-width:1180px;margin:0 auto;padding:40px 28px 46px">
+      <h1 style="font-family:'Noto Sans JP',sans-serif;font-weight:700;letter-spacing:.02em;font-size:32px;color:{{ titleColor }};margin:0 0 14px;line-height:1.3;text-shadow:{{ heroShadow }}">{{ name }}</h1>
+      <p style="font-size:20px;font-weight:700;color:{{ catchColor }};margin:0;line-height:1.7;text-shadow:{{ heroShadow }}">{{ catch }}</p>
+    </div>
+  </section>
+
+  <!-- 文章も枠いっぱい（幅 1180px・左右の余白 28px の内側）にする。ほかのページと同じ（#110） -->
+  <div style="max-width:1180px;margin:0 auto;padding:44px 28px 0">
+    <!-- intro body -->
+    <div>
+      <!-- 長い URL がスマホの幅をはみ出さないよう、途中で折り返す -->
+      <article style="font-size:16px;line-height:2.05;color:var(--text);overflow-wrap:anywhere">
+        <sc-for list="{{ blocks }}" as="b" hint-placeholder-count="2">
+          <div style="margin:0 0 20px">
+            <sc-if value="{{ b.isHeading }}" hint-placeholder-val="{{ false }}">
+              <h2 id="{{ b.anchor }}" style="font-family:'Noto Sans JP',sans-serif;font-weight:700;letter-spacing:.02em;font-size:24px;color:var(--ink);margin:38px 0 4px;padding-bottom:10px;border-bottom:2px solid var(--soft);line-height:1.5">{{ b.text }}</h2>
+            </sc-if>
+            <sc-if value="{{ b.isP }}" hint-placeholder-val="{{ true }}">
+              <p style="margin:0"><sc-for list="{{ b.segments }}" as="s" hint-placeholder-count="1"><sc-if value="{{ s.isText }}" hint-placeholder-val="{{ true }}"><span>{{ s.text }}</span></sc-if><sc-if value="{{ s.isLink }}" hint-placeholder-val="{{ false }}"><a href="{{ s.href }}" target="_blank" rel="noopener" style="color:var(--accent);font-weight:700;text-decoration:underline;text-underline-offset:3px">{{ s.text }}</a></sc-if></sc-for></p>
+            </sc-if>
+            <sc-if value="{{ b.isList }}" hint-placeholder-val="{{ false }}">
+              <ul style="margin:0;padding-left:24px;display:flex;flex-direction:column;gap:8px"><sc-for list="{{ b.items }}" as="li" hint-placeholder-count="3"><li style="line-height:1.9"><sc-for list="{{ li.segments }}" as="s" hint-placeholder-count="1"><sc-if value="{{ s.isText }}" hint-placeholder-val="{{ true }}"><span>{{ s.text }}</span></sc-if><sc-if value="{{ s.isLink }}" hint-placeholder-val="{{ false }}"><a href="{{ s.href }}" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600">{{ s.text }}</a></sc-if></sc-for></li></sc-for></ul>
+            </sc-if>
+            <!-- 文献情報（md の「::paper BibTeXのキー」。data/publications.json の論文を、代表的な研究事例の文献情報と同じ形で出す） -->
+            <sc-if value="{{ b.isPapers }}" hint-placeholder-val="{{ false }}">
+              <div style="overflow-wrap:anywhere">
+                <h4 style="font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:16px;color:var(--ink);margin:30px 0 0;padding-left:12px;border-left:3px solid var(--accent);line-height:1.6;margin-bottom:20px">{{ L.paperHeading }}</h4>
+                <div style="display:flex;flex-direction:column;gap:14px">
+                  <sc-for list="{{ b.papers }}" as="pp" hint-placeholder-count="1">
+                    <div>
+                      <p style="margin:0">{{ pp.citation }}</p>
+                      <span style="display:flex;gap:16px;margin-top:8px;flex-wrap:wrap;line-height:1.7">
+                        <sc-if value="{{ pp.hasUrl }}" hint-placeholder-val="{{ true }}"><a href="{{ pp.url }}" target="_blank" rel="noopener" style="font-size:12px;font-weight:700;color:var(--accent);text-decoration:none" style-hover="text-decoration:underline">{{ L.paperLink }}</a></sc-if>
+                        <sc-if value="{{ pp.hasBibtex }}" hint-placeholder-val="{{ true }}"><button onClick="{{ pp.copyBib }}" style="background:none;border:none;padding:0;cursor:pointer;font:inherit;font-size:12px;font-weight:700;color:var(--accent);text-decoration:none" style-hover="text-decoration:underline">{{ pp.bibBtnLabel }}</button></sc-if>
+                      </span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+            <!-- 章の研究紹介のカード（md の「::article 記事のid」。押すと研究紹介のページへ移る。#119） -->
+            <sc-if value="{{ b.isArticles }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;border-top:1px solid var(--line);margin-top:4px">
+                <sc-for list="{{ b.cards }}" as="ac" hint-placeholder-count="1">
+                  <button data-related-row onClick="{{ ac.onOpen }}" style="display:flex;gap:18px;align-items:center;background:none;border:none;border-bottom:1px solid var(--line);cursor:pointer;font:inherit;padding:16px 6px;text-align:left;width:100%" style-hover="background:var(--bg-alt)">
+                    <span data-related-thumb style="flex:none;width:160px;height:96px;border-radius:9px;overflow:hidden;border:1px solid var(--line);background:#fff"><img src="{{ ac.image }}" alt="" style="display:block;width:100%;height:100%;object-fit:contain;padding:{{ ac.pad }};box-sizing:border-box"></span>
+                    <span style="flex:1;min-width:0">
+                      <span style="display:block;font-family:'Noto Sans JP',sans-serif;font-size:12px;letter-spacing:.08em;font-weight:700;color:var(--accent);margin-bottom:4px">{{ ac.kicker }}</span>
+                      <span style="display:block;font-weight:700;font-size:16px;color:var(--ink);line-height:1.5">{{ ac.title }}</span>
+                      <span style="display:block;font-size:12px;color:var(--muted);line-height:1.7;margin-top:3px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">{{ ac.desc }}</span>
+                    </span>
+                    <span data-row-arrow style="flex:none;color:var(--muted);font-size:17px">→</span>
+                  </button>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ b.isImage }}" hint-placeholder-val="{{ false }}">
+              <figure style="margin:6px auto;width:{{ b.figW }};max-width:100%"><img src="{{ b.src }}" alt="{{ b.caption }}" style="width:100%;border-radius:12px;border:1px solid var(--line);display:block"><sc-if value="{{ b.hasCaption }}" hint-placeholder-val="{{ false }}"><figcaption style="font-size:12px;color:var(--muted);margin-top:8px;line-height:1.7;text-align:{{ b.capAlign }}">{{ b.caption }}</figcaption></sc-if></figure>
+            </sc-if>
+            <sc-if value="{{ b.isVideo }}" hint-placeholder-val="{{ false }}">
+              <a href="{{ b.url }}" target="_blank" rel="noopener" style="display:block;position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--line);text-decoration:none;margin:6px 0">
+                <img src="{{ b.thumb }}" alt="{{ b.caption }}" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
+                <span style="position:absolute;inset:0;display:grid;place-items:center"><span style="width:64px;height:64px;border-radius:50%;background:rgba(0,0,0,.62);display:grid;place-items:center;color:#fff;font-size:22px;padding-left:5px">▶</span></span>
+                <sc-if value="{{ b.hasCaption }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:0;right:0;bottom:0;background:linear-gradient(transparent,rgba(0,0,0,.65));color:#fff;font-size:12px;padding:26px 14px 10px;line-height:1.6">{{ b.caption }}</span></sc-if>
+              </a>
+            </sc-if>
+            <sc-if value="{{ b.isLinkCard }}" hint-placeholder-val="{{ false }}">
+              <a href="{{ b.url }}" target="_blank" rel="noopener" class="site-resource"><span style="flex:1;min-width:0"><span class="site-resource-title">{{ b.label }}</span><span class="site-resource-url">{{ b.url }}</span></span><span style="flex:none;color:var(--accent)">↗</span></a>
+            </sc-if>
+            <sc-if value="{{ b.isHtml }}" hint-placeholder-val="{{ false }}">{{ b.el }}</sc-if>
+          </div>
+        </sc-for>
+      </article>
+    </div>
+
+    <!-- 代表的な研究事例：トピックの md の cases: に書いた研究紹介の本文を、そのまま載せる（ページを移らずに読めるように。#119） -->
+    <sc-if value="{{ hasCases }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:56px">
+        <h2 id="cat-cases" style="font-family:'Noto Sans JP',sans-serif;font-weight:700;letter-spacing:.02em;font-size:24px;color:var(--ink);margin:0 0 22px;padding-bottom:12px;border-bottom:2px solid var(--soft)">{{ casesHeading }}</h2>
+        <sc-if value="{{ hasCasesLead }}" hint-placeholder-val="{{ false }}"><p style="font-size:16px;line-height:2.05;color:var(--text);margin:-6px 0 24px">{{ casesLead }}</p></sc-if>
+        <div style="display:flex;flex-direction:column">
+          <sc-for list="{{ cases }}" as="cs" hint-placeholder-count="1">
+            <section style="margin-top:{{ cs.marginTop }}">
+              <!-- 研究紹介のページと同じ並び: 種類・年月 → 題 → 研究室・発表先 → 図とキャプション → 紹介文 → 文献情報 → 本文 -->
+              <!-- 1 本ずつの始まり: 2 本目からは上に太い紺の線を引き、題を大きくして、本文の小見出しと見分けやすくする（1 本目は欄の見出しのすぐ下なので線を引かない） -->
+              <div style="border-top:{{ cs.headLine }};padding-top:{{ cs.headPad }};margin:0 0 28px">
+                <div style="font-family:'Noto Sans JP',sans-serif;font-size:12px;color:var(--accent);font-weight:700;margin-bottom:8px">{{ cs.kindLabel }} · {{ cs.date }}</div>
+                <h3 style="font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:24px;color:var(--ink);line-height:1.5;margin:0 0 10px">{{ cs.title }}</h3>
+                <div style="font-size:12px;color:var(--muted)">{{ L.lab }}<sc-if value="{{ cs.hasVenue }}" hint-placeholder-val="{{ true }}"><span> · {{ cs.venue }}</span></sc-if></div>
+              </div>
+              <sc-if value="{{ cs.hasFigure }}" hint-placeholder-val="{{ false }}">
+                <figure style="margin:0 0 26px">
+                  <img src="{{ cs.figure }}" alt="{{ cs.title }}" style="display:block;width:100%;max-height:600px;object-fit:contain;box-sizing:border-box;background:#fff;border-radius:12px;border:1px solid var(--line)">
+                  <sc-if value="{{ cs.hasCaption }}" hint-placeholder-val="{{ false }}"><figcaption style="font-size:12px;color:var(--muted);margin-top:8px;line-height:1.7">{{ cs.caption }}</figcaption></sc-if>
+                </figure>
+              </sc-if>
+              <sc-if value="{{ cs.hasSummary }}" hint-placeholder-val="{{ true }}">
+                <p style="font-size:16px;line-height:2.05;color:var(--text);margin:0 0 20px">{{ cs.summary }}</p>
+              </sc-if>
+              <!-- 文献情報（題・著者・掲載先は BibTeX から読む。リンクは研究紹介のページと同じ） -->
+              <sc-if value="{{ cs.hasPaper }}" hint-placeholder-val="{{ true }}">
+                <div style="font-size:16px;line-height:2.05;color:var(--text);margin:0 0 20px;overflow-wrap:anywhere">
+                  <h4 style="font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:16px;color:var(--ink);margin:30px 0 0;padding-left:12px;border-left:3px solid var(--accent);line-height:1.6;margin-bottom:20px">{{ L.paperHeading }}</h4>
+                  <p style="margin:0">{{ cs.paperCitation }}</p>
+                  <span style="display:flex;gap:16px;margin-top:8px;flex-wrap:wrap;line-height:1.7">
+                    <sc-if value="{{ cs.hasUrl }}" hint-placeholder-val="{{ true }}"><a href="{{ cs.url }}" target="_blank" rel="noopener" style="font-size:12px;font-weight:700;color:var(--accent);text-decoration:none" style-hover="text-decoration:underline">{{ L.paperLink }}</a></sc-if>
+                    <sc-if value="{{ cs.hasBibtex }}" hint-placeholder-val="{{ true }}"><button onClick="{{ cs.copyBib }}" style="background:none;border:none;padding:0;cursor:pointer;font:inherit;font-size:12px;font-weight:700;color:var(--accent);text-decoration:none" style-hover="text-decoration:underline">{{ cs.bibBtnLabel }}</button></sc-if>
+                    <sc-if value="{{ cs.hasCode }}" hint-placeholder-val="{{ false }}"><a href="{{ cs.code }}" target="_blank" rel="noopener" style="font-size:12px;font-weight:700;color:var(--accent);text-decoration:none" style-hover="text-decoration:underline">{{ L.codeLink }}</a></sc-if>
+                    <sc-if value="{{ cs.hasProject }}" hint-placeholder-val="{{ false }}"><a href="{{ cs.project }}" target="_blank" rel="noopener" style="font-size:12px;font-weight:700;color:var(--accent);text-decoration:none" style-hover="text-decoration:underline">{{ L.projectLink }}</a></sc-if>
+                  </span>
+                </div>
+              </sc-if>
+              <div style="font-size:16px;line-height:2.05;color:var(--text);overflow-wrap:anywhere">
+                <sc-for list="{{ cs.blocks }}" as="b" hint-placeholder-count="3">
+                  <div style="margin:0 0 20px">
+                    <sc-if value="{{ b.isHeading }}" hint-placeholder-val="{{ false }}">
+                      <h4 style="font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:16px;color:var(--ink);margin:30px 0 0;padding-left:12px;border-left:3px solid var(--accent);line-height:1.6">{{ b.text }}</h4>
+                    </sc-if>
+                    <sc-if value="{{ b.isP }}" hint-placeholder-val="{{ true }}"><p style="margin:0"><sc-for list="{{ b.segments }}" as="s" hint-placeholder-count="1"><sc-if value="{{ s.isText }}" hint-placeholder-val="{{ true }}"><span>{{ s.text }}</span></sc-if><sc-if value="{{ s.isLink }}" hint-placeholder-val="{{ false }}"><a href="{{ s.href }}" target="_blank" rel="noopener" style="color:var(--accent);font-weight:700;text-decoration:underline;text-underline-offset:3px">{{ s.text }}</a></sc-if></sc-for></p></sc-if>
+                    <sc-if value="{{ b.isList }}" hint-placeholder-val="{{ false }}">
+                      <ul style="margin:0;padding-left:24px;display:flex;flex-direction:column;gap:8px"><sc-for list="{{ b.items }}" as="li" hint-placeholder-count="3"><li style="line-height:1.9"><sc-for list="{{ li.segments }}" as="s" hint-placeholder-count="1"><sc-if value="{{ s.isText }}" hint-placeholder-val="{{ true }}"><span>{{ s.text }}</span></sc-if><sc-if value="{{ s.isLink }}" hint-placeholder-val="{{ false }}"><a href="{{ s.href }}" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600">{{ s.text }}</a></sc-if></sc-for></li></sc-for></ul>
+                    </sc-if>
+                    <sc-if value="{{ b.isImage }}" hint-placeholder-val="{{ false }}">
+                      <figure style="margin:6px auto;width:{{ b.figW }};max-width:100%"><img src="{{ b.src }}" alt="{{ b.caption }}" style="width:100%;border-radius:12px;border:1px solid var(--line);display:block"><sc-if value="{{ b.hasCaption }}" hint-placeholder-val="{{ false }}"><figcaption style="font-size:12px;color:var(--muted);margin-top:8px;line-height:1.7;text-align:{{ b.capAlign }}">{{ b.caption }}</figcaption></sc-if></figure>
+                    </sc-if>
+                    <sc-if value="{{ b.isLinkCard }}" hint-placeholder-val="{{ false }}">
+                      <a href="{{ b.url }}" target="_blank" rel="noopener" class="site-resource"><span style="flex:1;min-width:0"><span class="site-resource-title">{{ b.label }}</span><span class="site-resource-url">{{ b.url }}</span></span><span style="flex:none;color:var(--accent)">↗</span></a>
+                    </sc-if>
+                    <sc-if value="{{ b.isHtml }}" hint-placeholder-val="{{ false }}">{{ b.el }}</sc-if>
+                  </div>
+                </sc-for>
+              </div>
+            </section>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- その他の研究事例（この領域のタグ付き記事一覧。もっとみるで展開） -->
+    <sc-if value="{{ hasOthers }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:56px">
+        <h2 id="cat-others" style="font-family:'Noto Sans JP',sans-serif;font-weight:700;letter-spacing:.02em;font-size:24px;color:var(--ink);margin:0 0 22px;padding-bottom:12px;border-bottom:2px solid var(--soft)">{{ othersHeading }}</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:22px 20px">
+          <sc-for list="{{ others }}" as="o" hint-placeholder-count="3">
+            <button onClick="{{ o.onOpen }}" style="background:none;border:none;padding:0;cursor:pointer;font:inherit;text-align:left;display:block">
+              <span style="display:block;border-radius:10px;overflow:hidden;border:1px solid var(--line)"><img src="{{ o.image }}" alt="{{ o.title }}" style="display:block;width:100%;aspect-ratio:16/9;object-fit:{{ o.fit }};padding:{{ o.pad }};box-sizing:border-box;background:#fff"></span>
+              <span style="display:block;font-weight:700;font-size:12px;color:var(--ink);line-height:1.55;margin-top:10px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">{{ o.title }}</span>
+              <span style="display:block;font-size:12px;color:var(--muted);margin-top:4px">{{ o.meta }}</span>
+            </button>
+          </sc-for>
+        </div>
+        <sc-if value="{{ othersHasToggle }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:22px"><button onClick="{{ toggleOthers }}" class="site-action">{{ othersToggleLabel }}</button></div>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <!-- 研究の軸をみる（基盤技術ページのみ・残り2軸への誘導） -->
+    <sc-if value="{{ showAxisCross }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:64px">
+        <h2 style="font-family:'Noto Sans JP',sans-serif;font-weight:700;letter-spacing:.02em;font-size:24px;color:var(--ink);margin:0 0 22px">{{ L.axesHeading }}</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px">
+          <sc-for list="{{ axisCross }}" as="ax" hint-placeholder-count="2">
+            <button onClick="{{ ax.onClick }}" style="position:relative;overflow:hidden;border:none;border-radius:14px;cursor:pointer;font:inherit;padding:0;text-align:left;min-height:150px;display:block;background:var(--ink)" style-hover="box-shadow:0 14px 36px rgba(20,40,80,.22)">
+              <span style="position:absolute;inset:0;background:{{ ax.banner }};transition:transform .4s ease"></span>
+              <span style="position:absolute;inset:0;background:linear-gradient(to top, rgba(16,25,44,.78) 0%, rgba(16,25,44,.32) 60%, rgba(16,25,44,.18) 100%)"></span>
+              <span style="position:relative;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;min-height:150px;padding:20px 22px">
+                <span style="font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:20px;color:#fff;text-shadow:0 1px 12px rgba(10,16,30,.5)">{{ ax.label }}</span>
+                <span style="font-size:12px;color:rgba(255,255,255,.88);line-height:1.7;text-shadow:0 1px 10px rgba(10,16,30,.5)">{{ ax.desc }}</span>
+                <span style="font-size:12px;font-weight:700;color:#fff;margin-top:4px">{{ L.viewPage }}</span>
+              </span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- 関連ページ（ニュースサイトの関連記事ふう） -->
+    <sc-if value="{{ hasRelatedPages }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:56px">
+        <h2 style="font-family:'Noto Sans JP',sans-serif;font-weight:700;letter-spacing:.02em;font-size:24px;color:var(--ink);margin:0 0 22px">{{ relatedTitle }}</h2>
+        <div style="display:flex;flex-direction:column">
+          <sc-for list="{{ relatedPages }}" as="rp" hint-placeholder-count="3">
+            <button data-related-row onClick="{{ rp.onOpen }}" style="display:flex;gap:18px;align-items:center;background:none;border:none;border-bottom:1px solid var(--line);cursor:pointer;font:inherit;padding:16px 6px;text-align:left" style-hover="background:var(--bg-alt)">
+              <span data-related-thumb style="flex:none;width:118px;height:72px;border-radius:9px;overflow:hidden;background:{{ rp.banner }};border:1px solid var(--line)"></span>
+              <span style="flex:1;min-width:0">
+                <span style="display:block;font-family:'Noto Sans JP',sans-serif;font-size:12px;letter-spacing:.08em;font-weight:700;color:var(--accent);margin-bottom:4px">{{ rp.kind }}</span>
+                <span style="display:block;font-weight:700;font-size:16px;color:var(--ink);line-height:1.5">{{ rp.title }}</span>
+                <span style="display:block;font-size:12px;color:var(--muted);line-height:1.7;margin-top:3px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:{{ relatedClamp }};-webkit-box-orient:vertical">{{ rp.desc }}</span>
+              </span>
+              <span data-row-arrow style="flex:none;color:var(--muted);font-size:17px">→</span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+  </div>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900},&quot;db&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;object&quot;},&quot;categoryId&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;string&quot;},&quot;onOpenArticle&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(id:string)=&gt;void&quot;},&quot;onOpenCategory&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(id:string)=&gt;void&quot;},&quot;onOpenBrowse&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(tags:string[])=&gt;void&quot;},&quot;onGoHome&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;()=&gt;void&quot;}}">
+class Component extends DCLogic {
+  state = { rich:null, othersOpen:false, pubs:null, bibs:{}, copied:{}, activeSection:'cat-top', navOnImage:true };
+  // 代表的な研究事例の BibTeX を読む（文献情報の題・著者・掲載先と「BibTeX をコピー」に使う。研究紹介のページと同じ）
+  loadBibs(list){
+    for(const a of list){
+      const bib=a.bibtex; if(!bib) continue;
+      this._bibAsked=this._bibAsked||{};
+      if(this._bibAsked[bib]) continue;
+      this._bibAsked[bib]=true;
+      const href=bib.includes('/')?bib:'content/articles/'+bib;
+      fetch(new URL(href, location.href))
+        .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
+        .then(txt=>this.setState(st=>({bibs:{...st.bibs,[bib]:txt}})))
+        .catch(e=>console.warn('BibTeX 読み込みに失敗:', e));
+    }
+  }
+  // 「::paper BibTeXのキー」の文献情報に使う論文一覧（data/publications.json）を、要るときだけ読む
+  loadPubs(){
+    if(this._pubsAsked) return;
+    this._pubsAsked=true;
+    fetch(new URL('data/publications.json', location.href))
+      .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+      .then(j=>this.setState({pubs:j.items||[]}))
+      .catch(e=>console.warn('publications.json 読み込みに失敗:', e));
+  }
+  // BibTeX から題・著者・掲載先を取り出す（Article.dc.html と同じ）
+  parseBib(txt){
+    if(!txt) return {};
+    const field=k=>{
+      const m=txt.match(new RegExp('(?:^|[,\\s])'+k+'\\s*=\\s*', 'i'));
+      if(!m) return '';
+      let i=m.index+m[0].length, open=txt[i], out='';
+      if(open==='{'){ let d=0; for(;i<txt.length;i++){ const c=txt[i]; if(c==='{'){ if(d++) out+=c; } else if(c==='}'){ if(--d===0) break; out+=c; } else out+=c; } }
+      else if(open==='"'){ const e=txt.indexOf('"',i+1); out=txt.slice(i+1,e<0?undefined:e); }
+      else { const e=txt.slice(i).match(/^[^,\n}]*/); out=e?e[0]:''; }
+      return out.replace(/\\['"`^~]\{?([a-zA-Z])\}?/g,'$1').replace(/[{}]/g,'').replace(/\s+/g,' ').trim();
+    };
+    const authors=field('author').split(/\s+and\s+/).map(n=>{ const p=n.split(','); return p.length===2?(p[1].trim()+' '+p[0].trim()):n.trim(); }).filter(Boolean).join(', ');
+    return { title:field('title'), authors, year:field('year'), venue:field('booktitle')||field('journal')||field('howpublished') };
+  }
+  copyBib(bib, text){
+    const txt=text!=null?text:(this.state.bibs||{})[bib];
+    const done=ok=>{
+      this.setState(st=>({copied:{...st.copied,[bib]:ok?'ok':'fail'}}));
+      clearTimeout(this._copyTimer);
+      this._copyTimer=setTimeout(()=>this.setState({copied:{}}),2000);
+    };
+    const legacy=()=>{
+      try{
+        const ta=document.createElement('textarea');
+        ta.value=txt; ta.style.position='fixed'; ta.style.opacity='0';
+        document.body.appendChild(ta); ta.select();
+        const ok=document.execCommand('copy');
+        document.body.removeChild(ta);
+        done(ok);
+      }catch(e){ done(false); }
+    };
+    if(!txt){ done(false); return; }
+    try{
+      const p=navigator.clipboard&&navigator.clipboard.writeText(txt);
+      if(p&&p.then) p.then(()=>done(true), legacy); else legacy();
+    }catch(e){ legacy(); }
+  }
+  // 右側のボタン: 今見ている欄に印を付け、上の写真の帯の上では白にする（トップページと同じ）
+  scheduleSectionUpdate(){
+    if(this._sectionFrame!=null) return;
+    this._sectionFrame=requestAnimationFrame(()=>{
+      this._sectionFrame=null;
+      const ids=this._sectionIds||[]; if(!ids.length) return;
+      const headerBottom=document.querySelector('header')?.getBoundingClientRect().bottom||0;
+      const marker=headerBottom+Math.max(24,(window.innerHeight-headerBottom)*.25);
+      let active=ids[0];
+      for(const id of ids){ const el=document.getElementById(id); if(el&&el.getBoundingClientRect().top<=marker) active=id; }
+      if(window.scrollY+window.innerHeight>=document.documentElement.scrollHeight-2) active=ids[ids.length-1];
+      const top=document.getElementById('cat-top'), mid=window.innerHeight/2;
+      const r=top&&top.getBoundingClientRect();
+      const navOnImage=!!(r&&r.top<=mid&&r.bottom>=mid);
+      if(active!==this.state.activeSection||navOnImage!==this.state.navOnImage) this.setState({activeSection:active,navOnImage});
+    });
+  }
+  openSection(id){
+    const el=document.getElementById(id); if(!el) return;
+    const headerHeight=document.querySelector('header')?.getBoundingClientRect().height||84;
+    const top=id==='cat-top'?0:el.getBoundingClientRect().top+window.scrollY-headerHeight-16;
+    const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({top:Math.max(0,top),behavior:reduced?'instant':'smooth'});
+  }
+  componentWillUnmount(){
+    window.removeEventListener('scroll',this._onScroll); window.removeEventListener('resize',this._onScroll);
+    if(this._sectionFrame!=null) cancelAnimationFrame(this._sectionFrame);
+    clearTimeout(this._copyTimer);
+  }
+  componentDidUpdate(prev){
+    if(prev.categoryId!==this.props.categoryId) this.scheduleSectionUpdate();
+  }
+  componentDidMount(){
+    this._onScroll=()=>this.scheduleSectionUpdate();
+    window.addEventListener('scroll',this._onScroll,{passive:true}); window.addEventListener('resize',this._onScroll);
+    this.scheduleSectionUpdate();
+    import(new URL('./blocks.js', location.href).href)
+      .then(m=>this.setState({rich:m}))
+      .catch(e=>console.error('blocks.js 読み込み失敗:', e));
+  }
+  toBlocks(body){
+    const rich=this.state.rich;
+    if(!rich) return (body||[]).filter(p=>typeof p==='string').map(p=>({isP:true,segments:[{isText:true,text:p}]}));
+    return rich.normalizeBlocks(body).map(b=>b.isHtml?{...b, el:React.createElement('div',{dangerouslySetInnerHTML:{__html:b.html}})}:b);
+  }
+  bandFor(cat, isAxis){
+    if(isAxis){
+      const m={ graph:'#cfe0f5', ai:'#e0d8f3', hpc:'#d3ecef' };
+      return m[cat.id]||'var(--bg-alt)';
+    }
+    const axes=cat.axes||[]; const has=k=>axes.includes(k);
+    if(has('graph')&&has('ai')&&has('hpc')) return 'linear-gradient(135deg,#3f5fa0,#5a7ab0)';
+    if(has('graph')&&has('ai')) return 'linear-gradient(135deg,#4a63a8,#7a6db2)';
+    if(has('ai')) return 'linear-gradient(135deg,#6f5fb0,#8f7fc0)';
+    if(has('graph')) return 'linear-gradient(135deg,#3f6fb0,#5f9fc0)';
+    return 'linear-gradient(135deg,#3a86a0,#5fb0bf)';
+  }
+
+  renderVals(){
+    const db=this.props.db||{};
+    const lang=this.props.lang==='en'?'en':'ja';
+    const L={ja:{home:'ホーム',cases:'代表的な研究事例',others:'その他の研究事例',axisCases:'研究事例',more:'もっとみる ↓',less:'表示を減らす ↑',details:'詳細はこちら',sectionNav:'このページの項目',top:'トップ',paperHeading:'文献情報',projectLink:'プロジェクトページ ↗',bibCopy:'BibTeX をコピー',bibCopied:'コピーしました ✓',bibFailed:'コピーできませんでした',lab:'鈴村研究室',articleKind:'研究紹介',paperLink:'論文リンク ↗',codeLink:'コード ↗',axesHeading:'研究の軸をみる',topicsHeading:'研究トピックをみる',viewPage:'このページをみる →',related:'関連ページ',topic:'研究トピック',axis:'基盤技術',paper:'論文',project:'プロジェクト',blog:'ブログ',research:'研究'},en:{home:'Home',cases:'Selected Research',others:'More Research',axisCases:'Research',more:'Show more ↓',less:'Show less ↑',details:'Learn more',sectionNav:'On this page',top:'Top',paperHeading:'Publication',projectLink:'Project Page ↗',bibCopy:'Copy BibTeX',bibCopied:'Copied ✓',bibFailed:'Copy failed',lab:'Suzumura Laboratory',articleKind:'Research',paperLink:'Paper ↗',codeLink:'Code ↗',axesHeading:'Research Axes',topicsHeading:'Research Topics',viewPage:'View this page →',related:'Related Pages',topic:'Research Topic',axis:'Core Technology',paper:'Paper',project:'Project',blog:'Blog',research:'Research'}}[lang];
+    const axes=db.axes||[], topics=db.topics||[], articles=db.articles||[];
+    const id=this.props.categoryId;
+    const openArticle=this.props.onOpenArticle||(()=>{});
+    const openCategory=this.props.onOpenCategory||(()=>{});
+    const openBrowse=this.props.onOpenBrowse||(()=>{});
+    const goHome=this.props.onGoHome||(()=>{});
+
+    const axisName=aid=>{ const a=axes.find(x=>x.id===aid); return a?a.name:aid; };
+    const topicName=tid=>{ const t=topics.find(x=>x.id===tid); return t?((lang==='en'&&t.en)?t.en:t.ja):tid; };
+    const kindLabelOf=k=>({paper:L.paper,project:L.project,blog:L.blog}[k]||L.research);
+
+    const axis=axes.find(x=>x.id===id);
+    const topic=topics.find(x=>x.id===id);
+    const isAxis=!!axis;
+    const cat=axis||topic||{name:'',en:'',page:{}};
+    const page=cat.page||{};
+    const name=isAxis?cat.name:((lang==='en'&&cat.en)?cat.en:cat.ja);
+
+    // band + text colors: axis bands are light, topic bands are dark gradients
+    const band=this.bandFor(cat,isAxis);
+    const heroImage=page.heroImage||cat.image||'';
+    const hasHeroImage=!!heroImage;
+    const dark=!isAxis||hasHeroImage;
+    const titleColor=dark?'#fff':'var(--ink)';
+    const catchColor=dark?'rgba(255,255,255,.92)':'var(--accent)';
+    const enColor=dark?'rgba(255,255,255,.75)':'var(--accent)';
+    const crumbColor=dark?'rgba(255,255,255,.7)':'var(--muted)';
+
+    // related links sidebar
+    let related=[], relatedHeading='';
+    if(isAxis){
+      relatedHeading='この軸が関わる研究トピック';
+      related=topics.filter(t=>(t.axes||[]).includes(id)).map(t=>({ label:t.ja, onOpen:()=>openCategory(t.id) }));
+    } else {
+      relatedHeading='関連する基盤技術の軸';
+      related=(cat.axes||[]).map(aid=>({ label:axisName(aid), onOpen:()=>openCategory(aid) }));
+    }
+    // md の related: があればそれを優先（トピック/軸のid配列。'none'で非表示）
+    if(page.related!==undefined){
+      relatedHeading='関連ページ';
+      related=page.related.map(rid=>{
+        const t=topics.find(x=>x.id===rid); if(t) return { label:t.ja, onOpen:()=>openCategory(t.id) };
+        const ax=axes.find(x=>x.id===rid); if(ax) return { label:axisName(rid), onOpen:()=>openCategory(rid) };
+        return null;
+      }).filter(Boolean);
+    }
+
+    const hasTag=a=>(a.axisTags||[]).includes(id)||(a.topicTags||[]).includes(id);
+    const catArticles=articles.filter(hasTag).map(a=>({
+      title:a.title, summary:a.summary, year:a.year, kindLabel:kindLabelOf(a.kind), onOpen:()=>openArticle(a.id),
+      tags:[...(a.axisTags||[]).map(x=>({label:axisName(x),color:'var(--accent)',bg:'var(--soft)'})),
+            ...(a.topicTags||[]).map(x=>({label:'#'+topicName(x),color:'#6a4ca0',bg:'#f0ecf7'}))],
+    }));
+
+    // カード背景（image → page.heroImage → グラデーションの順で使用）
+    const bannerOf=(c,axisLike)=>{
+      const img=c.image||(c.page||{}).heroImage;
+      if(img) return "var(--ink) url('"+img+"') center/cover no-repeat";
+      return this.bandFor(c,axisLike);
+    };
+
+    // 研究紹介の記事の短い表示（章のカード・代表的な研究事例の上の小さな文字）: 「研究紹介 · 発表先」
+    const kickerOf=a=>[L.articleKind, a.venue||a.year].filter(Boolean).join(' · ');
+
+    // 文献情報の 1 文:「題. 著者. 掲載先, 年.」（研究紹介のページと同じ書き方。BibTeX を読む前と読めないときは記事・論文一覧の題と掲載先）
+    const citationOf=(bib,a)=>[bib.title||a.title, bib.authors||a.authors, [bib.venue||a.venue, bib.year||a.year].filter(Boolean).join(', ')]
+      .filter(Boolean).map(x=>String(x).replace(/[.。]\s*$/,'')+'.').join(' ');
+
+    // 代表的な研究事例：トピックの md の cases: に書いた研究紹介を、研究紹介のページと同じ並びでそのまま載せる（#119）
+    const caseArticles=(page.caseIds||[]).map(aid=>articles.find(x=>x.id===aid)).filter(Boolean);
+    this.loadBibs(caseArticles);
+    const cases=caseArticles.map((a,i)=>{
+      const bib=this.parseBib(a.bibtex?(this.state.bibs||{})[a.bibtex]:'');
+      const copied=(this.state.copied||{})[a.bibtex];
+      return {
+        kindLabel:kindLabelOf(a.kind), date:a.date||'', title:a.title||'', venue:a.venue||'', hasVenue:!!a.venue,
+        figure:a.figure||'', hasFigure:!!a.figure, caption:a.figureCaption||'', hasCaption:!!(a.figure&&a.figureCaption),
+        summary:a.summary||'', hasSummary:!!a.summary,
+        // 文献情報:「題. 著者. 掲載先, 年.」（研究紹介のページと同じ。BibTeX を読む前と読めないときは記事の題と掲載先）
+        hasPaper:!!(a.bibtex||a.url),
+        paperCitation:citationOf(bib, a),
+        url:a.url||'', hasUrl:!!a.url, code:a.code||'', hasCode:!!a.code, project:a.project||'', hasProject:!!a.project,
+        hasBibtex:!!a.bibtex, bibBtnLabel:copied==='fail'?L.bibFailed:(copied==='ok'?L.bibCopied:L.bibCopy),
+        copyBib:()=>this.copyBib(a.bibtex),
+        blocks:this.toBlocks(a.body),
+        // 2 本目からは上に広めの余白をとり、題の上に太い線を引いて区切る
+        marginTop:i?'88px':'0', headLine:i?'4px solid var(--accent)':'none', headPad:i?'22px':'0',
+      };
+    });
+
+    // その他の研究事例：この領域のタグ付き記事（代表事例に使った記事は除く）
+    const caseIdSet=new Set(page.caseIds||[]);
+    // 図が無い研究紹介は、研究室のロゴを出す（代表的な研究事例と同じ決まり。#106）
+    const othersAll=articles.filter(a=>hasTag(a)&&!caseIdSet.has(a.id)).map(a=>({
+      image:a.figure||'images/logo-mark.png', fit:'contain', pad:a.figure?'0':'14% 0', title:a.title||'',
+      meta:[kindLabelOf(a.kind),a.year].filter(Boolean).join(' · '),
+      onOpen:()=>openArticle(a.id),
+    }));
+    const OTHERS_LIMIT=4;
+    const othersOpen=!!this.state.othersOpen;
+
+    // 研究の軸をみる（基盤技術ページのみ・残り2軸）
+    const axisCross=isAxis?axes.filter(a=>a.id!==id).map(a=>({
+      // カードの画像は、トップページの 3 軸のカードと同じ（cardImage があればそれ。#104）
+      label:a.name, desc:a.desc||'', banner:bannerOf(a.cardImage?{...a,image:a.cardImage}:a,false),
+      onClick:()=>openCategory(a.id),
+    })):[];
+
+    // 関連ページ（軸ページ→関連トピック、トピックページ→関連する軸）
+    let relatedPages=[];
+    if(isAxis){
+      // 軸ページは、軸に関わるものだけでなく 7 つの研究トピックすべてを、トップページと同じ順・同じ説明で並べる（#104）
+      relatedPages=topics.map(t=>({
+        kind:L.topic, title:(lang==='en'&&t.en)?t.en:t.ja, desc:t.desc||'', banner:bannerOf(t,false),
+        onOpen:()=>openCategory(t.id),
+      }));
+    } else {
+      relatedPages=(cat.axes||[]).map(aid=>axes.find(x=>x.id===aid)).filter(Boolean).map(a=>({
+        kind:L.axis, title:a.name, desc:a.desc||'', banner:bannerOf(a,false),
+        onOpen:()=>openCategory(a.id),
+      }));
+    }
+
+    // 本文: 「::article 記事のid」をカードにし、「::paper BibTeXのキー」を文献情報にし、章の見出しに右側のボタンから移るための id を付ける（#119）
+    const rawBlocks=this.toBlocks(page.body);
+    if(rawBlocks.some(b=>b.isPapers)) this.loadPubs();
+    const pubOf=key=>(this.state.pubs||[]).find(p=>{ const m=String(p.bibtex||'').match(/@\w+\s*\{\s*([^,\s]+)/); return m&&m[1]===key; });
+    const blocks=rawBlocks.map((b,i)=>{
+      if(b.isPapers) return { ...b, papers:b.keys.map(pubOf).filter(Boolean).map(p=>{
+        const key=String(p.bibtex||'').match(/@\w+\s*\{\s*([^,\s]+)/)?.[1]||p.title;
+        const copied=(this.state.copied||{})[key];
+        return {
+          citation:citationOf(this.parseBib(p.bibtex||''), p),
+          url:p.url||'', hasUrl:!!p.url, hasBibtex:!!p.bibtex,
+          bibBtnLabel:copied==='fail'?L.bibFailed:(copied==='ok'?L.bibCopied:L.bibCopy),
+          copyBib:()=>this.copyBib(key, p.bibtex||''),
+        };
+      }) };
+      if(b.isArticles) return { ...b, cards:b.ids.map(aid=>articles.find(x=>x.id===aid)).filter(Boolean).map(a=>({
+        kicker:kickerOf(a), title:a.title||'', desc:a.summary||'',
+        image:a.figure||'images/logo-mark.png', pad:a.figure?'0':'14% 0',
+        onOpen:()=>openArticle(a.id),
+      })) };
+      if(b.isHeading) return { ...b, anchor:'cat-sec-'+i };
+      return b;
+    });
+    // 右側のボタン（研究トピックのページだけ）: トップ・各章・代表的な研究事例・その他の研究事例。
+    // 名前は章の見出し。md の見出しの後ろに {nav=短い名前} と書けば、その名前にする
+    const navItems=isAxis?[]:[
+      { id:'cat-top', label:L.top },
+      ...blocks.filter(b=>b.isHeading).map(b=>({ id:b.anchor, label:b.nav||b.text })),
+      ...(cases.length?[{ id:'cat-cases', label:page.casesHeading||L.cases }]:[]),
+      ...(othersAll.length?[{ id:'cat-others', label:L.others }]:[]),
+    ];
+    this._sectionIds=navItems.map(x=>x.id);
+    const sectionLinks=navItems.map(x=>({ label:x.label, current:this.state.activeSection===x.id?'location':'false', onOpen:()=>this.openSection(x.id) }));
+
+    return {
+      L, band, name, en:cat.en||'', catch:page.catch||'', blocks,
+      hasSectionNav:sectionLinks.length>=2, sectionLinks, sectionNavColor:this.state.navOnImage?'#fff':'var(--accent)',
+      // 項目名は本文の上に重なるので、下地を付けて読めるようにする（写真の帯の上では暗い下地）
+      sectionLabelBg:this.state.navOnImage?'rgba(16,25,44,.6)':'color-mix(in srgb,var(--bg) 94%,transparent)',
+      heroImage, hasHeroImage, noHeroImage:!hasHeroImage,
+      heroShadow:hasHeroImage?'0 1px 16px rgba(10,16,30,.45)':'none',
+      hasCases:cases.length>0, cases,
+      // 研究トピックの md に casesHeading: / casesLead: があれば、事例の欄の見出しと見出しの下の文をそれにする
+      casesHeading:page.casesHeading||L.cases, casesLead:page.casesLead||'', hasCasesLead:!!page.casesLead,
+      hasOthers:othersAll.length>0,
+      // 3軸のページには代表的な研究事例が無いので、見出しは「研究事例」にする
+      othersHeading:isAxis?L.axisCases:L.others,
+      others:othersOpen?othersAll:othersAll.slice(0,OTHERS_LIMIT),
+      othersHasToggle:othersAll.length>OTHERS_LIMIT,
+      othersToggleLabel:othersOpen?L.less:L.more,
+      toggleOthers:()=>this.setState(s=>({othersOpen:!s.othersOpen})),
+      showAxisCross:isAxis&&axisCross.length>0, axisCross,
+      hasRelatedPages:relatedPages.length>0, relatedPages,
+      relatedTitle:isAxis?L.topicsHeading:L.related,
+      relatedClamp:isAxis?'none':2,   // 軸ページはトップページと同じく説明を全文出す。ほかは 2 行で切る   // 軸ページの関連ページの章は「研究トピックをみる」
+      kindLabel:isAxis?L.axis:L.topic,
+      titleColor, catchColor, enColor, crumbColor,
+      related, relatedHeading,
+      catArticles, count:catArticles.length, isEmpty:catArticles.length===0,
+      goHome, goBrowseTag:()=>openBrowse([id]),
+    };
+  }
+}
+</script>
+</body>
+</html>

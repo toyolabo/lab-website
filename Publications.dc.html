@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- 幅 1180px（左右の余白 28px を含む）。上部のメニュー・パンくずと左端がそろう。ほかのページも同じ（#108） -->
+<main style="max-width:1180px;margin:0 auto;padding:64px 28px 90px">
+  <h1 style="font-family:'Noto Sans JP',sans-serif;font-weight:700;letter-spacing:.02em;font-size:32px;line-height:1.4;color:var(--ink);margin:0 0 30px">{{ t.title }}</h1>
+  <div style="margin:0;display:flex;gap:24px;flex-wrap:wrap">
+    <div style="flex:1 1 240px;max-width:340px">
+      <div style="font-family:'Noto Sans JP',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--ink);margin-bottom:8px">{{ t.category }}</div>
+      <div style="position:relative">
+        <select aria-label="{{ t.category }}" onChange="{{ onCatChange }}" value="{{ catValue }}" style="display:block;width:100%;appearance:none;-webkit-appearance:none;background:#fff;border:1px solid var(--line);border-radius:8px;color:var(--text);font:inherit;font-size:12px;font-weight:700;padding:11px 40px 11px 14px;cursor:pointer">
+          <sc-for list="{{ catOptions }}" as="o" hint-placeholder-count="4"><option value="{{ o.id }}">{{ o.label }}</option></sc-for>
+        </select>
+        <svg aria-hidden="true" focusable="false" width="14" height="8" viewBox="0 0 14 8" fill="none" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--text)"><path d="M1 1l6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </div>
+    </div>
+    <div style="flex:1 1 240px;max-width:340px">
+      <div style="font-family:'Noto Sans JP',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--ink);margin-bottom:8px">{{ t.area }}</div>
+      <div style="position:relative">
+        <select aria-label="{{ t.area }}" onChange="{{ onAreaChange }}" value="{{ areaValue }}" style="display:block;width:100%;appearance:none;-webkit-appearance:none;background:#fff;border:1px solid var(--line);border-radius:8px;color:var(--text);font:inherit;font-size:12px;font-weight:700;padding:11px 40px 11px 14px;cursor:pointer">
+          <sc-for list="{{ areaOptions }}" as="o" hint-placeholder-count="6"><option value="{{ o.id }}">{{ o.label }}</option></sc-for>
+        </select>
+        <svg aria-hidden="true" focusable="false" width="14" height="8" viewBox="0 0 14 8" fill="none" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--text)"><path d="M1 1l6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </div>
+    </div>
+  </div>
+  <p style="font-size:12px;color:var(--muted);margin:12px 0 0">{{ shownText }}</p>
+  <div style="border-top:1px solid var(--line);margin-top:20px">
+    <sc-for list="{{ pubList }}" as="p" hint-placeholder-count="8">
+      <div style="display:flex;align-items:flex-start;gap:20px;padding:20px 6px;border-bottom:1px solid var(--line)">
+        <span style="flex:none;width:52px;font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:12px;letter-spacing:.06em;color:var(--accent);padding-top:2px">{{ p.year }}</span>
+        <span style="flex:1;min-width:0">
+          <span style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:7px">
+            <span style="font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--accent);border:1px solid var(--accent);padding:2px 9px;border-radius:4px">{{ p.catLabel }}</span>
+            <sc-for list="{{ p.areaLabels }}" as="al" hint-placeholder-count="1">
+              <span style="font-size:12px;font-weight:700;letter-spacing:.06em;color:#6a4ca0;border:1px solid #6a4ca0;padding:2px 9px;border-radius:4px">{{ al }}</span>
+            </sc-for>
+          </span>
+          <span style="display:block;font-weight:700;font-size:16px;color:var(--ink);line-height:1.6">{{ p.title }}</span>
+          <sc-if value="{{ p.hasAuthors }}" hint-placeholder-val="{{ false }}">
+            <span style="display:block;font-size:12px;color:var(--text);margin-top:4px;line-height:1.7">{{ p.authors }}</span>
+          </sc-if>
+          <span style="display:block;font-size:12px;color:var(--muted);margin-top:3px">{{ p.venue }}</span>
+          <span style="display:flex;gap:16px;margin-top:8px;flex-wrap:wrap">
+            <sc-if value="{{ p.hasUrl }}" hint-placeholder-val="{{ false }}">
+              <a href="{{ p.url }}" target="_blank" rel="noopener" style="font-size:12px;font-weight:700;color:var(--accent);text-decoration:none" style-hover="text-decoration:underline">{{ t.paperLink }}</a>
+            </sc-if>
+            <sc-if value="{{ p.hasArticle }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ p.onOpen }}" style="background:none;border:none;padding:0;cursor:pointer;font:inherit;font-size:12px;font-weight:700;color:var(--accent)" style-hover="text-decoration:underline">{{ t.articleLink }}</button>
+            </sc-if>
+            <sc-if value="{{ p.hasSlides }}" hint-placeholder-val="{{ false }}">
+              <a href="{{ p.slides }}" target="_blank" rel="noopener" style="font-size:12px;font-weight:700;color:var(--accent);text-decoration:none" style-hover="text-decoration:underline">{{ t.slidesLink }}</a>
+            </sc-if>
+            <button onClick="{{ p.onCopyBib }}" style="background:none;border:none;padding:0;cursor:pointer;font:inherit;font-size:12px;font-weight:700;color:var(--accent)" style-hover="text-decoration:underline">{{ p.bibLabel }}</button>
+          </span>
+          <sc-if value="{{ p.hasAbstract }}" hint-placeholder-val="{{ false }}">
+            <span style="display:block;margin-top:8px">
+              <sc-if value="{{ p.absClosed }}" hint-placeholder-val="{{ true }}">
+                <button onClick="{{ p.onToggleAbs }}" style="display:inline-flex;align-items:center;gap:6px;background:none;border:none;padding:0;cursor:pointer;font:inherit;font-size:12px;font-weight:700;color:var(--accent)" style-hover="text-decoration:underline">{{ t.abstract }} <span style="font-size:12px">▼</span></button>
+              </sc-if>
+              <sc-if value="{{ p.absOpen }}" hint-placeholder-val="{{ false }}">
+                <span style="display:block;padding:4px 0 0;font-size:12px;line-height:1.95;color:var(--text);white-space:pre-line">{{ p.absText }}</span>
+                <button onClick="{{ p.onToggleAbs }}" style="margin-top:8px;display:inline-flex;align-items:center;gap:6px;background:none;border:none;padding:0;cursor:pointer;font:inherit;font-size:12px;font-weight:700;color:var(--accent)" style-hover="text-decoration:underline">{{ t.less }} <span style="font-size:12px">▲</span></button>
+              </sc-if>
+            </span>
+          </sc-if>
+        </span>
+      </div>
+    </sc-for>
+  </div>
+  <sc-if value="{{ hasPages }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:28px">
+      <sc-for list="{{ pages }}" as="pg" hint-placeholder-count="3">
+        <sc-if value="{{ pg.isEllipsis }}" hint-placeholder-val="{{ false }}">
+          <span style="min-width:38px;height:38px;display:inline-flex;align-items:center;justify-content:center;color:var(--muted);font-size:12px;font-weight:700">…</span>
+        </sc-if>
+        <sc-if value="{{ pg.isButton }}" hint-placeholder-val="{{ true }}">
+          <button onClick="{{ pg.onClick }}" style="min-width:38px;height:38px;padding:0 10px;border:1px solid {{ pg.border }};border-radius:8px;background:{{ pg.bg }};color:{{ pg.color }};font:inherit;font-size:12px;font-weight:700;cursor:pointer" style-hover="border-color:var(--accent);color:var(--accent)">{{ pg.label }}</button>
+        </sc-if>
+      </sc-for>
+    </div>
+  </sc-if>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900},&quot;db&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;object&quot;},&quot;lang&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;string&quot;},&quot;onOpenArticle&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(id:string)=&gt;void&quot;},&quot;onGoHome&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;()=&gt;void&quot;}}">
+class Component extends DCLogic {
+  state = { pubs: [], page: 1, loading: true, cat: 'all', area: 'all', absOpen: {}, copiedBib: {} };
+  // bibtex が未記入の論文用に書誌情報から自動生成
+  bibOf(p){
+    const authorsList=String(p.authors||'').split(',').map(s=>s.trim()).filter(Boolean);
+    const first=authorsList[0]||'Suzumura';
+    const ascii=first.replace(/[^A-Za-z ]/g,'').trim();
+    const surname=(ascii?ascii.split(' ').pop():'suzumura').toLowerCase()||'suzumura';
+    const word=((p.title||'').match(/[A-Za-z]{3,}/)||['paper'])[0].toLowerCase();
+    const type=p.cat==='journal'?'article':(p.cat==='preprint'?'misc':'inproceedings');
+    const vf=p.cat==='journal'?'journal':(p.cat==='preprint'?'howpublished':'booktitle');
+    let b='@'+type+'{'+surname+p.year+word+',\n  title = {'+p.title+'},\n  author = {'+authorsList.join(' and ')+'},\n  '+vf+' = {'+p.venue+'},\n  year = {'+p.year+'}';
+    if(p.url) b+=',\n  url = {'+p.url+'}';
+    return b+'\n}';
+  }
+  copyText(txt, key){
+    const done=ok=>{
+      this.setState(s=>({ copiedBib:{ ...s.copiedBib, [key]:ok?'ok':'ng' } }));
+      this._bibTimers=this._bibTimers||{};
+      clearTimeout(this._bibTimers[key]);
+      this._bibTimers[key]=setTimeout(()=>this.setState(s=>{ const c={...s.copiedBib}; delete c[key]; return { copiedBib:c }; }),2000);
+    };
+    const legacy=()=>{
+      try{
+        const ta=document.createElement('textarea');
+        ta.value=txt; ta.style.position='fixed'; ta.style.opacity='0';
+        document.body.appendChild(ta); ta.select();
+        const ok=document.execCommand('copy');
+        document.body.removeChild(ta);
+        done(ok);
+      }catch(e){ done(false); }
+    };
+    try{
+      const pr=navigator.clipboard&&navigator.clipboard.writeText(txt);
+      if(pr&&pr.then) pr.then(()=>done(true), legacy); else legacy();
+    }catch(e){ legacy(); }
+  }
+  CATS = [
+    { id:'all', ja:'すべて', en:'All' }, { id:'journal', ja:'論文誌', en:'Journal' },
+    { id:'intl', ja:'国際会議', en:'International Conference' }, { id:'domestic', ja:'国内学会', en:'Domestic Conference' },
+    { id:'preprint', ja:'プレプリント', en:'Preprint' },
+  ];
+  UI = {
+    ja: {
+      home:'ホーム', pubs:'論文', title:'論文一覧',
+      category:'カテゴリー', area:'研究領域',
+      articleLink:'個別記事 →', paperLink:'論文リンク ↗', slidesLink:'スライド ↗',
+      abstract:'概要', less:'表示を減らす', bib:'BibTeX をコピー', bibCopied:'コピーしました ✓', bibFailed:'コピーできませんでした',
+      shown:(n)=>`該当 ${n} 件`,
+    },
+    en: {
+      home:'Home', pubs:'Publications', title:'Publications',
+      category:'Category', area:'Research Area',
+      articleLink:'Article →', paperLink:'Paper ↗', slidesLink:'Slides ↗',
+      abstract:'Abstract', less:'Show less', bib:'Copy BibTeX', bibCopied:'Copied ✓', bibFailed:'Copy failed',
+      shown:(n)=>`${n} matching`,
+    },
+  };
+  // 研究領域の自動判定（areas を JSON に書けば手動指定が優先されます）
+  AREA_PATTERNS = {
+    graph: /graph|network|gnn|node embed|グラフ/i,
+    ai: /learn|neural|model|llm|language|intellig|transform|agent|生成|言語モデル|機械学習/i,
+    hpc: /hpc|parallel|distributed|scalab|supercomput|x10|cloud|stream|performance|システム|分散/i,
+    mi: /material|molecul|chemi|crystal|材料|結晶/i,
+    gfm: /foundation/i,
+    rec: /recommend|preference|推薦|嗜好/i,
+    brain: /\beeg\b|brain|neuro|脳/i,
+    robo: /robot|embodied|ロボ/i,
+    // 研究トピック「研究基盤・サービス」: 並列・分散・クラウドなど計算・データ処理の基盤に関するキーワードで判定（軸の hpc と同じ正規表現）
+    systems: /hpc|parallel|distributed|scalab|supercomput|x10|cloud|stream|performance|システム|分散/i,
+    // 研究トピック「その他応用領域」: 金融・交通・都市・感染症などへの応用
+    others: /financ|fraud|launder|ethereum|blockchain|stock|traffic|transportation|flight|covid|city|cities|social simulation|金融|不正|交通|都市|感染/i,
+  };
+  areasOf(text){ return Object.keys(this.AREA_PATTERNS).filter(id=>this.AREA_PATTERNS[id].test(text)); }
+  PER_PAGE = 20;
+  norm(t){ return String(t||'').toLowerCase().replace(/[^a-z0-9\u3040-\u30ff\u4e00-\u9fff]/g,''); }
+  async componentDidMount(){
+    try{
+      const res = await fetch('data/publications.json');
+      if(!res.ok) throw new Error('HTTP '+res.status);
+      const json = await res.json();
+      this.setState({ pubs: json.items||[], loading:false });
+    }catch(e){
+      console.error('publications.json の読み込みに失敗:', e);
+      this.setState({ loading:false });
+    }
+  }
+  renderVals(){
+    const db=this.props.db||{};
+    const articles=db.articles||[];
+    const axes=db.axes||[], topics=db.topics||[];
+    const lang=this.props.lang||'ja';
+    const t=this.UI[lang]||this.UI.ja;
+    const openArticle=this.props.onOpenArticle||(()=>{});
+    const norm=this.norm;
+    const areaName={};
+    axes.forEach(a=>{ areaName[a.id]=a.name; });
+    topics.forEach(tp=>{ areaName[tp.id]=(lang==='en'&&tp.en)?tp.en:tp.ja; });
+
+    // data/publications.json の項目
+    const jsonItems=this.state.pubs.map((p,i)=>({
+      key:'j'+i,
+      year:p.year, title:p.title, venue:p.venue||'',
+      authors:Array.isArray(p.authors)?p.authors.join(', '):(p.authors||''),
+      url:p.url, slides:p.slides,
+      articleId:p.articleId,
+      cat:p.cat||'intl',
+      areas:p.areas||this.areasOf(String(p.title||'')+' '+String(p.venue||'')),
+      abstract:(lang==='en'&&p.abstractEn)?p.abstractEn:(p.abstract||p.abstractEn||''),
+      bibtex:p.bibtex||'',
+      _key:norm(p.title),
+    }));
+    const jsonKeys=new Set(jsonItems.map(m=>m._key));
+
+    // md 記事(kind:'paper')のうち JSON に無いものを追加(研究紹介ページ付き)
+    const manual=articles.filter(a=>a.kind==='paper'&&!jsonKeys.has(norm(a.title))).map((p,i)=>({
+      key:'m'+i,
+      year:p.year, title:p.title, venue:p.venue||'',
+      authors:'', url:p.url, slides:undefined,
+      articleId:p.id,
+      cat:/[\u3040-\u30ff\u4e00-\u9fff]/.test(String(p.venue||''))?'domestic':'intl',
+      areas:[...(p.axisTags||[]),...(p.topicTags||[])],
+      abstract:'',
+    }));
+
+    const catLabelOf={}; this.CATS.forEach(c=>{ catLabelOf[c.id]=(lang==='en'?c.en:c.ja); });
+    const absOpen=this.state.absOpen, copiedBib=this.state.copiedBib;
+    const decorate=p=>{
+      const bib=p.bibtex||this.bibOf(p);
+      const cb=copiedBib[p.key];
+      return {
+      ...p,
+      hasAuthors:!!p.authors,
+      hasUrl:!!p.url, hasSlides:!!p.slides,
+      hasArticle:!!p.articleId, onOpen:()=>openArticle(p.articleId),
+      catLabel:catLabelOf[p.cat]||'',
+      areaLabels:(p.areas||[]).map(id=>areaName[id]).filter(Boolean),
+      hasAbstract:!!String(p.abstract||'').trim(), absText:p.abstract||'',
+      absOpen:!!absOpen[p.key], absClosed:!absOpen[p.key],
+      onToggleAbs:()=>this.setState(s=>({ absOpen:{ ...s.absOpen, [p.key]:!s.absOpen[p.key] } })),
+      bibLabel:cb==='ok'?t.bibCopied:(cb==='ng'?t.bibFailed:t.bib),
+      onCopyBib:()=>this.copyText(bib, p.key),
+      };
+    };
+
+    const all=[...jsonItems,...manual].sort((x,y)=>y.year-x.year);
+    const {cat,area}=this.state;
+    const filtered=all.filter(p=>(cat==='all'||p.cat===cat)&&(area==='all'||(p.areas||[]).includes(area))).map(decorate);
+    const catOptions=this.CATS.map(c=>({id:c.id,label:(lang==='en'?c.en:c.ja)}));
+    const areaOptions=[{id:'all',label:(lang==='en'?'All':'すべて')},...axes.map(a=>({id:a.id,label:a.name})),...topics.map(tp=>({id:tp.id,label:areaName[tp.id]}))];
+    const onCatChange=e=>this.setState({cat:e.target.value,page:1});
+    const onAreaChange=e=>this.setState({area:e.target.value,page:1});
+    const pageCount=Math.max(1,Math.ceil(filtered.length/this.PER_PAGE));
+    const page=Math.min(this.state.page,pageCount);
+    const nums=[];
+    for(let n=1;n<=pageCount;n++){ if(n===1||n===pageCount||Math.abs(n-page)<=1) nums.push(n); }
+    const pages=[];
+    nums.forEach((n,idx)=>{
+      if(idx>0&&n-nums[idx-1]>1) pages.push({ isEllipsis:true, isButton:false, label:'…' });
+      pages.push({
+        isEllipsis:false, isButton:true, label:String(n),
+        onClick:()=>{ this.setState({page:n}); window.scrollTo({top:0,behavior:'smooth'}); },
+        bg:n===page?'var(--accent)':'transparent',
+        color:n===page?'#fff':'var(--muted)',
+        border:n===page?'var(--accent)':'var(--line)',
+      });
+    });
+
+    return {
+      goHome:this.props.onGoHome||(()=>{}),
+      t,
+      shownText:t.shown(filtered.length),
+      catOptions, areaOptions, onCatChange, onAreaChange,
+      catValue:cat, areaValue:area,
+      pubList:filtered.slice((page-1)*this.PER_PAGE,page*this.PER_PAGE),
+      hasPages:pageCount>1,
+      pages,
+    };
+  }
+}
+</script>
+</body>
+</html>

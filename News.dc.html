@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- 文章も枠いっぱい（幅 1180px・左右の余白 28px の内側）にする。ほかのページと同じ（#110） -->
+<main style="max-width:1180px;margin:0 auto;padding:34px 28px 90px">
+
+  <sc-if value="{{ found }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
+      <span style="font-family:'Noto Sans JP',sans-serif;font-size:12px;color:var(--muted)">{{ date }}</span>
+      <span style="font-size:12px;font-weight:700;letter-spacing:.04em;color:{{ catColor }};border:1px solid {{ catColor }};padding:3px 10px;border-radius:5px">{{ catLabel }}</span>
+    </div>
+    <h1 style="font-family:'Noto Sans JP',sans-serif;font-weight:700;letter-spacing:.02em;font-size:32px;line-height:1.45;color:var(--ink);margin:0 0 30px;text-wrap:pretty">{{ title }}</h1>
+    <div style="display:flex;flex-direction:column;gap:18px;border-top:1px solid var(--line);padding-top:30px;font-size:16px;line-height:2;color:var(--text)">
+      <!-- Zenn の記事（external）を URL で直接開いたときは、本文の代わりに Zenn へのリンクを出す -->
+      <sc-if value="{{ hasExternal }}" hint-placeholder-val="{{ false }}">
+        <a href="{{ external }}" target="_blank" rel="noopener" class="site-resource"><span style="flex:1;min-width:0"><span class="site-resource-title">{{ L.readOnZenn }}</span><span class="site-resource-url">{{ external }}</span></span><span style="flex:none;color:var(--accent)">↗</span></a>
+      </sc-if>
+      <sc-for list="{{ blocks }}" as="b" hint-placeholder-count="2">
+        <div>
+          <sc-if value="{{ b.isHeading }}" hint-placeholder-val="{{ false }}">
+            <h2 style="font-family:'Noto Sans JP',sans-serif;font-weight:700;letter-spacing:.02em;font-size:24px;color:var(--ink);margin:38px 0 4px;padding-bottom:10px;border-bottom:2px solid var(--soft);line-height:1.5">{{ b.text }}</h2>
+          </sc-if>
+          <sc-if value="{{ b.isP }}" hint-placeholder-val="{{ true }}">
+            <p style="margin:0;white-space:pre-line"><sc-for list="{{ b.segments }}" as="s" hint-placeholder-count="1"><sc-if value="{{ s.isText }}" hint-placeholder-val="{{ true }}"><span>{{ s.text }}</span></sc-if><sc-if value="{{ s.isLink }}" hint-placeholder-val="{{ false }}"><a href="{{ s.href }}" target="{{ s.target }}" rel="noopener" style="color:var(--accent);font-weight:700;text-decoration:underline;text-underline-offset:3px">{{ s.text }}</a></sc-if></sc-for></p>
+          </sc-if>
+          <sc-if value="{{ b.isImage }}" hint-placeholder-val="{{ false }}">
+            <figure style="margin:6px auto;width:{{ b.figW }};max-width:100%"><img src="{{ b.src }}" alt="{{ b.caption }}" style="width:100%;border-radius:12px;border:1px solid var(--line);display:block"><sc-if value="{{ b.hasCaption }}" hint-placeholder-val="{{ false }}"><figcaption style="font-size:12px;color:var(--muted);margin-top:8px;line-height:1.7;text-align:{{ b.capAlign }}">{{ b.caption }}</figcaption></sc-if></figure>
+          </sc-if>
+          <sc-if value="{{ b.isVideo }}" hint-placeholder-val="{{ false }}">
+            <a href="{{ b.url }}" target="_blank" rel="noopener" style="display:block;position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--line);text-decoration:none;margin:6px 0">
+              <img src="{{ b.thumb }}" alt="{{ b.caption }}" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
+              <span style="position:absolute;inset:0;display:grid;place-items:center"><span style="width:64px;height:64px;border-radius:50%;background:rgba(0,0,0,.62);display:grid;place-items:center;color:#fff;font-size:22px;padding-left:5px">▶</span></span>
+              <sc-if value="{{ b.hasCaption }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:0;right:0;bottom:0;background:linear-gradient(transparent,rgba(0,0,0,.65));color:#fff;font-size:12px;padding:26px 14px 10px;line-height:1.6">{{ b.caption }}</span></sc-if>
+            </a>
+          </sc-if>
+          <sc-if value="{{ b.isLinkCard }}" hint-placeholder-val="{{ false }}">
+            <a href="{{ b.url }}" target="_blank" rel="noopener" class="site-resource"><span style="flex:1;min-width:0"><span class="site-resource-title">{{ b.label }}</span><span class="site-resource-url">{{ b.url }}</span></span><span style="flex:none;color:var(--accent)">↗</span></a>
+          </sc-if>
+          <sc-if value="{{ b.isHtml }}" hint-placeholder-val="{{ false }}">{{ b.el }}</sc-if>
+        </div>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{ hasRelatedPages }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:56px;border-top:1px solid var(--line);padding-top:28px">
+        <h2 style="font-family:'Noto Sans JP',sans-serif;font-weight:700;letter-spacing:.02em;font-size:20px;color:var(--ink);margin:0 0 20px">{{ L.related }}</h2>
+        <div style="display:flex;flex-direction:column">
+          <sc-for list="{{ relatedPages }}" as="rp" hint-placeholder-count="1">
+            <button data-related-row onClick="{{ rp.onOpen }}" style="display:flex;gap:18px;align-items:center;background:none;border:none;border-bottom:1px solid var(--line);cursor:pointer;font:inherit;padding:16px 6px;text-align:left" style-hover="background:var(--bg-alt)">
+              <span data-related-thumb style="flex:none;width:118px;height:72px;border-radius:9px;overflow:hidden;background:{{ rp.banner }};border:1px solid var(--line)"></span>
+              <span style="flex:1;min-width:0">
+                <span style="display:block;font-family:'Noto Sans JP',sans-serif;font-size:12px;letter-spacing:.08em;font-weight:700;color:var(--accent);margin-bottom:4px">{{ rp.kind }}</span>
+                <span style="display:block;font-weight:700;font-size:16px;color:var(--ink);line-height:1.5">{{ rp.title }}</span>
+                <span style="display:block;font-size:12px;color:var(--muted);line-height:1.7;margin-top:3px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">{{ rp.desc }}</span>
+              </span>
+              <span data-row-arrow style="flex:none;color:var(--muted);font-size:17px">→</span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <div style="margin-top:56px;border-top:1px solid var(--line);padding-top:28px">
+      <div style="font-family:'Noto Sans JP',sans-serif;font-size:12px;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:16px">{{ L.recent }}</div>
+      <div style="display:flex;flex-direction:column">
+        <sc-for list="{{ others }}" as="n" hint-placeholder-count="3">
+          <button onClick="{{ n.onOpen }}" style="display:flex;align-items:center;gap:16px;text-align:left;background:none;border:none;border-bottom:1px solid var(--line);cursor:pointer;font:inherit;padding:14px 6px" style-hover="background:var(--bg-alt)">
+            <span style="font-family:'Noto Sans JP',sans-serif;font-size:12px;color:var(--muted);flex:none;width:70px">{{ n.date }}</span>
+            <span style="font-size:12px;color:var(--ink);line-height:1.6;flex:1">{{ n.title }}</span>
+            <span style="flex:none;color:var(--muted);font-size:15px">→</span>
+          </button>
+        </sc-for>
+      </div>
+      <button onClick="{{ goNews }}" style="margin-top:20px;background:none;border:none;cursor:pointer;font:inherit;font-size:12px;font-weight:700;color:var(--accent);padding:0">{{ L.backToList }}</button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ notFound }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:64px 24px;text-align:center;color:var(--muted);font-size:12px;background:var(--bg-alt);border-radius:12px">
+      {{ L.notFoundMsg }}
+      <div style="margin-top:16px"><button onClick="{{ goNews }}" style="background:none;border:none;cursor:pointer;font:inherit;font-size:12px;font-weight:700;color:var(--accent);padding:0">{{ L.backToList }}</button></div>
+    </div>
+  </sc-if>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1100,&quot;height&quot;:900},&quot;db&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;object&quot;},&quot;newsId&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;string&quot;},&quot;onOpenNews&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(id:string)=&gt;void&quot;},&quot;onOpenArticle&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(id:string)=&gt;void&quot;},&quot;onOpenCategory&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(id:string)=&gt;void&quot;},&quot;onGoNews&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;()=&gt;void&quot;},&quot;onGoHome&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;()=&gt;void&quot;}}">
+class Component extends DCLogic {
+  state = { rich:null };
+  componentDidMount(){
+    import(new URL('./blocks.js', location.href).href)
+      .then(m=>this.setState({rich:m}))
+      .catch(e=>console.error('blocks.js 読み込み失敗:', e));
+  }
+  // サイト内リンク（#/…）は今の言語を引き継いで同じタブで開き、外のリンクは新しいタブで開く（Pi.dc.html と同じ）
+  linkTarget(href){
+    const lang=this.props.lang==='en'?'en':'ja';
+    if(/^#\//.test(href||'')) return { href:'#'+(lang==='en'?'/en':'')+href.slice(1), target:'_self' };
+    return { href, target:'_blank' };
+  }
+  segs(list){ return (list||[]).map(s=>s.isLink ? { ...s, ...this.linkTarget(s.href) } : s); }
+  toBlocks(body){
+    const rich=this.state.rich;
+    if(!rich) return (body||[]).filter(p=>typeof p==='string').map(p=>({isP:true,segments:[{isText:true,text:p}]}));
+    return rich.normalizeBlocks(body).map(b=>{
+      if(b.isHtml) return {...b, el:React.createElement('div',{dangerouslySetInnerHTML:{__html:b.html}})};
+      if(b.isP) return { ...b, segments:this.segs(b.segments) };
+      if(b.isList) return { ...b, items:(b.items||[]).map(it=>({ ...it, segments:this.segs(it.segments) })) };
+      return b;
+    });
+  }
+  renderVals(){
+    const db=this.props.db||{};
+    const lang=this.props.lang==='en'?'en':'ja';
+    const L={ja:{home:'ホーム',news:'ニュース',article:'記事',related:'関連ページ',recent:'最近のニュース',readOnZenn:'Zenn で記事を読む',backToList:'ニュース一覧へ戻る →',notFoundMsg:'指定されたニュース記事が見つかりませんでした。',topic:'研究トピック',axis:'基盤技術',newsKind:'ニュース',paper:'論文',project:'プロジェクト',blog:'ブログ',research:'研究'},en:{home:'Home',news:'News',article:'Article',related:'Related Pages',recent:'RECENT NEWS',readOnZenn:'Read the article on Zenn (in Japanese)',backToList:'Back to news list →',notFoundMsg:'The requested news article was not found.',topic:'Research Topic',axis:'Core Technology',newsKind:'News',paper:'Paper',project:'Project',blog:'Blog',research:'Research'}}[lang];
+    const news=db.news||[], cats=db.newsCategories||[], articles=db.articles||[];
+    const id=this.props.newsId;
+    const item=news.find(n=>n.id===id);
+    const cat=item?cats.find(c=>c.id===item.kind):null;
+    const openNews=this.props.onOpenNews||(()=>{});
+    const openArticle=this.props.onOpenArticle||(()=>{});
+    // 「最近のニュース」には Zenn の記事（external）を出さない（一覧の「すべて」と同じ扱い。#72 のレビュー）
+    const others=news.filter(n=>n.id!==id&&!n.external).slice(0,3)
+      .map(n=>({ date:n.date, title:n.title, onOpen:()=>openNews(n.id) }));
+
+    const kindLabelOf=k=>({paper:L.paper,project:L.project,blog:L.blog}[k]||L.research);
+    const openCategory=this.props.onOpenCategory||(()=>{});
+    const topics=db.topics||[], axes=db.axes||[];
+    // 研究紹介の図は切り取らずに収める。図が無い研究紹介は、研究室のロゴを出す（#106）
+    const bannerOf=a=>{
+      if(a.figure) return "#fff url('"+a.figure+"') center/contain no-repeat";
+      return "#fff url('images/logo-mark.png') center/auto 46% no-repeat";
+    };
+    const catBanner=c=>{ const img=c.image||(c.page||{}).heroImage; return img?"var(--ink) url('"+img+"') center/cover no-repeat":'var(--soft)'; };
+    const cardOf=(type,o)=>({
+      topic:{ kind:L.topic, title:(lang==='en'&&o.en)?o.en:o.ja, desc:o.desc||'', banner:catBanner(o), onOpen:()=>openCategory(o.id) },
+      axis:{ kind:L.axis, title:o.name, desc:o.desc||'', banner:catBanner(o), onOpen:()=>openCategory(o.id) },
+      article:{ kind:kindLabelOf(o.kind), title:o.title, desc:o.summary||'', banner:bannerOf(o), onOpen:()=>openArticle(o.id) },
+      news:{ kind:L.newsKind, title:o.title, desc:'', banner:'var(--soft)', onOpen:()=>openNews(o.id) },
+    }[type]);
+    // md の related: があればそれを優先（id または tag:<id>）。無ければ relatedArticles。
+    let relatedPages;
+    if(item&&item.related!==undefined){
+      const seen=new Set(); relatedPages=[];
+      item.related.forEach(rid=>{
+        const add=(type,o,key)=>{ if(o&&!seen.has(key)){ seen.add(key); relatedPages.push(cardOf(type,o)); } };
+        if(/^tag:/.test(rid)){
+          const tid=rid.slice(4);
+          articles.filter(x=>(x.axisTags||[]).includes(tid)||(x.topicTags||[]).includes(tid)).forEach(x=>add('article',x,'a:'+x.id));
+          return;
+        }
+        const t=topics.find(x=>x.id===rid); if(t) return add('topic',t,'c:'+rid);
+        const ax=axes.find(x=>x.id===rid); if(ax) return add('axis',ax,'c:'+rid);
+        const ar=articles.find(x=>x.id===rid); if(ar) return add('article',ar,'a:'+rid);
+        const nw=news.find(x=>x.id!==item.id&&x.id===rid); if(nw) return add('news',nw,'n:'+rid);
+      });
+    } else {
+      relatedPages=((item&&item.relatedArticles)||[])
+        .map(aid=>articles.find(a=>a.id===aid)).filter(Boolean)
+        .map(a=>cardOf('article',a));
+    }
+
+    return {
+      goHome:this.props.onGoHome||(()=>{}), L,
+      goNews:this.props.onGoNews||(()=>{}),
+      found:!!item, notFound:!item,
+      date:item?item.date:'', title:item?item.title:'',
+      catLabel:cat?cat.label:(item?item.kind:''), catColor:cat?cat.color:'var(--accent)',
+      blocks:this.toBlocks((item&&item.body)||[]),
+      external:(item&&item.external)||'', hasExternal:!!(item&&item.external),
+      others,
+      hasRelatedPages:relatedPages.length>0, relatedPages,
+    };
+  }
+}
+</script>
+</body>
+</html>

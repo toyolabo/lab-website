@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<main style="padding-bottom:90px">
+  <!-- hero band -->
+
+  <!-- 題と一言（ニュース・メンバー・論文・アクセスと同じ書き方。#108） -->
+  <div style="max-width:1180px;margin:0 auto;padding:64px 28px 0">
+    <h1 style="font-family:'Noto Sans JP',sans-serif;font-weight:700;letter-spacing:.02em;font-size:32px;line-height:1.4;color:var(--ink);margin:0 0 30px">{{ heading }}</h1>
+    <!-- 企業の方へのメッセージ -->
+    <!-- 文章も枠いっぱい（幅 1180px・左右の余白 28px の内側）にする。ほかのページと同じ（#110） -->
+    <div>
+      <h2 style="font-family:'Noto Sans JP',sans-serif;font-weight:700;letter-spacing:.02em;font-size:24px;color:var(--ink);margin:0 0 18px;padding-bottom:12px;border-bottom:2px solid var(--soft)">{{ messageHeading }}</h2>
+      <div style="font-size:16px;line-height:2.05;color:var(--text)">
+        <sc-for list="{{ messageBlocks }}" as="b" hint-placeholder-count="2">
+          <div style="margin:0 0 20px">
+            <sc-if value="{{ b.isHeading }}" hint-placeholder-val="{{ false }}">
+              <h3 style="font-family:'Noto Sans JP',sans-serif;font-weight:700;letter-spacing:.02em;font-size:20px;color:var(--ink);margin:30px 0 4px;line-height:1.5">{{ b.text }}</h3>
+            </sc-if>
+            <sc-if value="{{ b.isP }}" hint-placeholder-val="{{ true }}">
+              <p style="margin:0"><sc-for list="{{ b.segments }}" as="s" hint-placeholder-count="1"><sc-if value="{{ s.isText }}" hint-placeholder-val="{{ true }}"><span>{{ s.text }}</span></sc-if><sc-if value="{{ s.isLink }}" hint-placeholder-val="{{ false }}"><a href="{{ s.href }}" target="_blank" rel="noopener" style="color:var(--accent);font-weight:700;text-decoration:underline;text-underline-offset:3px">{{ s.text }}</a></sc-if></sc-for></p>
+            </sc-if>
+            <sc-if value="{{ b.isImage }}" hint-placeholder-val="{{ false }}">
+              <figure style="margin:6px auto;width:{{ b.figW }};max-width:100%"><img src="{{ b.src }}" alt="{{ b.caption }}" style="width:100%;border-radius:12px;border:1px solid var(--line);display:block"><sc-if value="{{ b.hasCaption }}" hint-placeholder-val="{{ false }}"><figcaption style="font-size:12px;color:var(--muted);margin-top:8px;line-height:1.7;text-align:{{ b.capAlign }}">{{ b.caption }}</figcaption></sc-if></figure>
+            </sc-if>
+            <sc-if value="{{ b.isVideo }}" hint-placeholder-val="{{ false }}">
+              <a href="{{ b.url }}" target="_blank" rel="noopener" style="display:block;position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--line);text-decoration:none;margin:6px 0">
+                <img src="{{ b.thumb }}" alt="{{ b.caption }}" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
+                <span style="position:absolute;inset:0;display:grid;place-items:center"><span style="width:64px;height:64px;border-radius:50%;background:rgba(0,0,0,.62);display:grid;place-items:center;color:#fff;font-size:22px;padding-left:5px">▶</span></span>
+              </a>
+            </sc-if>
+            <sc-if value="{{ b.isLinkCard }}" hint-placeholder-val="{{ false }}">
+              <a href="{{ b.url }}" target="_blank" rel="noopener" class="site-resource"><span style="flex:1;min-width:0"><span class="site-resource-title">{{ b.label }}</span><span class="site-resource-url">{{ b.url }}</span></span><span style="flex:none;color:var(--accent)">↗</span></a>
+            </sc-if>
+            <sc-if value="{{ b.isHtml }}" hint-placeholder-val="{{ false }}">{{ b.el }}</sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- 事例紹介 -->
+    <div style="margin-top:56px">
+      <h2 style="font-family:'Noto Sans JP',sans-serif;font-weight:700;letter-spacing:.02em;font-size:24px;color:var(--ink);margin:0 0 28px;padding-bottom:12px;border-bottom:2px solid var(--soft)">{{ casesHeading }}</h2>
+      <div style="display:flex;flex-direction:column;gap:36px">
+        <sc-for list="{{ cases }}" as="cs" hint-placeholder-count="3">
+          <div data-stack style="display:grid;grid-template-columns:minmax(220px,340px) 1fr;gap:28px;align-items:start">
+            <img src="{{ cs.image }}" alt="{{ cs.company }}" style="display:block;width:100%;aspect-ratio:4/3;object-fit:contain;border-radius:12px;border:1px solid var(--line);background:#fff">
+            <div>
+              <div style="font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:20px;color:var(--ink);line-height:1.55">{{ cs.company }}</div>
+              <span style="display:block;margin:10px 0 16px"><sc-for list="{{ cs.descParas }}" as="dp" hint-placeholder-count="1"><p style="margin:0 0 10px;font-size:16px;line-height:1.95;color:var(--text)"><sc-for list="{{ dp.segments }}" as="s" hint-placeholder-count="1"><sc-if value="{{ s.isText }}" hint-placeholder-val="{{ true }}"><span>{{ s.text }}</span></sc-if><sc-if value="{{ s.isLink }}" hint-placeholder-val="{{ false }}"><a href="{{ s.href }}" target="_blank" rel="noopener" style="color:var(--accent);font-weight:700;text-decoration:underline;text-underline-offset:3px">{{ s.text }}</a></sc-if></sc-for></p></sc-for></span>
+              <sc-if value="{{ cs.hasLink }}" hint-placeholder-val="{{ false }}">
+                <button onClick="{{ cs.onOpen }}" class="site-action">{{ L.details }} <span>→</span></button>
+              </sc-if>
+              <sc-if value="{{ cs.hasExtLink }}" hint-placeholder-val="{{ false }}">
+                <a href="{{ cs.url }}" target="_blank" rel="noopener" class="site-action">{{ L.details }} <span>↗</span></a>
+              </sc-if>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900},&quot;db&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;object&quot;},&quot;onGoHome&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;()=&gt;void&quot;},&quot;onOpenArticle&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(id:string)=&gt;void&quot;}}">
+class Component extends DCLogic {
+  state = { rich:null };
+  componentDidMount(){
+    import(new URL('./blocks.js', location.href).href)
+      .then(m=>this.setState({rich:m}))
+      .catch(e=>console.error('blocks.js 読み込み失敗:', e));
+  }
+  toBlocks(body){
+    const rich=this.state.rich;
+    if(!rich) return (body||[]).filter(p=>typeof p==='string').map(p=>({isP:true,segments:[{isText:true,text:p}]}));
+    return rich.normalizeBlocks(body).map(b=>b.isHtml?{...b, el:React.createElement('div',{dangerouslySetInnerHTML:{__html:b.html}})}:b);
+  }
+  renderVals(){
+    const lang=this.props.lang==='en'?'en':'ja';
+    const L={ja:{home:'ホーム',collab:'共同研究',cases:'事例紹介',details:'詳細はこちら'},en:{home:'Home',collab:'Collaboration',cases:'Case Studies',details:'Learn more'}}[lang];
+    const c=(this.props.db||{}).collaboration||{};
+    const openArticle=this.props.onOpenArticle||(()=>{});
+    return {
+      goHome:this.props.onGoHome||(()=>{}), L,
+      heading:c.heading||L.collab, catch:c.catch||'',
+      messageHeading:c.messageHeading||'', messageBlocks:this.toBlocks(c.message||[]),
+      casesHeading:c.casesHeading||L.cases,
+      cases:(c.cases||[]).map(cs=>({
+        // article があればサイト内の記事へ、無ければ url の外部ページへ（新しいタブ）
+        ...cs, hasLink:!!cs.articleId, hasExtLink:!cs.articleId && !!cs.url, onOpen:()=>openArticle(cs.articleId),
+        // 説明文も他ページと同じ [表示名](URL) リンク記法に対応
+        descParas:String(cs.desc||'').split(/\n+/).filter(Boolean).map(p=>({ segments: this.state.rich ? this.state.rich.parseInline(p) : [{isText:true,text:p}] })),
+      })),
+    };
+  }
+}
+</script>
+</body>
+</html>
